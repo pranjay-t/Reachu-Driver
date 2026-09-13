@@ -1,0 +1,78 @@
+# Miscellaneous & OS
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+.gradle/
+
+# VS Code
+.vscode/
+!.vscode/launch.json
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+
+# Android Keystores & Signing Properties
+*.jks
+*.keystore
+key.properties
+!key.properties.example
+local.properties
+!local.properties.example
+
+# Firebase & Google Services Credentials
+**/google-services.json
+!**/google-services.json.example
+**/GoogleService-Info.plist
+!**/GoogleService-Info.plist.example
+
+# Memory Dumps & Crash Logs
+*.hprof
+hs_err_pid*
+replay_pid*
+flutter_*.log
+
+# Flutter / Dart / Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication & Obfuscation
+app.*.symbols
+app.*.map.json
+
+# Android Studio & Build Artifacts
+/android/app/debug
+/android/app/profile
+/android/app/release
+/android/captures/
+/android/.cxx/
