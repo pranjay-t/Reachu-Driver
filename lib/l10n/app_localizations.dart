@@ -71,15 +71,17 @@ import 'app_localizations_te.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -91,12 +93,13 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
@@ -110,7 +113,7 @@ abstract class AppLocalizations {
     Locale('or'),
     Locale('pa'),
     Locale('ta'),
-    Locale('te')
+    Locale('te'),
   ];
 
   /// Title for the Account Screen
@@ -1094,19 +1097,19 @@ abstract class AppLocalizations {
   /// No description provided for @manageAccounts.
   ///
   /// In en, this message translates to:
-  /// **'Manage Accounts'**
+  /// **'Bank Accounts'**
   String get manageAccounts;
 
   /// No description provided for @bankAccounts.
   ///
   /// In en, this message translates to:
-  /// **'Bank Accounts & UPI'**
+  /// **'Bank Accounts'**
   String get bankAccounts;
 
   /// No description provided for @addAccount.
   ///
   /// In en, this message translates to:
-  /// **'Add Payment Method'**
+  /// **'Add Bank Account'**
   String get addAccount;
 
   /// No description provided for @addBankAccount.
@@ -1136,20 +1139,44 @@ abstract class AppLocalizations {
   /// No description provided for @deleteAccount.
   ///
   /// In en, this message translates to:
-  /// **'Delete Account'**
+  /// **'Delete Bank Account'**
   String get deleteAccount;
 
   /// No description provided for @deleteAccountConfirm.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to delete this payment method?'**
+  /// **'Are you sure you want to delete this bank account?'**
   String get deleteAccountConfirm;
 
   /// No description provided for @accountHolderName.
   ///
   /// In en, this message translates to:
-  /// **'Account Holder Name'**
+  /// **'Account Holder Name (Name as present on bank account)'**
   String get accountHolderName;
+
+  /// No description provided for @accountHolderNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your full name as present on bank account'**
+  String get accountHolderNameHint;
+
+  /// No description provided for @bankRegisteredPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered Mobile Number'**
+  String get bankRegisteredPhone;
+
+  /// No description provided for @bankRegisteredPhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter 10-digit mobile number'**
+  String get bankRegisteredPhoneHint;
+
+  /// No description provided for @invalidPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid 10-digit mobile number'**
+  String get invalidPhoneNumber;
 
   /// No description provided for @bankName.
   ///
@@ -1196,13 +1223,13 @@ abstract class AppLocalizations {
   /// No description provided for @invalidIfsc.
   ///
   /// In en, this message translates to:
-  /// **'Enter a valid 11-digit IFSC code'**
+  /// **'Enter a valid 11-digit IFSC code (e.g. SBIN0001234)'**
   String get invalidIfsc;
 
   /// No description provided for @invalidAccountNumber.
   ///
   /// In en, this message translates to:
-  /// **'Enter a valid account number'**
+  /// **'Enter a valid account number (9-18 digits)'**
   String get invalidAccountNumber;
 
   /// No description provided for @accountNumbersDoNotMatch.
@@ -1214,19 +1241,19 @@ abstract class AppLocalizations {
   /// No description provided for @noPaymentMethods.
   ///
   /// In en, this message translates to:
-  /// **'No payment methods added yet'**
+  /// **'No bank accounts added yet'**
   String get noPaymentMethods;
 
   /// No description provided for @addPaymentMethodSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Add a bank account or UPI ID to withdraw your earnings'**
+  /// **'Add your verified bank account to withdraw your earnings directly'**
   String get addPaymentMethodSubtitle;
 
   /// No description provided for @confirmTransfer.
   ///
   /// In en, this message translates to:
-  /// **'Confirm Transfer'**
+  /// **'Confirm Withdrawal'**
   String get confirmTransfer;
 
   /// No description provided for @transferAmount.
@@ -1280,7 +1307,7 @@ abstract class AppLocalizations {
   /// No description provided for @selectPaymentMethod.
   ///
   /// In en, this message translates to:
-  /// **'Select Payment Method'**
+  /// **'Select Bank Account'**
   String get selectPaymentMethod;
 
   /// No description provided for @beneficiary.
@@ -1310,25 +1337,25 @@ abstract class AppLocalizations {
   /// No description provided for @failedToLoadAccounts.
   ///
   /// In en, this message translates to:
-  /// **'Failed to load payment methods'**
+  /// **'Failed to load bank accounts'**
   String get failedToLoadAccounts;
 
   /// No description provided for @accountDeletedSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Payment method deleted successfully'**
+  /// **'Bank account deleted successfully'**
   String get accountDeletedSuccess;
 
   /// No description provided for @accountUpdatedSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Payment method updated successfully'**
+  /// **'Bank account updated successfully'**
   String get accountUpdatedSuccess;
 
   /// No description provided for @accountAddedSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Payment method added successfully'**
+  /// **'Bank account added successfully'**
   String get accountAddedSuccess;
 
   /// No description provided for @withdrawalAmount.
@@ -1364,7 +1391,7 @@ abstract class AppLocalizations {
   /// No description provided for @errorLoadingAccounts.
   ///
   /// In en, this message translates to:
-  /// **'Error loading payment methods'**
+  /// **'Error loading bank accounts'**
   String get errorLoadingAccounts;
 
   /// No description provided for @errorLoadingWallet.
@@ -1388,13 +1415,13 @@ abstract class AppLocalizations {
   /// No description provided for @enterAccountNumber.
   ///
   /// In en, this message translates to:
-  /// **'Enter account number'**
+  /// **'Enter bank account number'**
   String get enterAccountNumber;
 
   /// No description provided for @confirmAccountNumberHint.
   ///
   /// In en, this message translates to:
-  /// **'Confirm account number'**
+  /// **'Re-enter bank account number'**
   String get confirmAccountNumberHint;
 
   /// No description provided for @ifscCodeHint.
@@ -1432,6 +1459,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Name must be at least 2 characters'**
   String get nameMinLengthRequired;
+
+  /// No description provided for @verifyBankAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Bank Account'**
+  String get verifyBankAccount;
+
+  /// No description provided for @verifyingBankDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Verifying account details with bank...'**
+  String get verifyingBankDetails;
+
+  /// No description provided for @bankVerificationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank Account Verified'**
+  String get bankVerificationSuccess;
+
+  /// No description provided for @bankVerificationSuccessDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Account details matched and verified with bank records.'**
+  String get bankVerificationSuccessDesc;
+
+  /// No description provided for @bankVerificationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank account verification failed. Please check your account number and IFSC code.'**
+  String get bankVerificationFailed;
+
+  /// No description provided for @nameMismatchWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'The registered name at bank is \"{nameAtBank}\", which differs from the entered name.'**
+  String nameMismatchWarning(String nameAtBank);
+
+  /// No description provided for @branchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch'**
+  String get branchLabel;
+
+  /// No description provided for @cityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get cityLabel;
+
+  /// No description provided for @verifiedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'VERIFIED'**
+  String get verifiedBadge;
+
+  /// No description provided for @registeredNameAtBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered Name at Bank'**
+  String get registeredNameAtBank;
+
+  /// No description provided for @confirmAndSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & Save Account'**
+  String get confirmAndSave;
+
+  /// No description provided for @instantVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Instant Bank Verification'**
+  String get instantVerification;
+
+  /// No description provided for @instantVerificationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We verify your bank account instantly via official banking network to ensure secure payouts.'**
+  String get instantVerificationDesc;
+
+  /// No description provided for @accountStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Status'**
+  String get accountStatusLabel;
+
+  /// No description provided for @nameMatchResultLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name Match'**
+  String get nameMatchResultLabel;
+
+  /// No description provided for @nameMatchScoreLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Match Score'**
+  String get nameMatchScoreLabel;
+
+  /// No description provided for @reEnterDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Details'**
+  String get reEnterDetails;
+
+  /// No description provided for @proceedAnyway.
+  ///
+  /// In en, this message translates to:
+  /// **'Proceed Anyway'**
+  String get proceedAnyway;
 
   /// No description provided for @orderNumber.
   ///
@@ -2700,7 +2835,8 @@ abstract class AppLocalizations {
   String get dismiss;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -2709,34 +2845,55 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['bn', 'en', 'gu', 'hi', 'kn', 'ml', 'mr', 'or', 'pa', 'ta', 'te'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+    'bn',
+    'en',
+    'gu',
+    'hi',
+    'kn',
+    'ml',
+    'mr',
+    'or',
+    'pa',
+    'ta',
+    'te',
+  ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'bn': return AppLocalizationsBn();
-    case 'en': return AppLocalizationsEn();
-    case 'gu': return AppLocalizationsGu();
-    case 'hi': return AppLocalizationsHi();
-    case 'kn': return AppLocalizationsKn();
-    case 'ml': return AppLocalizationsMl();
-    case 'mr': return AppLocalizationsMr();
-    case 'or': return AppLocalizationsOr();
-    case 'pa': return AppLocalizationsPa();
-    case 'ta': return AppLocalizationsTa();
-    case 'te': return AppLocalizationsTe();
+    case 'bn':
+      return AppLocalizationsBn();
+    case 'en':
+      return AppLocalizationsEn();
+    case 'gu':
+      return AppLocalizationsGu();
+    case 'hi':
+      return AppLocalizationsHi();
+    case 'kn':
+      return AppLocalizationsKn();
+    case 'ml':
+      return AppLocalizationsMl();
+    case 'mr':
+      return AppLocalizationsMr();
+    case 'or':
+      return AppLocalizationsOr();
+    case 'pa':
+      return AppLocalizationsPa();
+    case 'ta':
+      return AppLocalizationsTa();
+    case 'te':
+      return AppLocalizationsTe();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
+    'that was used.',
   );
 }

@@ -71,6 +71,24 @@ class PaymentRepository {
     );
   }
 
+  Future<ApiResult<VerifyBankAccountResponse>> verifyBankAccount({
+    required String accountNumber,
+    required String ifscCode,
+    required String accountHolderName,
+    required String phone,
+  }) async {
+    return _apiService.post(
+      ApiPath.verifyBankAccount,
+      data: {
+        'accountNumber': accountNumber,
+        'ifscCode': ifscCode,
+        'accountHolderName': accountHolderName,
+        'phone': phone,
+      },
+      converter: (data) => VerifyBankAccountResponse.fromJson(Map<String, dynamic>.from(data as Map)),
+    );
+  }
+
   Future<ApiResult<BankAccountAddResp>> addBankAccount(Map<String, dynamic> data) async {
     return _apiService.post(
       ApiPath.addBankAccount,

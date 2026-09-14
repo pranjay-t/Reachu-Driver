@@ -131,3 +131,31 @@ _CommonResponse _$CommonResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$CommonResponseToJson(_CommonResponse instance) =>
     <String, dynamic>{'success': instance.success, 'message': instance.message};
+
+_BankAccountVerificationData _$BankAccountVerificationDataFromJson(
+  Map<String, dynamic> json,
+) => _BankAccountVerificationData(
+  verified: json['verified'] as bool? ?? false,
+  nameMatches: json['nameMatches'] as bool? ?? false,
+  accountStatus: json['accountStatus'] as String?,
+  nameAtBank: json['nameAtBank'] as String?,
+  nameMatchResult: json['nameMatchResult'] as String?,
+  nameMatchScore: _doubleFromJson(json['nameMatchScore']),
+  bankName: json['bankName'] as String?,
+  branch: json['branch'] as String?,
+  city: json['city'] as String?,
+);
+
+Map<String, dynamic> _$BankAccountVerificationDataToJson(
+  _BankAccountVerificationData instance,
+) => <String, dynamic>{
+  'verified': instance.verified,
+  'nameMatches': instance.nameMatches,
+  'accountStatus': instance.accountStatus,
+  'nameAtBank': instance.nameAtBank,
+  'nameMatchResult': instance.nameMatchResult,
+  'nameMatchScore': instance.nameMatchScore,
+  'bankName': instance.bankName,
+  'branch': instance.branch,
+  'city': instance.city,
+};

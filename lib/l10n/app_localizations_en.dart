@@ -65,7 +65,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whatAreYouShipping => 'What are you shipping?';
 
   @override
-  String get chooseCategoryBestMatches => 'Choose the category that best matches your goods';
+  String get chooseCategoryBestMatches =>
+      'Choose the category that best matches your goods';
 
   @override
   String get editGoodsDetails => 'Edit Goods Details';
@@ -95,7 +96,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get disclaimerTitle => 'Disclaimer';
 
   @override
-  String get disclaimerText => 'Disclaimer: I declare that the goods being transported are non-hazardous, legal, and belong to the selected category. The company is not liable for transport of prohibited items. Weight must not exceed the maximum vehicle capacity.';
+  String get disclaimerText =>
+      'Disclaimer: I declare that the goods being transported are non-hazardous, legal, and belong to the selected category. The company is not liable for transport of prohibited items. Weight must not exceed the maximum vehicle capacity.';
 
   @override
   String goodsSummary(String weight, int packages, String worth) {
@@ -106,13 +108,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcome => 'Welcome';
 
   @override
-  String get enterMobileNumberToContinue => 'Enter your mobile number to continue';
+  String get enterMobileNumberToContinue =>
+      'Enter your mobile number to continue';
 
   @override
   String get mobileNumber => 'Mobile Number';
 
   @override
-  String get agreeTermsText => 'I agree to the Terms of Service and Privacy Policy';
+  String get agreeTermsText =>
+      'I agree to the Terms of Service and Privacy Policy';
 
   @override
   String get sendOtp => 'Send OTP';
@@ -179,7 +183,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createAccount => 'Create Account';
 
   @override
-  String get completeProfileToGetStarted => 'Complete your profile to get started';
+  String get completeProfileToGetStarted =>
+      'Complete your profile to get started';
 
   @override
   String get profileUpdatedSuccess => 'Profile updated successfully!';
@@ -268,10 +273,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allowLocationAccess => 'Allow Location Access';
 
   @override
-  String get gpsRequiredDescription => 'We need your device GPS turned on to accurately pinpoint your pickup location and find nearby drivers quickly.';
+  String get gpsRequiredDescription =>
+      'We need your device GPS turned on to accurately pinpoint your pickup location and find nearby drivers quickly.';
 
   @override
-  String get permissionRequiredDescription => 'Please allow location permissions in your app settings so we can accurately pinpoint your pickup location and find nearby drivers quickly.';
+  String get permissionRequiredDescription =>
+      'Please allow location permissions in your app settings so we can accurately pinpoint your pickup location and find nearby drivers quickly.';
 
   @override
   String get goToLocationSettings => 'Go to Location Settings';
@@ -286,7 +293,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get taglineTitle => 'Moving Anything,\nAnytime.';
 
   @override
-  String get taglineSubtitle => 'Fast deliveries at your fingertips. Shift smarter, move faster with our premium fleet.';
+  String get taglineSubtitle =>
+      'Fast deliveries at your fingertips. Shift smarter, move faster with our premium fleet.';
 
   @override
   String get twoWheelers => '2 Wheelers';
@@ -312,7 +320,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get typeMinCharsToSearch => 'Type at least 4 characters to start searching';
+  String get typeMinCharsToSearch =>
+      'Type at least 4 characters to start searching';
 
   @override
   String get selectOnMap => 'Select on Map';
@@ -324,7 +333,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get couldNotFindAddress => 'Sorry, we couldn\'t find this address.';
 
   @override
-  String get trySearchingNearbyLandmark => 'Try searching using a nearby landmark, locality, or popular place.';
+  String get trySearchingNearbyLandmark =>
+      'Try searching using a nearby landmark, locality, or popular place.';
 
   @override
   String get anErrorOccurred => 'An error occurred';
@@ -381,7 +391,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectDropLocation => 'Select Drop Location';
 
   @override
-  String get cannotSwapEmptyLocations => 'Cannot swap empty locations with filled ones.';
+  String get cannotSwapEmptyLocations =>
+      'Cannot swap empty locations with filled ones.';
 
   @override
   String get proceedToVehicleSelection => 'Proceed to Vehicle Selection';
@@ -390,7 +401,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get permissionRequired => 'Permission Required';
 
   @override
-  String get contactsPermissionDescription => 'Reachu needs access to your contacts to allow you to easily select a sender\'s phone number. Please enable it in app settings.';
+  String get contactsPermissionDescription =>
+      'Reachu needs access to your contacts to allow you to easily select a sender\'s phone number. Please enable it in app settings.';
 
   @override
   String get openSettings => 'Open Settings';
@@ -528,13 +540,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get withdrawMoney => 'Withdraw Money';
 
   @override
-  String get manageAccounts => 'Manage Accounts';
+  String get manageAccounts => 'Bank Accounts';
 
   @override
-  String get bankAccounts => 'Bank Accounts & UPI';
+  String get bankAccounts => 'Bank Accounts';
 
   @override
-  String get addAccount => 'Add Payment Method';
+  String get addAccount => 'Add Bank Account';
 
   @override
   String get addBankAccount => 'Add Bank Account';
@@ -549,13 +561,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editUpiId => 'Edit UPI ID';
 
   @override
-  String get deleteAccount => 'Delete Account';
+  String get deleteAccount => 'Delete Bank Account';
 
   @override
-  String get deleteAccountConfirm => 'Are you sure you want to delete this payment method?';
+  String get deleteAccountConfirm =>
+      'Are you sure you want to delete this bank account?';
 
   @override
-  String get accountHolderName => 'Account Holder Name';
+  String get accountHolderName =>
+      'Account Holder Name (Name as present on bank account)';
+
+  @override
+  String get accountHolderNameHint =>
+      'Enter your full name as present on bank account';
+
+  @override
+  String get bankRegisteredPhone => 'Registered Mobile Number';
+
+  @override
+  String get bankRegisteredPhoneHint => 'Enter 10-digit mobile number';
+
+  @override
+  String get invalidPhoneNumber => 'Enter a valid 10-digit mobile number';
 
   @override
   String get bankName => 'Bank Name';
@@ -579,22 +606,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidUpi => 'Enter a valid UPI ID (e.g. name@upi)';
 
   @override
-  String get invalidIfsc => 'Enter a valid 11-digit IFSC code';
+  String get invalidIfsc =>
+      'Enter a valid 11-digit IFSC code (e.g. SBIN0001234)';
 
   @override
-  String get invalidAccountNumber => 'Enter a valid account number';
+  String get invalidAccountNumber =>
+      'Enter a valid account number (9-18 digits)';
 
   @override
   String get accountNumbersDoNotMatch => 'Account numbers do not match';
 
   @override
-  String get noPaymentMethods => 'No payment methods added yet';
+  String get noPaymentMethods => 'No bank accounts added yet';
 
   @override
-  String get addPaymentMethodSubtitle => 'Add a bank account or UPI ID to withdraw your earnings';
+  String get addPaymentMethodSubtitle =>
+      'Add your verified bank account to withdraw your earnings directly';
 
   @override
-  String get confirmTransfer => 'Confirm Transfer';
+  String get confirmTransfer => 'Confirm Withdrawal';
 
   @override
   String get transferAmount => 'Transfer Amount';
@@ -621,7 +651,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get generatingQr => 'Generating QR code...';
 
   @override
-  String get selectPaymentMethod => 'Select Payment Method';
+  String get selectPaymentMethod => 'Select Bank Account';
 
   @override
   String get beneficiary => 'Beneficiary';
@@ -636,16 +666,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get failed => 'Failed';
 
   @override
-  String get failedToLoadAccounts => 'Failed to load payment methods';
+  String get failedToLoadAccounts => 'Failed to load bank accounts';
 
   @override
-  String get accountDeletedSuccess => 'Payment method deleted successfully';
+  String get accountDeletedSuccess => 'Bank account deleted successfully';
 
   @override
-  String get accountUpdatedSuccess => 'Payment method updated successfully';
+  String get accountUpdatedSuccess => 'Bank account updated successfully';
 
   @override
-  String get accountAddedSuccess => 'Payment method added successfully';
+  String get accountAddedSuccess => 'Bank account added successfully';
 
   @override
   String get withdrawalAmount => 'Withdrawal Amount';
@@ -663,7 +693,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountNumberLabel => 'Account No';
 
   @override
-  String get errorLoadingAccounts => 'Error loading payment methods';
+  String get errorLoadingAccounts => 'Error loading bank accounts';
 
   @override
   String get errorLoadingWallet => 'Error loading wallet info';
@@ -675,10 +705,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bankNameHint => 'e.g. State Bank of India';
 
   @override
-  String get enterAccountNumber => 'Enter account number';
+  String get enterAccountNumber => 'Enter bank account number';
 
   @override
-  String get confirmAccountNumberHint => 'Confirm account number';
+  String get confirmAccountNumberHint => 'Re-enter bank account number';
 
   @override
   String get ifscCodeHint => 'e.g. SBIN0001234';
@@ -697,6 +727,65 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nameMinLengthRequired => 'Name must be at least 2 characters';
+
+  @override
+  String get verifyBankAccount => 'Verify Bank Account';
+
+  @override
+  String get verifyingBankDetails => 'Verifying account details with bank...';
+
+  @override
+  String get bankVerificationSuccess => 'Bank Account Verified';
+
+  @override
+  String get bankVerificationSuccessDesc =>
+      'Account details matched and verified with bank records.';
+
+  @override
+  String get bankVerificationFailed =>
+      'Bank account verification failed. Please check your account number and IFSC code.';
+
+  @override
+  String nameMismatchWarning(String nameAtBank) {
+    return 'The registered name at bank is \"$nameAtBank\", which differs from the entered name.';
+  }
+
+  @override
+  String get branchLabel => 'Branch';
+
+  @override
+  String get cityLabel => 'City';
+
+  @override
+  String get verifiedBadge => 'VERIFIED';
+
+  @override
+  String get registeredNameAtBank => 'Registered Name at Bank';
+
+  @override
+  String get confirmAndSave => 'Confirm & Save Account';
+
+  @override
+  String get instantVerification => 'Instant Bank Verification';
+
+  @override
+  String get instantVerificationDesc =>
+      'We verify your bank account instantly via official banking network to ensure secure payouts.';
+
+  @override
+  String get accountStatusLabel => 'Account Status';
+
+  @override
+  String get nameMatchResultLabel => 'Name Match';
+
+  @override
+  String get nameMatchScoreLabel => 'Match Score';
+
+  @override
+  String get reEnterDetails => 'Edit Details';
+
+  @override
+  String get proceedAnyway => 'Proceed Anyway';
 
   @override
   String orderNumber(String orderId) {
@@ -722,7 +811,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partnerSupport => 'Partner Support';
 
   @override
-  String get partnerSupportSubtitle => 'Hello Partner! Need help with your rides, payments or account? We are here to support you 24/7.';
+  String get partnerSupportSubtitle =>
+      'Hello Partner! Need help with your rides, payments or account? We are here to support you 24/7.';
 
   @override
   String get faqsAndHelp => 'FAQs & Help';
@@ -743,7 +833,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noActiveTickets => 'No active support tickets';
 
   @override
-  String get submitTicketDescription => 'Submit a ticket if you face any issues.';
+  String get submitTicketDescription =>
+      'Submit a ticket if you face any issues.';
 
   @override
   String get failedToLoadTickets => 'Failed to load recent tickets';
@@ -947,13 +1038,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noSupportTicketsRaised => 'No support tickets raised';
 
   @override
-  String get tapNewTicketSubtitle => 'Tap \'New Ticket\' to request assistance.';
+  String get tapNewTicketSubtitle =>
+      'Tap \'New Ticket\' to request assistance.';
 
   @override
   String get submitATicket => 'Submit a Ticket';
 
   @override
-  String get explainIssueDetail => 'Explain your issue in detail. A support agent will verify it and reply shortly.';
+  String get explainIssueDetail =>
+      'Explain your issue in detail. A support agent will verify it and reply shortly.';
 
   @override
   String get categoryRequired => 'Category*';
@@ -1016,10 +1109,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get failedToLoadDetails => 'Failed to load details';
 
   @override
-  String get defaultPrivacyPolicyHtml => '<h1>Privacy Policy</h1><p>Welcome to ReachU Driver. Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information.</p><h2>1. Information We Collect</h2><p>We collect personal information such as your name, phone number, email address, vehicle details, location data during active trips, and transaction details.</p><h2>2. How We Use Information</h2><p>We use your information to facilitate delivery rides, process payments, ensure safety, and improve driver platform experience.</p><h2>3. Location Tracking</h2><p>Background location access is required while on-duty to match you with nearby delivery requests and allow customers to track trip progress.</p><h2>4. Data Protection</h2><p>We implement strict security measures to protect your personal data against unauthorized access or disclosure.</p>';
+  String get defaultPrivacyPolicyHtml =>
+      '<h1>Privacy Policy</h1><p>Welcome to ReachU Driver. Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information.</p><h2>1. Information We Collect</h2><p>We collect personal information such as your name, phone number, email address, vehicle details, location data during active trips, and transaction details.</p><h2>2. How We Use Information</h2><p>We use your information to facilitate delivery rides, process payments, ensure safety, and improve driver platform experience.</p><h2>3. Location Tracking</h2><p>Background location access is required while on-duty to match you with nearby delivery requests and allow customers to track trip progress.</p><h2>4. Data Protection</h2><p>We implement strict security measures to protect your personal data against unauthorized access or disclosure.</p>';
 
   @override
-  String get defaultTermsAndConditionsHtml => '<h1>Terms & Conditions</h1><p>Please read these Terms & Conditions carefully before using the ReachU Driver application.</p><h2>1. Acceptance of Terms</h2><p>By registering and operating as a driver partner on ReachU, you agree to comply with all applicable terms, policies, and local transport regulations.</p><h2>2. Driver Responsibilities</h2><p>Drivers must maintain a valid driving license, accurate vehicle documentation, and provide safe, timely delivery service.</p><h2>3. Payments & Earnings</h2><p>Payouts and trip fares are calculated according to platform rates and transferred to verified driver bank accounts after applicable platform fees.</p><h2>4. Account Termination</h2><p>ReachU reserves the right to suspend or terminate accounts in cases of fraudulent activity, safety violations, or repeated policy non-compliance.</p>';
+  String get defaultTermsAndConditionsHtml =>
+      '<h1>Terms & Conditions</h1><p>Please read these Terms & Conditions carefully before using the ReachU Driver application.</p><h2>1. Acceptance of Terms</h2><p>By registering and operating as a driver partner on ReachU, you agree to comply with all applicable terms, policies, and local transport regulations.</p><h2>2. Driver Responsibilities</h2><p>Drivers must maintain a valid driving license, accurate vehicle documentation, and provide safe, timely delivery service.</p><h2>3. Payments & Earnings</h2><p>Payouts and trip fares are calculated according to platform rates and transferred to verified driver bank accounts after applicable platform fees.</p><h2>4. Account Termination</h2><p>ReachU reserves the right to suspend or terminate accounts in cases of fraudulent activity, safety violations, or repeated policy non-compliance.</p>';
 
   @override
   String get reviewAndRating => 'Review & Rating';
@@ -1063,7 +1158,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noInternetConnection => 'No Internet Connection';
 
   @override
-  String get checkInternetConnection => 'Please check your mobile data or Wi-Fi connection.';
+  String get checkInternetConnection =>
+      'Please check your mobile data or Wi-Fi connection.';
 
   @override
   String get internetRestored => 'Internet Connection Restored';
@@ -1095,7 +1191,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get underMaintenanceTitle => 'Under Maintenance';
 
   @override
-  String get underMaintenanceDesc => 'We are currently performing scheduled maintenance to upgrade our system. We will be back online soon.';
+  String get underMaintenanceDesc =>
+      'We are currently performing scheduled maintenance to upgrade our system. We will be back online soon.';
 
   @override
   String estimatedBackIn(Object time) {
@@ -1111,7 +1208,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get couldNotOpenStore => 'Could not open Play Store. Please update manually.';
+  String get couldNotOpenStore =>
+      'Could not open Play Store. Please update manually.';
 
   @override
   String get detailedFareBreakdown => 'Detailed Fare Breakdown';
@@ -1187,7 +1285,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pressBackAgainToExit => 'Press back again to exit app';
 
   @override
-  String get pleaseAcceptOrDeclineRide => 'Please accept or decline incoming ride requests.';
+  String get pleaseAcceptOrDeclineRide =>
+      'Please accept or decline incoming ride requests.';
 
   @override
   String get cashPayment => 'Cash Payment';
@@ -1204,13 +1303,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get collectCashStep2 => '2. Only tap the confirmation button below after verifying you have the full cash amount in hand.';
+  String get collectCashStep2 =>
+      '2. Only tap the confirmation button below after verifying you have the full cash amount in hand.';
 
   @override
   String get verifyingCashDeposit => 'Verifying Cash Deposit with Server...';
 
   @override
-  String get pleaseHoldClosingRide => 'Please hold, closing ride automatically once processed.';
+  String get pleaseHoldClosingRide =>
+      'Please hold, closing ride automatically once processed.';
 
   @override
   String get customerOnlinePayment => 'Customer Online Payment';
@@ -1237,13 +1338,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmCashReceived => 'Confirm Cash Received';
 
   @override
-  String get paymentReceivedToast => 'Payment received! Ride completed successfully.';
+  String get paymentReceivedToast =>
+      'Payment received! Ride completed successfully.';
 
   @override
   String get invalidOrderIdError => 'Invalid Order ID. Cannot record payment.';
 
   @override
-  String get cashPaymentRecordedWaiting => 'Cash payment recorded. Waiting for confirmation...';
+  String get cashPaymentRecordedWaiting =>
+      'Cash payment recorded. Waiting for confirmation...';
 
   @override
   String get paymentReceivedTitle => 'Payment Received!';
@@ -1254,7 +1357,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get rideClosedReturningHome => 'Ride closed. Returning to home screen...';
+  String get rideClosedReturningHome =>
+      'Ride closed. Returning to home screen...';
 
   @override
   String get fragileGoods => 'Fragile Goods';
@@ -1274,7 +1378,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get permissionsRequired => 'Permissions Required';
 
   @override
-  String get enableAllPermissionsSubtitle => 'Please enable all permissions to go online and receive bookings.';
+  String get enableAllPermissionsSubtitle =>
+      'Please enable all permissions to go online and receive bookings.';
 
   @override
   String get locationAlwaysTitle => 'Location (Always)';
@@ -1286,7 +1391,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get batteryUnrestrictedTitle => 'Battery Unrestricted';
 
   @override
-  String get batteryUnrestrictedSubtitle => 'Set to \"Unrestricted\" & enable \"Allow background activity\"';
+  String get batteryUnrestrictedSubtitle =>
+      'Set to \"Unrestricted\" & enable \"Allow background activity\"';
 
   @override
   String get notificationsTitle => 'Notifications';
@@ -1304,10 +1410,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get locationUsedInBackground => 'Location Used in Background';
 
   @override
-  String get backgroundLocationDisclosureBody => 'ReachuDriver collects your location data even when the app is closed or not in use.\n\nThis is used to:\n  • Share your real-time position with loaders/users\n  • Assign you the nearest booking requests\n  • Keep the dispatch system updated while you\'re on duty\n\nLocation collection only runs while you are online (on duty) and stops immediately when you go offline.';
+  String get backgroundLocationDisclosureBody =>
+      'ReachuDriver collects your location data even when the app is closed or not in use.\n\nThis is used to:\n  • Share your real-time position with loaders/users\n  • Assign you the nearest booking requests\n  • Keep the dispatch system updated while you\'re on duty\n\nLocation collection only runs while you are online (on duty) and stops immediately when you go offline.';
 
   @override
-  String get changeInAppSettingsNote => 'You can change this at any time in App Settings.';
+  String get changeInAppSettingsNote =>
+      'You can change this at any time in App Settings.';
 
   @override
   String get iUnderstandContinue => 'I Understand — Continue';
@@ -1350,7 +1458,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get eShramSubHeader => 'Govt. Insurance & Pension Scheme';
 
   @override
-  String get eShramDescription => 'Register on official Govt. e-Shram portal for accidental insurance cover & social security benefits for gig workers.';
+  String get eShramDescription =>
+      'Register on official Govt. e-Shram portal for accidental insurance cover & social security benefits for gig workers.';
 
   @override
   String get registerOnEShramPortal => 'Register on e-Shram Portal';

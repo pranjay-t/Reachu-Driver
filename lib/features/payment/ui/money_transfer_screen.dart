@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../app/theme/app_colors.dart';
@@ -24,16 +25,21 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
   BankAccountData? _selectedAccount;
   bool _isLoading = false;
 
+  @override
+  void dispose() {
+    _amountController.dispose();
+    super.dispose();
+  }
+
   void _showConfirmationDialog(BuildContext context, double amount, BankAccountData account) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primaryTextColor = isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary;
-    final isUPI = account.type.toLowerCase() == 'upi';
 
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: isDark ? AppColors.darkSurface02 : AppColors.lightSurface00,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
         title: Text(
           context.l10n.confirmTransfer,
           style: AppTextStyles.titleMedium.copyWith(
@@ -60,26 +66,23 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
                     "₹ ${amount.toStringAsFixed(2)}",
                     style: AppTextStyles.headlineLarge.copyWith(
                       color: AppColors.primary500,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 24.h),
+            SizedBox(height: 20.h),
             Divider(color: isDark ? AppColors.neutral800 : AppColors.neutral200),
             SizedBox(height: 12.h),
             _buildDetailRow(context, context.l10n.beneficiary, account.accountHolderName ?? '', isDark),
-            SizedBox(height: 8.h),
-            _buildDetailRow(
-              context,
-              isUPI ? "UPI ID" : "Bank Name",
-              isUPI ? account.upiId ?? '' : account.bankName ?? '',
-              isDark,
-            ),
-            if (!isUPI) ...[
-              SizedBox(height: 8.h),
-              _buildDetailRow(context, "Account No", _maskAccountNumber(account.accountNumber ?? ''), isDark),
+            SizedBox(height: 10.h),
+            _buildDetailRow(context, context.l10n.bankName, account.bankName ?? 'Bank Account', isDark),
+            SizedBox(height: 10.h),
+            _buildDetailRow(context, context.l10n.accountNumber, _maskAccountNumber(account.accountNumber ?? ''), isDark),
+            if (account.ifscCode != null) ...[
+              SizedBox(height: 10.h),
+              _buildDetailRow(context, context.l10n.ifscCode, account.ifscCode!, isDark),
             ],
           ],
         ),
@@ -98,11 +101,12 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary500,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             ),
             child: Text(
-              context.l10n.done,
-              style: const TextStyle(color: Colors.white),
+              context.l10n.confirmTransfer,
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
           ),
         ],
@@ -113,6 +117,7 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
   Widget _buildDetailRow(BuildContext context, String label, String value, bool isDark) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
@@ -120,11 +125,15 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
             color: isDark ? AppColors.neutral400 : AppColors.neutral500,
           ),
         ),
-        Text(
-          value,
-          style: AppTextStyles.bodyMedium.copyWith(
-            color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
-            fontWeight: FontWeight.bold,
+        SizedBox(width: 8.w),
+        Flexible(
+          child: Text(
+            value,
+            textAlign: TextAlign.right,
+            style: AppTextStyles.bodyMedium.copyWith(
+              color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],
@@ -153,7 +162,7 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
       if (mounted) {
         AppSnackbar.showError(
           context: context,
-          message: e.toString(),
+          message: e.toString().replaceAll('Exception:', '').trim(),
         );
       }
     } finally {
@@ -163,6 +172,14 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
         });
       }
     }
+  }
+
+  void _onQuickAmountTap(double addAmount, double available) {
+    final current = double.tryParse(_amountController.text.trim()) ?? 0.0;
+    final updated = (current + addAmount).clamp(0.0, available);
+    setState(() {
+      _amountController.text = updated.toStringAsFixed(0);
+    });
   }
 
   @override
@@ -199,49 +216,62 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 24.h),
+                    SizedBox(height: 16.h),
 
                     // Available Balance Card
                     Container(
                       width: double.infinity,
                       padding: EdgeInsets.all(20.w),
                       decoration: BoxDecoration(
-                        color: containerBg,
-                        borderRadius: BorderRadius.circular(16.r),
-                        border: Border.all(
-                          color: isDark ? AppColors.neutral800 : AppColors.neutral200,
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFF1E1B4B),
+                            Color(0xFF312E81),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
+                        borderRadius: BorderRadius.circular(20.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF312E81).withValues(alpha: 0.3),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
                       ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            context.l10n.availableBalance,
+                            context.l10n.availableBalance.toUpperCase(),
                             style: AppTextStyles.labelSmall.copyWith(
-                              color: mutedTextColor,
+                              color: Colors.white70,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.0,
+                              fontSize: 10.sp,
                             ),
                           ),
-                          SizedBox(height: 8.h),
+                          SizedBox(height: 6.h),
                           walletAsync.when(
                             data: (wallet) {
                               final netAvailable = wallet.availableBalance - wallet.driverDebtBalance;
                               return Text(
                                 "₹ ${netAvailable.toStringAsFixed(2)}",
                                 style: AppTextStyles.headlineLarge.copyWith(
-                                  color: primaryTextColor,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.w900,
+                                  fontSize: 28.sp,
                                 ),
                               );
                             },
                             loading: () => Shimmer.fromColors(
-                              baseColor: isDark ? AppColors.neutral800 : AppColors.neutral200,
-                              highlightColor: isDark ? AppColors.neutral700 : AppColors.neutral100,
+                              baseColor: Colors.white24,
+                              highlightColor: Colors.white38,
                               child: Container(
                                 width: 140.w,
                                 height: 32.h,
@@ -258,14 +288,14 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
                           ),
                         ],
                       ),
-                    ),
+                    ).animate().fade(duration: 350.ms).slideY(begin: -0.05, end: 0),
 
                     SizedBox(height: 24.h),
 
                     // Withdrawal Amount Input
                     Text(
                       context.l10n.withdrawalAmount,
-                      style: AppTextStyles.bodyMedium.copyWith(
+                      style: AppTextStyles.bodySmall.copyWith(
                         color: primaryTextColor,
                         fontWeight: FontWeight.w600,
                       ),
@@ -277,7 +307,10 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
                       ],
-                      style: AppTextStyles.bodyLarge.copyWith(color: primaryTextColor),
+                      style: AppTextStyles.titleMedium.copyWith(
+                        color: primaryTextColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.currency_rupee_rounded, color: AppColors.primary500),
                         hintText: context.l10n.enterAmount,
@@ -288,19 +321,19 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
                         fillColor: containerBg,
                         contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.r),
+                          borderRadius: BorderRadius.circular(14.r),
                           borderSide: BorderSide(
                             color: isDark ? AppColors.neutral800 : AppColors.neutral200,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.r),
+                          borderRadius: BorderRadius.circular(14.r),
                           borderSide: BorderSide(
                             color: isDark ? AppColors.neutral800 : AppColors.neutral200,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.r),
+                          borderRadius: BorderRadius.circular(14.r),
                           borderSide: const BorderSide(
                             color: AppColors.primary500,
                             width: 1.5,
@@ -312,17 +345,58 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
                       },
                     ),
 
+                    SizedBox(height: 12.h),
+
+                    // Quick Amount Chips
+                    Wrap(
+                      spacing: 8.w,
+                      runSpacing: 8.h,
+                      children: [
+                        _buildQuickChip("+₹500", () => _onQuickAmountTap(500, available), isDark),
+                        _buildQuickChip("+₹1000", () => _onQuickAmountTap(1000, available), isDark),
+                        _buildQuickChip("+₹2000", () => _onQuickAmountTap(2000, available), isDark),
+                        _buildQuickChip(
+                          "Max",
+                          () {
+                            if (available > 0) {
+                              setState(() {
+                                _amountController.text = available.toStringAsFixed(0);
+                              });
+                            }
+                          },
+                          isDark,
+                          isAccent: true,
+                        ),
+                      ],
+                    ),
+
                     SizedBox(height: 28.h),
 
-                    // Destination Payment Method Header
-                    Text(
-                      context.l10n.transferDestination,
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: primaryTextColor,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    // Destination Bank Account Header
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          context.l10n.transferDestination,
+                          style: AppTextStyles.bodySmall.copyWith(
+                            color: primaryTextColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        TextButton.icon(
+                          onPressed: () => context.push('/add_edit_bank_account'),
+                          icon: const Icon(Icons.add_rounded, size: 16, color: AppColors.primary500),
+                          label: Text(
+                            context.l10n.addBankAccount,
+                            style: AppTextStyles.bodySmall.copyWith(
+                              color: AppColors.primary500,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 12.h),
+                    SizedBox(height: 8.h),
 
                     accountsAsync.when(
                       data: (accounts) {
@@ -332,13 +406,19 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
                             padding: EdgeInsets.all(24.w),
                             decoration: BoxDecoration(
                               color: containerBg,
-                              borderRadius: BorderRadius.circular(12.r),
+                              borderRadius: BorderRadius.circular(16.r),
                               border: Border.all(
                                 color: isDark ? AppColors.neutral800 : AppColors.neutral200,
                               ),
                             ),
                             child: Column(
                               children: [
+                                Icon(
+                                  Icons.account_balance_outlined,
+                                  size: 40.sp,
+                                  color: mutedTextColor,
+                                ),
+                                SizedBox(height: 12.h),
                                 Text(
                                   context.l10n.noPaymentMethods,
                                   style: AppTextStyles.bodyMedium.copyWith(
@@ -346,7 +426,7 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(height: 8.h),
+                                SizedBox(height: 4.h),
                                 Text(
                                   context.l10n.addPaymentMethodSubtitle,
                                   style: AppTextStyles.bodySmall.copyWith(color: mutedTextColor),
@@ -359,14 +439,30 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
                                   },
                                   icon: const Icon(Icons.add_rounded, color: Colors.white, size: 18),
                                   label: Text(
-                                    context.l10n.addAccount,
+                                    context.l10n.addBankAccount,
                                     style: const TextStyle(color: Colors.white),
                                   ),
-                                  style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary500),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary500,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
                           );
+                        }
+
+                        // Auto-select first account if none selected
+                        if (_selectedAccount == null && accounts.isNotEmpty) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (mounted) {
+                              setState(() {
+                                _selectedAccount = accounts.first;
+                              });
+                            }
+                          });
                         }
 
                         return ListView.separated(
@@ -377,7 +473,6 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
                           itemBuilder: (context, index) {
                             final account = accounts[index];
                             final isSelected = _selectedAccount?.id == account.id;
-                            final isUPI = account.type.toLowerCase() == 'upi';
 
                             return InkWell(
                               onTap: () {
@@ -397,38 +492,57 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
                                     color: isSelected
                                         ? AppColors.primary500
                                         : (isDark ? AppColors.neutral800 : AppColors.neutral200),
-                                    width: isSelected ? 2.0 : 1.0,
+                                    width: isSelected ? 1.8 : 1.0,
                                   ),
                                 ),
                                 child: Row(
                                   children: [
-                                    CircleAvatar(
-                                      backgroundColor: isUPI
-                                          ? const Color(0xFF0F766E).withValues(alpha: 0.1)
-                                          : AppColors.primary500.withValues(alpha: 0.1),
+                                    Container(
+                                      padding: EdgeInsets.all(10.w),
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? AppColors.primary500.withValues(alpha: 0.15)
+                                            : (isDark ? AppColors.neutral800 : AppColors.neutral100),
+                                        shape: BoxShape.circle,
+                                      ),
                                       child: Icon(
-                                        isUPI ? Icons.alternate_email_rounded : Icons.account_balance_rounded,
-                                        color: isUPI ? const Color(0xFF0F766E) : AppColors.primary500,
+                                        Icons.account_balance_rounded,
+                                        color: isSelected ? AppColors.primary500 : mutedTextColor,
+                                        size: 20.sp,
                                       ),
                                     ),
-                                    SizedBox(width: 16.w),
+                                    SizedBox(width: 14.w),
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            isUPI ? "UPI ID" : account.bankName ?? "Bank Account",
-                                            style: AppTextStyles.bodyMedium.copyWith(
-                                              color: primaryTextColor,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                          Row(
+                                            children: [
+                                              Flexible(
+                                                child: Text(
+                                                  account.bankName ?? "Bank Account",
+                                                  style: AppTextStyles.bodyMedium.copyWith(
+                                                    color: primaryTextColor,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              SizedBox(width: 6.w),
+                                              Icon(
+                                                Icons.check_circle_rounded,
+                                                color: AppColors.successLight,
+                                                size: 14.sp,
+                                              ),
+                                            ],
                                           ),
-                                          SizedBox(height: 4.h),
+                                          SizedBox(height: 3.h),
                                           Text(
-                                            isUPI
-                                                ? account.upiId ?? ''
-                                                : _maskAccountNumber(account.accountNumber ?? ''),
-                                            style: AppTextStyles.bodySmall.copyWith(color: mutedTextColor),
+                                            _maskAccountNumber(account.accountNumber ?? ''),
+                                            style: AppTextStyles.bodySmall.copyWith(
+                                              color: mutedTextColor,
+                                              letterSpacing: 1.1,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -477,6 +591,37 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
     );
   }
 
+  Widget _buildQuickChip(String label, VoidCallback onTap, bool isDark, {bool isAccent = false}) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20.r),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+        decoration: BoxDecoration(
+          color: isAccent
+              ? AppColors.primary500.withValues(alpha: 0.12)
+              : (isDark ? AppColors.darkSurface02 : AppColors.neutral100),
+          borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(
+            color: isAccent
+                ? AppColors.primary500
+                : (isDark ? AppColors.neutral700 : AppColors.neutral300),
+            width: 1,
+          ),
+        ),
+        child: Text(
+          label,
+          style: AppTextStyles.bodySmall.copyWith(
+            color: isAccent
+                ? AppColors.primary500
+                : (isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildTransferButton(BuildContext context, double available, bool isDark) {
     final amountText = _amountController.text.trim();
     final amount = double.tryParse(amountText) ?? 0.0;
@@ -485,7 +630,12 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
     final canProceed = isAmountValid && isAccountSelected;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+      padding: EdgeInsets.fromLTRB(
+        20.w,
+        14.h,
+        20.w,
+        MediaQuery.paddingOf(context).bottom > 0 ? MediaQuery.paddingOf(context).bottom + 8.h : 16.h,
+      ),
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurface01 : AppColors.lightSurface00,
         border: Border(
@@ -509,7 +659,7 @@ class _MoneyTransferScreenState extends ConsumerState<MoneyTransferScreen> {
           ],
           SizedBox(
             width: double.infinity,
-            height: 56.h,
+            height: 54.h,
             child: ElevatedButton(
               onPressed: !canProceed || _isLoading
                   ? null

@@ -65,6 +65,7 @@ class ApiPath {
   static const String verifyPayment = '/payments/verify';
   static const String getTransactions = '/transactions';
   static const String addBankAccount = '/bank-accounts/add';
+  static const String verifyBankAccount = '/bank-accounts/verify';
   static const String withdrawMoney = '/payments/withdraw';
   static const String collectCash = '/payments/cash';
 

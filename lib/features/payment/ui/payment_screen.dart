@@ -270,7 +270,7 @@ class PaymentScreen extends ConsumerWidget {
                           child: _buildQuickActionButton(
                             context: context,
                             icon: Icons.send_rounded,
-                            label: context.l10n.moneyTransfer,
+                            label: context.l10n.withdrawMoney,
                             onTap: () => context.push('/money_transfer'),
                             isDark: isDark,
                           ),
@@ -280,7 +280,7 @@ class PaymentScreen extends ConsumerWidget {
                           child: _buildQuickActionButton(
                             context: context,
                             icon: Icons.account_balance_rounded,
-                            label: context.l10n.manageAccounts.split(" ").first,
+                            label: context.l10n.bankAccounts,
                             onTap: () => context.push('/bank_accounts'),
                             isDark: isDark,
                           ),

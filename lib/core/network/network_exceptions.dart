@@ -63,7 +63,17 @@ sealed class NetworkExceptions with _$NetworkExceptions {
                 if (error.response?.data != null) {
                   final data = error.response?.data;
                   if (data is Map) {
-                    serverMessage = (data['message'] ?? data['error'])?.toString();
+                    final msg = data['message']?.toString().trim();
+                    final err = data['error']?.toString().trim();
+                    if (msg != null && msg.isNotEmpty && err != null && err.isNotEmpty && msg != err) {
+                      serverMessage = "$msg: $err";
+                    } else if (msg != null && msg.isNotEmpty) {
+                      serverMessage = msg;
+                    } else if (err != null && err.isNotEmpty) {
+                      serverMessage = err;
+                    }
+                  } else if (data is String && data.isNotEmpty) {
+                    serverMessage = data;
                   }
                 }
               } catch (_) {}

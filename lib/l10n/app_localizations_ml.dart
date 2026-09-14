@@ -65,7 +65,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get whatAreYouShipping => 'നിങ്ങൾ എന്താണ് അയയ്ക്കുന്നത്?';
 
   @override
-  String get chooseCategoryBestMatches => 'നിങ്ങളുടെ ചരക്കുമായി ഏറ്റവും പൊരുത്തപ്പെടുന്ന വിഭാഗം തിരഞ്ഞെടുക്കുക';
+  String get chooseCategoryBestMatches =>
+      'നിങ്ങളുടെ ചരക്കുമായി ഏറ്റവും പൊരുത്തപ്പെടുന്ന വിഭാഗം തിരഞ്ഞെടുക്കുക';
 
   @override
   String get editGoodsDetails => 'ചരക്ക് വിശദാംശങ്ങൾ എഡിറ്റ് ചെയ്യുക';
@@ -95,7 +96,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get disclaimerTitle => 'നിരാകരണം';
 
   @override
-  String get disclaimerText => 'നിരാകരണം: കൊണ്ടുപോകുന്ന ചരക്ക് അപകടകരമല്ലാത്തതും നിയമാനുസൃതവും തിരഞ്ഞെടുത്ത വിഭാഗത്തിലുള്ളതുമാണെന്ന് ഞാൻ പ്രഖ്യാപിക്കുന്നു. നിരോധിത വസ്തുക്കളുടെ ഗതാഗതത്തിന് കമ്പനി ഉത്തരവാദിയല്ല. ഭാരം വാഹനത്തിന്റെ പരമാവധി ശേഷി കവിയരുത്.';
+  String get disclaimerText =>
+      'നിരാകരണം: കൊണ്ടുപോകുന്ന ചരക്ക് അപകടകരമല്ലാത്തതും നിയമാനുസൃതവും തിരഞ്ഞെടുത്ത വിഭാഗത്തിലുള്ളതുമാണെന്ന് ഞാൻ പ്രഖ്യാപിക്കുന്നു. നിരോധിത വസ്തുക്കളുടെ ഗതാഗതത്തിന് കമ്പനി ഉത്തരവാദിയല്ല. ഭാരം വാഹനത്തിന്റെ പരമാവധി ശേഷി കവിയരുത്.';
 
   @override
   String goodsSummary(String weight, int packages, String worth) {
@@ -106,13 +108,15 @@ class AppLocalizationsMl extends AppLocalizations {
   String get welcome => 'സ്വാഗതം';
 
   @override
-  String get enterMobileNumberToContinue => 'തുടരാൻ നിങ്ങളുടെ മൊബൈൽ നമ്പർ നൽകുക';
+  String get enterMobileNumberToContinue =>
+      'തുടരാൻ നിങ്ങളുടെ മൊബൈൽ നമ്പർ നൽകുക';
 
   @override
   String get mobileNumber => 'മൊബൈൽ നമ്പർ';
 
   @override
-  String get agreeTermsText => 'ഞാൻ സേവന നിബന്ധനകളും സ്വകാര്യതാ നയവും അംഗീകരിക്കുന്നു';
+  String get agreeTermsText =>
+      'ഞാൻ സേവന നിബന്ധനകളും സ്വകാര്യതാ നയവും അംഗീകരിക്കുന്നു';
 
   @override
   String get sendOtp => 'OTP അയയ്ക്കുക';
@@ -179,7 +183,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get createAccount => 'അക്കൗണ്ട് സൃഷ്ടിക്കുക';
 
   @override
-  String get completeProfileToGetStarted => 'ആരംഭിക്കാൻ നിങ്ങളുടെ പ്രൊഫൈൽ പൂർത്തിയാക്കുക';
+  String get completeProfileToGetStarted =>
+      'ആരംഭിക്കാൻ നിങ്ങളുടെ പ്രൊഫൈൽ പൂർത്തിയാക്കുക';
 
   @override
   String get profileUpdatedSuccess => 'പ്രൊഫൈൽ വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു!';
@@ -268,10 +273,12 @@ class AppLocalizationsMl extends AppLocalizations {
   String get allowLocationAccess => 'ലൊക്കേഷൻ ആക്സസ് അനുവദിക്കുക';
 
   @override
-  String get gpsRequiredDescription => 'നിങ്ങളുടെ പിക്കപ്പ് സ്ഥലം കൃത്യമായി കണ്ടെത്താനും അടുത്തുള്ള ഡ്രൈവർമാരെ വേഗത്തിൽ കണ്ടെത്താനും നിങ്ങളുടെ ഉപകരണ GPS ആവശ്യമാണ്.';
+  String get gpsRequiredDescription =>
+      'നിങ്ങളുടെ പിക്കപ്പ് സ്ഥലം കൃത്യമായി കണ്ടെത്താനും അടുത്തുള്ള ഡ്രൈവർമാരെ വേഗത്തിൽ കണ്ടെത്താനും നിങ്ങളുടെ ഉപകരണ GPS ആവശ്യമാണ്.';
 
   @override
-  String get permissionRequiredDescription => 'നിങ്ങളുടെ പിക്കപ്പ് സ്ഥലം കൃത്യമായി കണ്ടെത്താനും അടുത്തുള്ള ഡ്രൈവർമാരെ വേഗത്തിൽ കണ്ടെത്താനും ആപ്പ് ക്രമീകരണങ്ങളിൽ ലൊക്കേഷൻ അനുമതികൾ അനുവദിക്കുക.';
+  String get permissionRequiredDescription =>
+      'നിങ്ങളുടെ പിക്കപ്പ് സ്ഥലം കൃത്യമായി കണ്ടെത്താനും അടുത്തുള്ള ഡ്രൈവർമാരെ വേഗത്തിൽ കണ്ടെത്താനും ആപ്പ് ക്രമീകരണങ്ങളിൽ ലൊക്കേഷൻ അനുമതികൾ അനുവദിക്കുക.';
 
   @override
   String get goToLocationSettings => 'ലൊക്കേഷൻ ക്രമീകരണങ്ങളിലേക്ക് പോകുക';
@@ -286,7 +293,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get taglineTitle => 'എന്തും കൊണ്ടുപോകാം,\nഎപ്പോൾ വേണമെങ്കിലും.';
 
   @override
-  String get taglineSubtitle => 'വേഗത്തിലുള്ള ഡെലിവറി നിങ്ങളുടെ വിരൽത്തുമ്പിൽ. സ്മാർട്ടായി ഷിഫ്റ്റ് ചെയ്യുക, ഞങ്ങളുടെ പ്രീമിയം ഫ്ലീറ്റുമായി വേഗത്തിൽ മുന്നോട്ട് പോകുക.';
+  String get taglineSubtitle =>
+      'വേഗത്തിലുള്ള ഡെലിവറി നിങ്ങളുടെ വിരൽത്തുമ്പിൽ. സ്മാർട്ടായി ഷിഫ്റ്റ് ചെയ്യുക, ഞങ്ങളുടെ പ്രീമിയം ഫ്ലീറ്റുമായി വേഗത്തിൽ മുന്നോട്ട് പോകുക.';
 
   @override
   String get twoWheelers => 'രണ്ട് ചക്ര വാഹനങ്ങൾ';
@@ -312,19 +320,22 @@ class AppLocalizationsMl extends AppLocalizations {
   }
 
   @override
-  String get typeMinCharsToSearch => 'തിരയൽ ആരംഭിക്കാൻ കുറഞ്ഞത് 4 അക്ഷരങ്ങൾ ടൈപ്പ് ചെയ്യുക';
+  String get typeMinCharsToSearch =>
+      'തിരയൽ ആരംഭിക്കാൻ കുറഞ്ഞത് 4 അക്ഷരങ്ങൾ ടൈപ്പ് ചെയ്യുക';
 
   @override
   String get selectOnMap => 'മാപ്പിൽ തിരഞ്ഞെടുക്കുക';
 
   @override
-  String get pinpointExactLocation => 'നിങ്ങളുടെ കൃത്യമായ സ്ഥലം അടയാളപ്പെടുത്തുക';
+  String get pinpointExactLocation =>
+      'നിങ്ങളുടെ കൃത്യമായ സ്ഥലം അടയാളപ്പെടുത്തുക';
 
   @override
   String get couldNotFindAddress => 'ക്ഷമിക്കണം, ഈ വിലാസം കണ്ടെത്താനായില്ല.';
 
   @override
-  String get trySearchingNearbyLandmark => 'അടുത്തുള്ള ലാൻഡ്മാർക്ക്, പ്രദേശം അല്ലെങ്കിൽ പ്രശസ്ത സ്ഥലം ഉപയോഗിച്ച് തിരയാൻ ശ്രമിക്കുക.';
+  String get trySearchingNearbyLandmark =>
+      'അടുത്തുള്ള ലാൻഡ്മാർക്ക്, പ്രദേശം അല്ലെങ്കിൽ പ്രശസ്ത സ്ഥലം ഉപയോഗിച്ച് തിരയാൻ ശ്രമിക്കുക.';
 
   @override
   String get anErrorOccurred => 'ഒരു പിശക് സംഭവിച്ചു';
@@ -381,7 +392,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get selectDropLocation => 'ഡ്രോപ്പ് സ്ഥലം തിരഞ്ഞെടുക്കുക';
 
   @override
-  String get cannotSwapEmptyLocations => 'ശൂന്യമായ സ്ഥലങ്ങൾ നിറച്ച സ്ഥലങ്ങളുമായി മാറ്റാനാവില്ല.';
+  String get cannotSwapEmptyLocations =>
+      'ശൂന്യമായ സ്ഥലങ്ങൾ നിറച്ച സ്ഥലങ്ങളുമായി മാറ്റാനാവില്ല.';
 
   @override
   String get proceedToVehicleSelection => 'വാഹന തിരഞ്ഞെടുപ്പിലേക്ക് തുടരുക';
@@ -390,7 +402,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get permissionRequired => 'അനുമതി ആവശ്യമാണ്';
 
   @override
-  String get contactsPermissionDescription => 'അയയ്ക്കുന്നയാളുടെ ഫോൺ നമ്പർ എളുപ്പത്തിൽ തിരഞ്ഞെടുക്കാൻ Reachu-ന് നിങ്ങളുടെ കോൺടാക്റ്റുകളിലേക്ക് ആക്സസ് ആവശ്യമാണ്. ദയവായി ആപ്പ് ക്രമീകരണങ്ങളിൽ ഇത് പ്രവർത്തനക്ഷമമാക്കുക.';
+  String get contactsPermissionDescription =>
+      'അയയ്ക്കുന്നയാളുടെ ഫോൺ നമ്പർ എളുപ്പത്തിൽ തിരഞ്ഞെടുക്കാൻ Reachu-ന് നിങ്ങളുടെ കോൺടാക്റ്റുകളിലേക്ക് ആക്സസ് ആവശ്യമാണ്. ദയവായി ആപ്പ് ക്രമീകരണങ്ങളിൽ ഇത് പ്രവർത്തനക്ഷമമാക്കുക.';
 
   @override
   String get openSettings => 'ക്രമീകരണങ്ങൾ തുറക്കുക';
@@ -552,10 +565,24 @@ class AppLocalizationsMl extends AppLocalizations {
   String get deleteAccount => 'അക്കൗണ്ട് ഇല്ലാതാക്കുക';
 
   @override
-  String get deleteAccountConfirm => 'ഈ പേയ്‌മെന്റ് രീതി ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ?';
+  String get deleteAccountConfirm =>
+      'ഈ പേയ്‌മെന്റ് രീതി ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ?';
 
   @override
   String get accountHolderName => 'അക്കൗണ്ട് ഉടമയുടെ പേര്';
+
+  @override
+  String get accountHolderNameHint =>
+      'Enter your full name as present on bank account';
+
+  @override
+  String get bankRegisteredPhone => 'Registered Mobile Number';
+
+  @override
+  String get bankRegisteredPhoneHint => 'Enter 10-digit mobile number';
+
+  @override
+  String get invalidPhoneNumber => 'Enter a valid 10-digit mobile number';
 
   @override
   String get bankName => 'ബാങ്കിന്റെ പേര്';
@@ -585,13 +612,16 @@ class AppLocalizationsMl extends AppLocalizations {
   String get invalidAccountNumber => 'സാധുവായ അക്കൗണ്ട് നമ്പർ നൽകുക';
 
   @override
-  String get accountNumbersDoNotMatch => 'അക്കൗണ്ട് നമ്പറുകൾ പൊരുത്തപ്പെടുന്നില്ല';
+  String get accountNumbersDoNotMatch =>
+      'അക്കൗണ്ട് നമ്പറുകൾ പൊരുത്തപ്പെടുന്നില്ല';
 
   @override
-  String get noPaymentMethods => 'ഇതുവരെ പേയ്‌മെന്റ് രീതികളൊന്നും ചേർത്തിട്ടില്ല';
+  String get noPaymentMethods =>
+      'ഇതുവരെ പേയ്‌മെന്റ് രീതികളൊന്നും ചേർത്തിട്ടില്ല';
 
   @override
-  String get addPaymentMethodSubtitle => 'നിങ്ങളുടെ വരുമാനം പിൻവലിക്കാൻ ഒരു ബാങ്ക് അക്കൗണ്ട് അല്ലെങ്കിൽ UPI ഐഡി ചേർക്കുക';
+  String get addPaymentMethodSubtitle =>
+      'നിങ്ങളുടെ വരുമാനം പിൻവലിക്കാൻ ഒരു ബാങ്ക് അക്കൗണ്ട് അല്ലെങ്കിൽ UPI ഐഡി ചേർക്കുക';
 
   @override
   String get confirmTransfer => 'ട്രാൻസ്ഫർ സ്ഥിരീകരിക്കുക';
@@ -609,13 +639,15 @@ class AppLocalizationsMl extends AppLocalizations {
   String get collectCash => 'പണം ശേഖരിക്കുക';
 
   @override
-  String get cashCollectedSuccess => 'ക്യാഷ് പേയ്‌മെന്റ് വിജയകരമായി പൂർത്തിയായി!';
+  String get cashCollectedSuccess =>
+      'ക്യാഷ് പേയ്‌മെന്റ് വിജയകരമായി പൂർത്തിയായി!';
 
   @override
   String get displayQrCode => 'UPI QR കോഡ് കാണിക്കുക';
 
   @override
-  String get customerScanQr => 'പണമടയ്ക്കാൻ ഉപഭോക്താവിനോട് ഈ QR കോഡ് സ്കാൻ ചെയ്യാൻ പറയുക';
+  String get customerScanQr =>
+      'പണമടയ്ക്കാൻ ഉപഭോക്താവിനോട് ഈ QR കോഡ് സ്കാൻ ചെയ്യാൻ പറയുക';
 
   @override
   String get generatingQr => 'QR കോഡ് സൃഷ്ടിക്കുന്നു...';
@@ -642,7 +674,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get accountDeletedSuccess => 'പേയ്‌മെന്റ് രീതി വിജയകരമായി ഇല്ലാതാക്കി';
 
   @override
-  String get accountUpdatedSuccess => 'പേയ്‌മെന്റ് രീതി വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു';
+  String get accountUpdatedSuccess =>
+      'പേയ്‌മെന്റ് രീതി വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു';
 
   @override
   String get accountAddedSuccess => 'പേയ്‌മെന്റ് രീതി വിജയകരമായി ചേർത്തു';
@@ -663,7 +696,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get accountNumberLabel => 'അക്കൗണ്ട് നമ്പർ';
 
   @override
-  String get errorLoadingAccounts => 'പേയ്‌മെന്റ് രീതികൾ ലോഡ് ചെയ്യുന്നതിൽ പിശക്';
+  String get errorLoadingAccounts =>
+      'പേയ്‌മെന്റ് രീതികൾ ലോഡ് ചെയ്യുന്നതിൽ പിശക്';
 
   @override
   String get errorLoadingWallet => 'വാലറ്റ് വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നതിൽ പിശക്';
@@ -696,7 +730,67 @@ class AppLocalizationsMl extends AppLocalizations {
   String get hideQrCode => 'QR മറയ്ക്കുക';
 
   @override
-  String get nameMinLengthRequired => 'പേര് കുറഞ്ഞത് 2 അക്ഷരങ്ങൾ ഉണ്ടായിരിക്കണം';
+  String get nameMinLengthRequired =>
+      'പേര് കുറഞ്ഞത് 2 അക്ഷരങ്ങൾ ഉണ്ടായിരിക്കണം';
+
+  @override
+  String get verifyBankAccount => 'Verify Bank Account';
+
+  @override
+  String get verifyingBankDetails => 'Verifying account details with bank...';
+
+  @override
+  String get bankVerificationSuccess => 'Bank Account Verified';
+
+  @override
+  String get bankVerificationSuccessDesc =>
+      'Account details matched and verified with bank records.';
+
+  @override
+  String get bankVerificationFailed =>
+      'Bank account verification failed. Please check your account number and IFSC code.';
+
+  @override
+  String nameMismatchWarning(String nameAtBank) {
+    return 'The registered name at bank is \"$nameAtBank\", which differs from the entered name.';
+  }
+
+  @override
+  String get branchLabel => 'Branch';
+
+  @override
+  String get cityLabel => 'City';
+
+  @override
+  String get verifiedBadge => 'VERIFIED';
+
+  @override
+  String get registeredNameAtBank => 'Registered Name at Bank';
+
+  @override
+  String get confirmAndSave => 'Confirm & Save Account';
+
+  @override
+  String get instantVerification => 'Instant Bank Verification';
+
+  @override
+  String get instantVerificationDesc =>
+      'We verify your bank account instantly via official banking network to ensure secure payouts.';
+
+  @override
+  String get accountStatusLabel => 'Account Status';
+
+  @override
+  String get nameMatchResultLabel => 'Name Match';
+
+  @override
+  String get nameMatchScoreLabel => 'Match Score';
+
+  @override
+  String get reEnterDetails => 'Edit Details';
+
+  @override
+  String get proceedAnyway => 'Proceed Anyway';
 
   @override
   String orderNumber(String orderId) {
@@ -713,7 +807,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get offline => 'ഓഫ്‌ലൈൻ';
 
   @override
-  String get onlineSuccessMessage => 'നിങ്ങൾ ഇപ്പോൾ ഓൺലൈനിലും ഡ്യൂട്ടിയിലുമാണ്.';
+  String get onlineSuccessMessage =>
+      'നിങ്ങൾ ഇപ്പോൾ ഓൺലൈനിലും ഡ്യൂട്ടിയിലുമാണ്.';
 
   @override
   String get offlineSuccessMessage => 'നിങ്ങൾ ഇപ്പോൾ ഓഫ്‌ലൈനാണ്.';
@@ -722,7 +817,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get partnerSupport => 'പാർട്ണർ സഹായം';
 
   @override
-  String get partnerSupportSubtitle => 'നമസ്കാരം പാർട്ണർ! നിങ്ങളുടെ യാത്ര, പേയ്‌മെന്റ് അല്ലെങ്കിൽ അക്കൗണ്ടിൽ സഹായം വേണോ? ഞങ്ങൾ 24/7 നിങ്ങളെ സഹായിക്കാൻ ഇവിടെയുണ്ട്.';
+  String get partnerSupportSubtitle =>
+      'നമസ്കാരം പാർട്ണർ! നിങ്ങളുടെ യാത്ര, പേയ്‌മെന്റ് അല്ലെങ്കിൽ അക്കൗണ്ടിൽ സഹായം വേണോ? ഞങ്ങൾ 24/7 നിങ്ങളെ സഹായിക്കാൻ ഇവിടെയുണ്ട്.';
 
   @override
   String get faqsAndHelp => 'പതിവ് ചോദ്യങ്ങളും സഹായവും';
@@ -743,7 +839,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get noActiveTickets => 'സജീവ സഹായ ടിക്കറ്റുകളൊന്നുമില്ല';
 
   @override
-  String get submitTicketDescription => 'എന്തെങ്കിലും പ്രശ്നമുണ്ടെങ്കിൽ ഒരു ടിക്കറ്റ് സമർപ്പിക്കുക.';
+  String get submitTicketDescription =>
+      'എന്തെങ്കിലും പ്രശ്നമുണ്ടെങ്കിൽ ഒരു ടിക്കറ്റ് സമർപ്പിക്കുക.';
 
   @override
   String get failedToLoadTickets => 'സമീപകാല ടിക്കറ്റുകൾ ലോഡ് ചെയ്യാനായില്ല';
@@ -944,16 +1041,19 @@ class AppLocalizationsMl extends AppLocalizations {
   String get newTicket => 'പുതിയ ടിക്കറ്റ്';
 
   @override
-  String get noSupportTicketsRaised => 'സപ്പോർട്ട് ടിക്കറ്റുകളൊന്നും സമർപ്പിച്ചിട്ടില്ല';
+  String get noSupportTicketsRaised =>
+      'സപ്പോർട്ട് ടിക്കറ്റുകളൊന്നും സമർപ്പിച്ചിട്ടില്ല';
 
   @override
-  String get tapNewTicketSubtitle => 'സഹായം ലഭിക്കാൻ \'പുതിയ ടിക്കറ്റ്\' ടാപ്പ് ചെയ്യുക.';
+  String get tapNewTicketSubtitle =>
+      'സഹായം ലഭിക്കാൻ \'പുതിയ ടിക്കറ്റ്\' ടാപ്പ് ചെയ്യുക.';
 
   @override
   String get submitATicket => 'ടിക്കറ്റ് സമർപ്പിക്കുക';
 
   @override
-  String get explainIssueDetail => 'നിങ്ങളുടെ പ്രശ്നം വിശദമായി വിവരിക്കുക. സഹായ ഏജന്റ് ഉടൻ സ്ഥിരീകരിച്ച് മറുപടി നൽകും.';
+  String get explainIssueDetail =>
+      'നിങ്ങളുടെ പ്രശ്നം വിശദമായി വിവരിക്കുക. സഹായ ഏജന്റ് ഉടൻ സ്ഥിരീകരിച്ച് മറുപടി നൽകും.';
 
   @override
   String get categoryRequired => 'വിഭാഗം*';
@@ -962,7 +1062,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get selectIssueCategory => 'പ്രശ്ന വിഭാഗം തിരഞ്ഞെടുക്കുക';
 
   @override
-  String get pleaseSelectCategoryError => 'ദയവായി ഒരു പ്രശ്ന വിഭാഗം തിരഞ്ഞെടുക്കുക';
+  String get pleaseSelectCategoryError =>
+      'ദയവായി ഒരു പ്രശ്ന വിഭാഗം തിരഞ്ഞെടുക്കുക';
 
   @override
   String get subjectRequired => 'വിഷയം*';
@@ -974,7 +1075,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get subjectRequiredError => 'വിഷയം നിർബന്ധമാണ്';
 
   @override
-  String get subjectMinLengthError => 'വിഷയം കുറഞ്ഞത് 5 അക്ഷരങ്ങൾ ഉണ്ടായിരിക്കണം';
+  String get subjectMinLengthError =>
+      'വിഷയം കുറഞ്ഞത് 5 അക്ഷരങ്ങൾ ഉണ്ടായിരിക്കണം';
 
   @override
   String get descriptionRequired => 'വിവരണം / സന്ദേശം*';
@@ -986,7 +1088,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get messageRequiredError => 'സന്ദേശ വിവരണം നിർബന്ധമാണ്';
 
   @override
-  String get messageMinLengthError => 'സന്ദേശം കുറഞ്ഞത് 10 അക്ഷരങ്ങൾ ഉണ്ടായിരിക്കണം';
+  String get messageMinLengthError =>
+      'സന്ദേശം കുറഞ്ഞത് 10 അക്ഷരങ്ങൾ ഉണ്ടായിരിക്കണം';
 
   @override
   String get submitTicket => 'ടിക്കറ്റ് സമർപ്പിക്കുക';
@@ -1016,10 +1119,12 @@ class AppLocalizationsMl extends AppLocalizations {
   String get failedToLoadDetails => 'വിശദാംശങ്ങൾ ലോഡ് ചെയ്യാനായില്ല';
 
   @override
-  String get defaultPrivacyPolicyHtml => '<h1>സ്വകാര്യതാ നയം</h1><p>Reachu ഡ്രൈവർ ആപ്പിലേക്ക് സ്വാഗതം. നിങ്ങളുടെ സ്വകാര്യത ഞങ്ങൾക്ക് പ്രധാനമാണ്. ഈ സ്വകാര്യതാ നയം നിങ്ങളുടെ വ്യക്തിഗത വിവരങ്ങൾ ഞങ്ങൾ എങ്ങനെ ശേഖരിക്കുകയും ഉപയോഗിക്കുകയും സംരക്ഷിക്കുകയും ചെയ്യുന്നു എന്ന് വിശദീകരിക്കുന്നു.</p><h2>1. ഞങ്ങൾ ശേഖരിക്കുന്ന വിവരങ്ങൾ</h2><p>നിങ്ങളുടെ പേര്, ഫോൺ നമ്പർ, ഇമെയിൽ, വാഹന വിവരങ്ങൾ, സജീവ ട്രിപ്പുകൾക്കിടയിലെ ലൊക്കേഷൻ ഡാറ്റ, ഇടപാട് വിവരങ്ങൾ എന്നിവ ഞങ്ങൾ ശേഖരിക്കുന്നു.</p><h2>2. നിങ്ങളുടെ വിവരങ്ങൾ ഞങ്ങൾ എങ്ങനെ ഉപയോഗിക്കുന്നു</h2><p>ഡെലിവറി റൈഡുകൾ സുഗമമാക്കാനും പേയ്‌മെന്റുകൾ പ്രോസസ് ചെയ്യാനും സുരക്ഷ ഉറപ്പാക്കാനും ഡ്രൈവർ അനുഭവം മെച്ചപ്പെടുത്താനും ഞങ്ങൾ നിങ്ങളുടെ വിവരങ്ങൾ ഉപയോഗിക്കുന്നു.</p><h2>3. ലൊക്കേഷൻ ട്രാക്കിംഗ്</h2><p>ഓൺ-ഡ്യൂട്ടി സമയത്ത് നിങ്ങളെ അടുത്തുള്ള ഡെലിവറി അഭ്യർത്ഥനകളുമായി ബന്ധിപ്പിക്കാനും ഉപഭോക്താക്കൾക്ക് ട്രിപ്പ് പുരോഗതി കാണാനും ബാക്ക്ഗ്രൗണ്ട് ലൊക്കേഷൻ ആക്സസ് ആവശ്യമാണ്.</p><h2>4. ഡാറ്റ സുരക്ഷ</h2><p>നിങ്ങളുടെ വ്യക്തിഗത വിവരങ്ങൾ അനധികൃത ആക്സസിൽ നിന്ന് സംരക്ഷിക്കാൻ ഞങ്ങൾ കർശനമായ സുരക്ഷാ നടപടികൾ നടപ്പിലാക്കുന്നു.</p>';
+  String get defaultPrivacyPolicyHtml =>
+      '<h1>സ്വകാര്യതാ നയം</h1><p>Reachu ഡ്രൈവർ ആപ്പിലേക്ക് സ്വാഗതം. നിങ്ങളുടെ സ്വകാര്യത ഞങ്ങൾക്ക് പ്രധാനമാണ്. ഈ സ്വകാര്യതാ നയം നിങ്ങളുടെ വ്യക്തിഗത വിവരങ്ങൾ ഞങ്ങൾ എങ്ങനെ ശേഖരിക്കുകയും ഉപയോഗിക്കുകയും സംരക്ഷിക്കുകയും ചെയ്യുന്നു എന്ന് വിശദീകരിക്കുന്നു.</p><h2>1. ഞങ്ങൾ ശേഖരിക്കുന്ന വിവരങ്ങൾ</h2><p>നിങ്ങളുടെ പേര്, ഫോൺ നമ്പർ, ഇമെയിൽ, വാഹന വിവരങ്ങൾ, സജീവ ട്രിപ്പുകൾക്കിടയിലെ ലൊക്കേഷൻ ഡാറ്റ, ഇടപാട് വിവരങ്ങൾ എന്നിവ ഞങ്ങൾ ശേഖരിക്കുന്നു.</p><h2>2. നിങ്ങളുടെ വിവരങ്ങൾ ഞങ്ങൾ എങ്ങനെ ഉപയോഗിക്കുന്നു</h2><p>ഡെലിവറി റൈഡുകൾ സുഗമമാക്കാനും പേയ്‌മെന്റുകൾ പ്രോസസ് ചെയ്യാനും സുരക്ഷ ഉറപ്പാക്കാനും ഡ്രൈവർ അനുഭവം മെച്ചപ്പെടുത്താനും ഞങ്ങൾ നിങ്ങളുടെ വിവരങ്ങൾ ഉപയോഗിക്കുന്നു.</p><h2>3. ലൊക്കേഷൻ ട്രാക്കിംഗ്</h2><p>ഓൺ-ഡ്യൂട്ടി സമയത്ത് നിങ്ങളെ അടുത്തുള്ള ഡെലിവറി അഭ്യർത്ഥനകളുമായി ബന്ധിപ്പിക്കാനും ഉപഭോക്താക്കൾക്ക് ട്രിപ്പ് പുരോഗതി കാണാനും ബാക്ക്ഗ്രൗണ്ട് ലൊക്കേഷൻ ആക്സസ് ആവശ്യമാണ്.</p><h2>4. ഡാറ്റ സുരക്ഷ</h2><p>നിങ്ങളുടെ വ്യക്തിഗത വിവരങ്ങൾ അനധികൃത ആക്സസിൽ നിന്ന് സംരക്ഷിക്കാൻ ഞങ്ങൾ കർശനമായ സുരക്ഷാ നടപടികൾ നടപ്പിലാക്കുന്നു.</p>';
 
   @override
-  String get defaultTermsAndConditionsHtml => '<h1>നിബന്ധനകളും വ്യവസ്ഥകളും</h1><p>Reachu ഡ്രൈവർ ആപ്ലിക്കേഷൻ ഉപയോഗിക്കുന്നതിന് മുമ്പ് ഈ നിബന്ധനകളും വ്യവസ്ഥകളും ശ്രദ്ധാപൂർവ്വം വായിക്കുക.</p><h2>1. നിബന്ധനകളുടെ അംഗീകാരം</h2><p>Reachu-യിൽ ഒരു ഡ്രൈവർ പാർട്ണറായി രജിസ്റ്റർ ചെയ്യുന്നതിലൂടെ, ബാധകമായ എല്ലാ നിബന്ധനകളും നയങ്ങളും പ്രാദേശിക ഗതാഗത നിയമങ്ങളും പാലിക്കാൻ നിങ്ങൾ സമ്മതിക്കുന്നു.</p><h2>2. ഡ്രൈവറുടെ ഉത്തരവാദിത്തങ്ങൾ</h2><p>ഡ്രൈവർക്ക് സാധുവായ ഡ്രൈവിംഗ് ലൈസൻസ്, കൃത്യമായ വാഹന രേഖകൾ, സുരക്ഷിതവും സമയബന്ധിതവുമായ ഡെലിവറി സേവനം നൽകാനുള്ള ബാധ്യത ഉണ്ടായിരിക്കണം.</p><h2>3. പേയ്‌മെന്റും വരുമാനവും</h2><p>കൂലി പ്ലാറ്റ്ഫോം നിരക്കുകൾക്കനുസരിച്ച് നിശ്ചയിക്കുകയും ബാധകമായ ഫീസുകൾക്ക് ശേഷം നിങ്ങളുടെ സ്ഥിരീകരിച്ച ബാങ്ക് അക്കൗണ്ടിലേക്ക് ട്രാൻസ്ഫർ ചെയ്യുകയും ചെയ്യുന്നു.</p><h2>4. അക്കൗണ്ട് സസ്പെൻഷൻ</h2><p>വഞ്ചന പ്രവർത്തനങ്ങൾ, സുരക്ഷാ ലംഘനങ്ങൾ അല്ലെങ്കിൽ നയം പാലിക്കാത്ത സാഹചര്യത്തിൽ അക്കൗണ്ട് സസ്പെൻഡ് ചെയ്യാനുള്ള അവകാശം Reachu നിക്ഷിപ്തമാക്കുന്നു.</p>';
+  String get defaultTermsAndConditionsHtml =>
+      '<h1>നിബന്ധനകളും വ്യവസ്ഥകളും</h1><p>Reachu ഡ്രൈവർ ആപ്ലിക്കേഷൻ ഉപയോഗിക്കുന്നതിന് മുമ്പ് ഈ നിബന്ധനകളും വ്യവസ്ഥകളും ശ്രദ്ധാപൂർവ്വം വായിക്കുക.</p><h2>1. നിബന്ധനകളുടെ അംഗീകാരം</h2><p>Reachu-യിൽ ഒരു ഡ്രൈവർ പാർട്ണറായി രജിസ്റ്റർ ചെയ്യുന്നതിലൂടെ, ബാധകമായ എല്ലാ നിബന്ധനകളും നയങ്ങളും പ്രാദേശിക ഗതാഗത നിയമങ്ങളും പാലിക്കാൻ നിങ്ങൾ സമ്മതിക്കുന്നു.</p><h2>2. ഡ്രൈവറുടെ ഉത്തരവാദിത്തങ്ങൾ</h2><p>ഡ്രൈവർക്ക് സാധുവായ ഡ്രൈവിംഗ് ലൈസൻസ്, കൃത്യമായ വാഹന രേഖകൾ, സുരക്ഷിതവും സമയബന്ധിതവുമായ ഡെലിവറി സേവനം നൽകാനുള്ള ബാധ്യത ഉണ്ടായിരിക്കണം.</p><h2>3. പേയ്‌മെന്റും വരുമാനവും</h2><p>കൂലി പ്ലാറ്റ്ഫോം നിരക്കുകൾക്കനുസരിച്ച് നിശ്ചയിക്കുകയും ബാധകമായ ഫീസുകൾക്ക് ശേഷം നിങ്ങളുടെ സ്ഥിരീകരിച്ച ബാങ്ക് അക്കൗണ്ടിലേക്ക് ട്രാൻസ്ഫർ ചെയ്യുകയും ചെയ്യുന്നു.</p><h2>4. അക്കൗണ്ട് സസ്പെൻഷൻ</h2><p>വഞ്ചന പ്രവർത്തനങ്ങൾ, സുരക്ഷാ ലംഘനങ്ങൾ അല്ലെങ്കിൽ നയം പാലിക്കാത്ത സാഹചര്യത്തിൽ അക്കൗണ്ട് സസ്പെൻഡ് ചെയ്യാനുള്ള അവകാശം Reachu നിക്ഷിപ്തമാക്കുന്നു.</p>';
 
   @override
   String get reviewAndRating => 'അവലോകനവും റേറ്റിംഗും';
@@ -1036,7 +1141,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get noReviewsYet => 'ഇതുവരെ അവലോകനങ്ങളൊന്നുമില്ല';
 
   @override
-  String get noReviewsDesc => 'നിങ്ങൾക്ക് ഇതുവരെ അവലോകനങ്ങളൊന്നും ലഭിച്ചിട്ടില്ല.';
+  String get noReviewsDesc =>
+      'നിങ്ങൾക്ക് ഇതുവരെ അവലോകനങ്ങളൊന്നും ലഭിച്ചിട്ടില്ല.';
 
   @override
   String get noCommentProvided => 'അഭിപ്രായമൊന്നും നൽകിയിട്ടില്ല';
@@ -1063,7 +1169,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get noInternetConnection => 'ഇന്റർനെറ്റ് കണക്ഷൻ ഇല്ല';
 
   @override
-  String get checkInternetConnection => 'ദയവായി നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.';
+  String get checkInternetConnection =>
+      'ദയവായി നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.';
 
   @override
   String get internetRestored => 'ഇന്റർനെറ്റ് കണക്ഷൻ പുനഃസ്ഥാപിച്ചു';
@@ -1072,10 +1179,12 @@ class AppLocalizationsMl extends AppLocalizations {
   String get retryConnection => 'വീണ്ടും ശ്രമിക്കുക';
 
   @override
-  String get connectionTimedOut => 'കണക്ഷൻ സമയം കഴിഞ്ഞു. വീണ്ടും ശ്രമിക്കുന്നു...';
+  String get connectionTimedOut =>
+      'കണക്ഷൻ സമയം കഴിഞ്ഞു. വീണ്ടും ശ്രമിക്കുന്നു...';
 
   @override
-  String get newUpdateAvailable => 'പുതിയ അപ്ഡേറ്റ് ലഭ്യമാണ്. തുടരാൻ ആപ്പ് അപ്ഡേറ്റ് ചെയ്യുക.';
+  String get newUpdateAvailable =>
+      'പുതിയ അപ്ഡേറ്റ് ലഭ്യമാണ്. തുടരാൻ ആപ്പ് അപ്ഡേറ്റ് ചെയ്യുക.';
 
   @override
   String get updateRequiredTitle => 'അപ്ഡേറ്റ് ആവശ്യമാണ്';
@@ -1095,7 +1204,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get underMaintenanceTitle => 'അറ്റകുറ്റപ്പണിയിലാണ്';
 
   @override
-  String get underMaintenanceDesc => 'നിങ്ങൾക്ക് മികച്ച സേവനം നൽകുന്നതിനായി ഞങ്ങൾ സിസ്റ്റങ്ങൾ അപ്ഡേറ്റ് ചെയ്യുകയാണ്. ദയവായി അല്പസമയത്തിന് ശേഷം പരിശോധിക്കുക.';
+  String get underMaintenanceDesc =>
+      'നിങ്ങൾക്ക് മികച്ച സേവനം നൽകുന്നതിനായി ഞങ്ങൾ സിസ്റ്റങ്ങൾ അപ്ഡേറ്റ് ചെയ്യുകയാണ്. ദയവായി അല്പസമയത്തിന് ശേഷം പരിശോധിക്കുക.';
 
   @override
   String estimatedBackIn(Object time) {
@@ -1184,10 +1294,12 @@ class AppLocalizationsMl extends AppLocalizations {
   String get platformFee => 'പ്ലാറ്റ്‌ഫോം ഫീ';
 
   @override
-  String get pressBackAgainToExit => 'ആപ്പിൽ നിന്ന് പുറത്തുകടക്കാൻ വീണ്ടും ബാക്ക് അമർത്തുക';
+  String get pressBackAgainToExit =>
+      'ആപ്പിൽ നിന്ന് പുറത്തുകടക്കാൻ വീണ്ടും ബാക്ക് അമർത്തുക';
 
   @override
-  String get pleaseAcceptOrDeclineRide => 'പുറത്തുപോകുന്നതിന് മുമ്പ് റൈഡ് സ്വീകരിക്കുകയോ നിരസിക്കുകയോ ചെയ്യുക';
+  String get pleaseAcceptOrDeclineRide =>
+      'പുറത്തുപോകുന്നതിന് മുമ്പ് റൈഡ് സ്വീകരിക്കുകയോ നിരസിക്കുകയോ ചെയ്യുക';
 
   @override
   String get cashPayment => 'ക്യാഷ് പേയ്മെന്റ്';
@@ -1196,7 +1308,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get onlineQr => 'ഓൺലൈൻ ക്യുആർ';
 
   @override
-  String get collectCashInstructions => 'റൈഡ് അവസാനിപ്പിക്കുന്നതിന് മുമ്പ് ഉപഭോക്താവിൽ നിന്ന് പണം വാങ്ങുക.';
+  String get collectCashInstructions =>
+      'റൈഡ് അവസാനിപ്പിക്കുന്നതിന് മുമ്പ് ഉപഭോക്താവിൽ നിന്ന് പണം വാങ്ങുക.';
 
   @override
   String collectCashStep1(String amount) {
@@ -1204,13 +1317,15 @@ class AppLocalizationsMl extends AppLocalizations {
   }
 
   @override
-  String get collectCashStep2 => '2. താഴെയുള്ള \'പണം ലഭിച്ചു എന്ന് സ്ഥിരീകരിക്കുക\' ബട്ടൺ അമർത്തുക';
+  String get collectCashStep2 =>
+      '2. താഴെയുള്ള \'പണം ലഭിച്ചു എന്ന് സ്ഥിരീകരിക്കുക\' ബട്ടൺ അമർത്തുക';
 
   @override
   String get verifyingCashDeposit => 'പണ അടവ് പരിശോധിക്കുന്നു...';
 
   @override
-  String get pleaseHoldClosingRide => 'റൈഡ് അവസാനിപ്പിക്കുന്നതുവരെ ദയവായി കാത്തിരിക്കുക';
+  String get pleaseHoldClosingRide =>
+      'റൈഡ് അവസാനിപ്പിക്കുന്നതുവരെ ദയവായി കാത്തിരിക്കുക';
 
   @override
   String get customerOnlinePayment => 'ഉപഭോക്താവിന്റെ ഓൺലൈൻ പേയ്മെന്റ്';
@@ -1222,28 +1337,33 @@ class AppLocalizationsMl extends AppLocalizations {
   String get failedToLoadQrCode => 'ക്യുആർ കോഡ് ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല';
 
   @override
-  String get scanQrToPay => 'ഓൺലൈനായി പണമടയ്ക്കാൻ ഉപഭോക്താവിനോട് ക്യുആർ കോഡ് സ്കാൻ ചെയ്യാൻ പറയുക';
+  String get scanQrToPay =>
+      'ഓൺലൈനായി പണമടയ്ക്കാൻ ഉപഭോക്താവിനോട് ക്യുആർ കോഡ് സ്കാൻ ചെയ്യാൻ പറയുക';
 
   @override
   String get pinchToZoomQr => 'ക്യുആർ കോഡ് വലുതാക്കാൻ പിഞ്ച് ചെയ്യുക';
 
   @override
-  String get tapToFullScreen => 'ഫുൾ സ്ക്രീൻ കാഴ്ചയ്ക്കായി ക്യുആർ കോഡിൽ ടാപ്പ് ചെയ്യുക';
+  String get tapToFullScreen =>
+      'ഫുൾ സ്ക്രീൻ കാഴ്ചയ്ക്കായി ക്യുആർ കോഡിൽ ടാപ്പ് ചെയ്യുക';
 
   @override
-  String get awaitingCustomerPayment => 'ഉപഭോക്താവിന്റെ പേയ്മെന്റിനായി കാത്തിരിക്കുന്നു...';
+  String get awaitingCustomerPayment =>
+      'ഉപഭോക്താവിന്റെ പേയ്മെന്റിനായി കാത്തിരിക്കുന്നു...';
 
   @override
   String get confirmCashReceived => 'പണം ലഭിച്ചു എന്ന് സ്ഥിരീകരിക്കുക';
 
   @override
-  String get paymentReceivedToast => 'പേയ്മെന്റ് ലഭിച്ചു! റൈഡ് അവസാനിപ്പിക്കുന്നു...';
+  String get paymentReceivedToast =>
+      'പേയ്മെന്റ് ലഭിച്ചു! റൈഡ് അവസാനിപ്പിക്കുന്നു...';
 
   @override
   String get invalidOrderIdError => 'അസാധുവായ ഓർഡർ ഐഡി';
 
   @override
-  String get cashPaymentRecordedWaiting => 'ക്യാഷ് പേയ്മെന്റ് രേഖപ്പെടുത്തി. റൈഡ് അവസാനിപ്പിക്കുന്നു...';
+  String get cashPaymentRecordedWaiting =>
+      'ക്യാഷ് പേയ്മെന്റ് രേഖപ്പെടുത്തി. റൈഡ് അവസാനിപ്പിക്കുന്നു...';
 
   @override
   String get paymentReceivedTitle => 'പേയ്മെന്റ് ലഭിച്ചു';
@@ -1254,7 +1374,8 @@ class AppLocalizationsMl extends AppLocalizations {
   }
 
   @override
-  String get rideClosedReturningHome => 'റൈഡ് അവസാനിച്ചു. ഹോമിലേക്ക് മടങ്ങുന്നു...';
+  String get rideClosedReturningHome =>
+      'റൈഡ് അവസാനിച്ചു. ഹോമിലേക്ക് മടങ്ങുന്നു...';
 
   @override
   String get fragileGoods => 'എളുപ്പത്തിൽ കേടുപാടുകൾ സംഭവിക്കുന്ന ഉൽപ്പന്നങ്ങൾ';
@@ -1274,40 +1395,49 @@ class AppLocalizationsMl extends AppLocalizations {
   String get permissionsRequired => 'അനുമതികൾ ആവശ്യമാണ്';
 
   @override
-  String get enableAllPermissionsSubtitle => 'ReachuDriver കൃത്യമായി പ്രവർത്തിക്കാൻ താഴെ പറയുന്ന അനുമതികൾ ആവശ്യമാണ്.';
+  String get enableAllPermissionsSubtitle =>
+      'ReachuDriver കൃത്യമായി പ്രവർത്തിക്കാൻ താഴെ പറയുന്ന അനുമതികൾ ആവശ്യമാണ്.';
 
   @override
   String get locationAlwaysTitle => 'ലൊക്കേഷൻ (എപ്പോഴും അനുവദിക്കുക)';
 
   @override
-  String get locationAlwaysSubtitle => 'ഓർഡർ ഡിസ്പാച്ചിനും പശ്ചാത്തല റൈഡ് ട്രാക്കിംഗിനും ആവശ്യമാണ്.';
+  String get locationAlwaysSubtitle =>
+      'ഓർഡർ ഡിസ്പാച്ചിനും പശ്ചാത്തല റൈഡ് ട്രാക്കിംഗിനും ആവശ്യമാണ്.';
 
   @override
-  String get batteryUnrestrictedTitle => 'ബാറ്ററി ഒപ്റ്റിമൈസേഷൻ (നിയന്ത്രണമില്ലാത്തത്)';
+  String get batteryUnrestrictedTitle =>
+      'ബാറ്ററി ഒപ്റ്റിമൈസേഷൻ (നിയന്ത്രണമില്ലാത്തത്)';
 
   @override
-  String get batteryUnrestrictedSubtitle => 'പശ്ചാത്തല സോക്കറ്റ് കണക്ഷൻ നിലനിൽക്കുന്നുണ്ടെന്ന് ഉറപ്പാക്കുന്നു.';
+  String get batteryUnrestrictedSubtitle =>
+      'പശ്ചാത്തല സോക്കറ്റ് കണക്ഷൻ നിലനിൽക്കുന്നുണ്ടെന്ന് ഉറപ്പാക്കുന്നു.';
 
   @override
   String get notificationsTitle => 'അറിയിപ്പുകൾ';
 
   @override
-  String get notificationsSubtitle => 'പുതിയ റൈഡ് അഭ്യർത്ഥനകൾക്കും ഓർഡർ അലേർട്ടുകൾക്കും ആവശ്യമാണ്.';
+  String get notificationsSubtitle =>
+      'പുതിയ റൈഡ് അഭ്യർത്ഥനകൾക്കും ഓർഡർ അലേർട്ടുകൾക്കും ആവശ്യമാണ്.';
 
   @override
   String get displayOverAppsTitle => 'മറ്റ് ആപ്പുകൾക്ക് മുകളിൽ കാണിക്കുക';
 
   @override
-  String get displayOverAppsSubtitle => 'ഇൻകമിംഗ് ഓർഡർ പോപ്പ്അപ്പുകൾക്ക് ആവശ്യമാണ്.';
+  String get displayOverAppsSubtitle =>
+      'ഇൻകമിംഗ് ഓർഡർ പോപ്പ്അപ്പുകൾക്ക് ആവശ്യമാണ്.';
 
   @override
-  String get locationUsedInBackground => 'പശ്ചാത്തലത്തിൽ ഉപയോഗിക്കുന്ന ലൊക്കേഷൻ';
+  String get locationUsedInBackground =>
+      'പശ്ചാത്തലത്തിൽ ഉപയോഗിക്കുന്ന ലൊക്കേഷൻ';
 
   @override
-  String get backgroundLocationDisclosureBody => 'ആപ്പ് അടച്ചിരിക്കുമ്പോഴും ലൊക്കേഷൻ വിവരങ്ങൾ ReachuDriver ശേഖരിക്കുന്നു.\n\nഇത് എന്തിനാണ് ഉപയോഗിക്കുന്നത്:\n  • നിങ്ങളുടെ തത്സമയ സ്റ്റാറ്റസ് ഉപഭോക്താക്കളുമായി പങ്കിടാൻ\n  • ഏറ്റവും അടുത്തുള്ള ബുക്കിംഗ് അഭ്യർത്ഥനകൾ നൽകാൻ\n  • നിങ്ങൾ ഡ്യൂട്ടിയിലായിരിക്കുമ്പോൾ സിസ്റ്റം അപ്ഡേറ്റ് ചെയ്യാൻ\n\nനിങ്ങൾ ഓൺലൈനിലായിരിക്കുമ്പോൾ (ഡ്യൂട്ടിയിലായിരിക്കുമ്പോൾ) മാത്രമാണ് ലൊക്കേഷൻ ശേഖരണം പ്രവർത്തിക്കുന്നത്.';
+  String get backgroundLocationDisclosureBody =>
+      'ആപ്പ് അടച്ചിരിക്കുമ്പോഴും ലൊക്കേഷൻ വിവരങ്ങൾ ReachuDriver ശേഖരിക്കുന്നു.\n\nഇത് എന്തിനാണ് ഉപയോഗിക്കുന്നത്:\n  • നിങ്ങളുടെ തത്സമയ സ്റ്റാറ്റസ് ഉപഭോക്താക്കളുമായി പങ്കിടാൻ\n  • ഏറ്റവും അടുത്തുള്ള ബുക്കിംഗ് അഭ്യർത്ഥനകൾ നൽകാൻ\n  • നിങ്ങൾ ഡ്യൂട്ടിയിലായിരിക്കുമ്പോൾ സിസ്റ്റം അപ്ഡേറ്റ് ചെയ്യാൻ\n\nനിങ്ങൾ ഓൺലൈനിലായിരിക്കുമ്പോൾ (ഡ്യൂട്ടിയിലായിരിക്കുമ്പോൾ) മാത്രമാണ് ലൊക്കേഷൻ ശേഖരണം പ്രവർത്തിക്കുന്നത്.';
 
   @override
-  String get changeInAppSettingsNote => 'ആപ്പ് സെറ്റിംഗ്സിൽ നിന്ന് എപ്പോൾ വേണമെങ്കിലും ഇത് മാറ്റാവുന്നതാണ്.';
+  String get changeInAppSettingsNote =>
+      'ആപ്പ് സെറ്റിംഗ്സിൽ നിന്ന് എപ്പോൾ വേണമെങ്കിലും ഇത് മാറ്റാവുന്നതാണ്.';
 
   @override
   String get iUnderstandContinue => 'എനിക്ക് മനസ്സിലായി — തുടരുക';
@@ -1350,7 +1480,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get eShramSubHeader => 'സർക്കാർ ഇൻഷുറൻസ് & പെൻഷൻ പദ്ധതി';
 
   @override
-  String get eShramDescription => 'ഗിഗ് തൊഴിലാളികൾക്കുള്ള അപകട ഇൻഷുറൻസും സാമൂഹിക സുരക്ഷാ ആനുകൂല്യങ്ങളും ലഭിക്കുന്നതിന് ഔദ്യോഗിക ഇ-ശ്രമം പോർട്ടലിൽ രജിസ്റ്റർ ചെയ്യുക.';
+  String get eShramDescription =>
+      'ഗിഗ് തൊഴിലാളികൾക്കുള്ള അപകട ഇൻഷുറൻസും സാമൂഹിക സുരക്ഷാ ആനുകൂല്യങ്ങളും ലഭിക്കുന്നതിന് ഔദ്യോഗിക ഇ-ശ്രമം പോർട്ടലിൽ രജിസ്റ്റർ ചെയ്യുക.';
 
   @override
   String get registerOnEShramPortal => 'ഇ-ശ്രമം പോർട്ടലിൽ രജിസ്റ്റർ ചെയ്യുക';

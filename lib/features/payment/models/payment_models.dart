@@ -294,3 +294,57 @@ abstract class CommonResponse with _$CommonResponse {
   factory CommonResponse.fromJson(Map<String, dynamic> json) => _$CommonResponseFromJson(json);
 }
 
+const List<String> kNameMatchGoodResults = [
+  'EXACT_MATCH',
+  'GOOD_MATCH',
+  'GOOD_PARTIAL_MATCH',
+];
+
+@freezed
+abstract class BankAccountVerificationData with _$BankAccountVerificationData {
+  const BankAccountVerificationData._();
+
+  const factory BankAccountVerificationData({
+    @Default(false) bool verified,
+    @Default(false) bool nameMatches,
+    String? accountStatus,
+    String? nameAtBank,
+    String? nameMatchResult,
+    @JsonKey(fromJson: _doubleFromJson) double? nameMatchScore,
+    String? bankName,
+    String? branch,
+    String? city,
+  }) = _BankAccountVerificationData;
+
+  factory BankAccountVerificationData.fromJson(Map<String, dynamic> json) =>
+      _$BankAccountVerificationDataFromJson(json);
+
+  bool get isGoodNameMatch {
+    if (nameMatches) return true;
+    if (nameMatchResult != null &&
+        kNameMatchGoodResults.contains(nameMatchResult!.toUpperCase())) {
+      return true;
+    }
+    return false;
+  }
+}
+
+@freezed
+abstract class VerifyBankAccountResponse with _$VerifyBankAccountResponse {
+  const factory VerifyBankAccountResponse({
+    required bool success,
+    required String message,
+    BankAccountVerificationData? data,
+  }) = _VerifyBankAccountResponse;
+
+  factory VerifyBankAccountResponse.fromJson(Map<String, dynamic> json) {
+    return VerifyBankAccountResponse(
+      success: json['success'] as bool? ?? false,
+      message: json['message'] as String? ?? '',
+      data: json['data'] != null
+          ? BankAccountVerificationData.fromJson(_safeMap(json['data']))
+          : null,
+    );
+  }
+}
+

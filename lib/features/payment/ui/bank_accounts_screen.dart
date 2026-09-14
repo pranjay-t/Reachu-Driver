@@ -57,7 +57,7 @@ class BankAccountsScreen extends ConsumerWidget {
                 if (context.mounted) {
                   AppSnackbar.showError(
                     context: context,
-                    message: e.toString(),
+                    message: e.toString().replaceAll('Exception:', '').trim(),
                   );
                 }
               }
@@ -109,144 +109,150 @@ class BankAccountsScreen extends ConsumerWidget {
               return _buildEmptyState(context, isDark, mutedTextColor);
             }
 
-            return ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-              itemCount: accounts.length,
-              separatorBuilder: (context, index) => SizedBox(height: 16.h),
-              itemBuilder: (context, index) {
-                final account = accounts[index];
-                final isUPI = account.type.toLowerCase() == 'upi';
+            return RefreshIndicator(
+              onRefresh: () => ref.read(bankAccountsControllerProvider.notifier).refreshAccounts(),
+              color: AppColors.primary500,
+              backgroundColor: isDark ? AppColors.darkSurface02 : AppColors.lightSurface00,
+              child: ListView.separated(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                itemCount: accounts.length,
+                separatorBuilder: (context, index) => SizedBox(height: 16.h),
+                itemBuilder: (context, index) {
+                  final account = accounts[index];
 
-                return Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: isUPI
-                          ? [
-                              const Color(0xFF0D9488),
-                              const Color(0xFF0F766E),
-                            ]
-                          : [
-                              AppColors.primary500,
-                              const Color(0xFF4338CA),
-                            ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(20.r),
-                    boxShadow: [
-                      BoxShadow(
-                        color: (isUPI ? const Color(0xFF0F766E) : AppColors.primary500)
-                            .withValues(alpha: 0.2),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
+                  return Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFF1E1B4B),
+                          Color(0xFF312E81),
+                          Color(0xFF4338CA),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                    ],
-                  ),
-                  child: Stack(
-                    children: [
-                      // Card Chip Decoration Background
-                      Positioned(
-                        right: -20.w,
-                        bottom: -20.h,
-                        child: Icon(
-                          isUPI ? Icons.alternate_email_rounded : Icons.account_balance_rounded,
-                          size: 150.sp,
-                          color: Colors.white.withValues(alpha: 0.05),
+                      borderRadius: BorderRadius.circular(22.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF312E81).withValues(alpha: 0.35),
+                          blurRadius: 14,
+                          offset: const Offset(0, 6),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      isUPI ? Icons.qr_code_2_rounded : Icons.credit_card_rounded,
-                                      color: Colors.white,
-                                      size: 24.sp,
-                                    ),
-                                    SizedBox(width: 8.w),
-                                    Text(
-                                      isUPI ? "UPI ID" : account.bankName ?? "Bank Account",
-                                      style: AppTextStyles.titleSmall.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
+                      ],
+                    ),
+                    child: Stack(
+                      children: [
+                        // Card Chip Decoration Background Icon
+                        Positioned(
+                          right: -24.w,
+                          bottom: -24.h,
+                          child: Icon(
+                            Icons.account_balance_rounded,
+                            size: 160.sp,
+                            color: Colors.white.withValues(alpha: 0.05),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(20.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Top Row: Bank Icon & Name + Actions
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(8.w),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withValues(alpha: 0.15),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          Icons.account_balance_rounded,
+                                          color: Colors.white,
+                                          size: 18.sp,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.edit_rounded, color: Colors.white70),
-                                      onPressed: () {
-                                        context.push('/add_edit_bank_account?accountId=${account.id}');
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.delete_rounded, color: Colors.white70),
-                                      onPressed: () => _showDeleteConfirmation(context, ref, account),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 24.h),
-                            if (isUPI) ...[
-                              Text(
-                                account.upiId ?? '',
-                                style: AppTextStyles.headlineSmall.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.1,
-                                ),
+                                      SizedBox(width: 10.w),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            account.bankName ?? "Bank Account",
+                                            style: AppTextStyles.titleSmall.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 0.5,
+                                            ),
+                                          ),
+                                          SizedBox(height: 2.h),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.verified_rounded,
+                                                color: AppColors.successLight,
+                                                size: 12.sp,
+                                              ),
+                                              SizedBox(width: 4.w),
+                                              Text(
+                                                context.l10n.verifiedBadge,
+                                                style: TextStyle(
+                                                  color: AppColors.successLight,
+                                                  fontSize: 9.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  letterSpacing: 0.5,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.edit_rounded, color: Colors.white70),
+                                        onPressed: () {
+                                          context.push('/add_edit_bank_account?accountId=${account.id}');
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.delete_outline_rounded, color: Colors.white70),
+                                        onPressed: () => _showDeleteConfirmation(context, ref, account),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ] else ...[
+
+                              SizedBox(height: 24.h),
+
+                              // Account Number (Masked)
                               Text(
                                 _maskAccountNumber(account.accountNumber ?? ''),
                                 style: AppTextStyles.headlineSmall.copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  letterSpacing: 2.0,
+                                  letterSpacing: 2.2,
                                 ),
                               ),
-                            ],
-                            SizedBox(height: 24.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      context.l10n.accountHolderName.toUpperCase(),
-                                      style: AppTextStyles.labelSmall.copyWith(
-                                        color: Colors.white60,
-                                        fontSize: 9.sp,
-                                        letterSpacing: 0.8,
-                                      ),
-                                    ),
-                                    SizedBox(height: 2.h),
-                                    Text(
-                                      account.accountHolderName ?? '',
-                                      style: AppTextStyles.bodyMedium.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                if (!isUPI && account.ifscCode != null)
+
+                              SizedBox(height: 24.h),
+
+                              // Bottom Row: Holder Name & IFSC
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        context.l10n.ifscCode.toUpperCase(),
+                                        'ACCOUNT HOLDER',
                                         style: AppTextStyles.labelSmall.copyWith(
                                           color: Colors.white60,
                                           fontSize: 9.sp,
@@ -255,7 +261,7 @@ class BankAccountsScreen extends ConsumerWidget {
                                       ),
                                       SizedBox(height: 2.h),
                                       Text(
-                                        account.ifscCode!,
+                                        account.accountHolderName ?? '',
                                         style: AppTextStyles.bodyMedium.copyWith(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -263,15 +269,38 @@ class BankAccountsScreen extends ConsumerWidget {
                                       ),
                                     ],
                                   ),
-                              ],
-                            ),
-                          ],
+                                  if (account.ifscCode != null)
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'IFSC CODE',
+                                          style: AppTextStyles.labelSmall.copyWith(
+                                            color: Colors.white60,
+                                            fontSize: 9.sp,
+                                            letterSpacing: 0.8,
+                                          ),
+                                        ),
+                                        SizedBox(height: 2.h),
+                                        Text(
+                                          account.ifscCode!,
+                                          style: AppTextStyles.bodyMedium.copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ).animate().fade(duration: 350.ms, delay: (index * 80).ms).slideY(begin: 0.12, end: 0, delay: (index * 80).ms);
-              },
+                      ],
+                    ),
+                  ).animate().fade(duration: 350.ms, delay: (index * 80).ms).slideY(begin: 0.12, end: 0, delay: (index * 80).ms);
+                },
+              ),
             );
           },
           loading: () => _buildShimmerLoadingList(isDark),
@@ -295,7 +324,12 @@ class BankAccountsScreen extends ConsumerWidget {
         ),
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+        padding: EdgeInsets.fromLTRB(
+          20.w,
+          14.h,
+          20.w,
+          MediaQuery.paddingOf(context).bottom > 0 ? MediaQuery.paddingOf(context).bottom + 8.h : 16.h,
+        ),
         decoration: BoxDecoration(
           color: isDark ? AppColors.darkSurface01 : AppColors.lightSurface00,
           border: Border(
@@ -304,30 +338,28 @@ class BankAccountsScreen extends ConsumerWidget {
             ),
           ),
         ),
-        child: SafeArea(
-          top: false,
-          child: SizedBox(
-            width: double.infinity,
-            height: 56.h,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                context.push('/add_edit_bank_account');
-              },
-              icon: const Icon(Icons.add_rounded, color: Colors.white),
-              label: Text(
-                context.l10n.addAccount,
-                style: AppTextStyles.titleMedium.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+        child: SizedBox(
+          width: double.infinity,
+          height: 52.h,
+          child: ElevatedButton.icon(
+            onPressed: () {
+              context.push('/add_edit_bank_account');
+            },
+            icon: const Icon(Icons.add_rounded, color: Colors.white, size: 20),
+            label: Text(
+              context.l10n.addBankAccount,
+              style: AppTextStyles.titleMedium.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 15.5.sp,
               ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary500,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-                elevation: 0,
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary500,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r),
               ),
+              elevation: 0,
             ),
           ),
         ),
