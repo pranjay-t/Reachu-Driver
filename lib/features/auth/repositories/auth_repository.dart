@@ -5,6 +5,7 @@ import '../../../core/network/api_endpoints.dart';
 import '../../../core/network/api_service.dart';
 import '../../../core/network/result.dart';
 import '../models/auth_models.dart';
+import '../models/city_model.dart';
 import '../models/vehicle_category.dart';
 import '../models/onboarding_responses.dart';
 import '../models/driver_registration_status_response.dart';
@@ -67,7 +68,10 @@ class AuthRepository {
   Future<ApiResult<GetAllSubVehicleCategoriesResponse>> getVehicleSubCategories(String categoryId) async {
     return _apiService.get(
       ApiEndpoints.getAllVehicleSubCategories,
-      queryParameters: {'vehicleCategoryId': categoryId},
+      queryParameters: {
+        'vehicleCategoryId': categoryId,
+        'categoryId': categoryId,
+      },
       converter: (data) => GetAllSubVehicleCategoriesResponse.fromJson(data as Map<String, dynamic>),
     );
   }
@@ -106,20 +110,32 @@ class AuthRepository {
     );
   }
 
+  Future<ApiResult<GetActiveCitiesResponse>> getActiveCities() async {
+    return _apiService.get(
+      ApiEndpoints.getActiveCities,
+      converter: (data) => GetActiveCitiesResponse.fromJson(data as Map<String, dynamic>),
+    );
+  }
+
   Future<ApiResult<Map<String, dynamic>>> submitPersonalInfo({
     required String name,
     required String email,
     required String dateOfBirth,
     required String gender,
+    String? cityId,
   }) async {
+    final Map<String, dynamic> body = {
+      'name': name,
+      'email': email,
+      'dateOfBirth': dateOfBirth,
+      'gender': gender,
+    };
+    if (cityId != null && cityId.isNotEmpty) {
+      body['cityId'] = cityId;
+    }
     return _apiService.post(
       ApiEndpoints.driverStepPersonalInfo,
-      data: {
-        'name': name,
-        'email': email,
-        'dateOfBirth': dateOfBirth,
-        'gender': gender,
-      },
+      data: body,
       converter: (data) => data as Map<String, dynamic>,
     );
   }

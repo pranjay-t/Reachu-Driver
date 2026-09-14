@@ -6,6 +6,7 @@ import '../../../../app/theme/app_text_styles.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_dropdown.dart';
 import '../../../../shared/widgets/app_text_field.dart';
+import '../../models/city_model.dart';
 import '../../models/onboarding_enums.dart';
 import '../../models/vehicle_category.dart';
 import '../../providers/driver_onboarding_controller.dart';
@@ -32,7 +33,9 @@ class _OnboardingStepperScreenState extends ConsumerState<OnboardingStepperScree
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _dobController = TextEditingController();
+  late final TextEditingController _phoneController;
   String _selectedGender = 'Male';
+  String? _selectedCityId;
 
   // Step 2 Controllers
   final _dlNumberController = TextEditingController();
@@ -54,12 +57,34 @@ class _OnboardingStepperScreenState extends ConsumerState<OnboardingStepperScree
   @override
   void initState() {
     super.initState();
+    _phoneController = TextEditingController(text: widget.phoneNumber);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final state = ref.read(driverOnboardingControllerProvider);
       if (state.name.isNotEmpty) _nameController.text = state.name;
       if (state.email.isNotEmpty) _emailController.text = state.email;
       if (state.dateOfBirth.isNotEmpty) _dobController.text = state.dateOfBirth;
       if (state.gender.isNotEmpty) _selectedGender = state.gender;
+      if (state.selectedCityId != null && state.selectedCityId!.isNotEmpty) {
+        setState(() => _selectedCityId = state.selectedCityId);
+      }
+      if (state.vehicleName.isNotEmpty && _vehicleNameController.text.isEmpty) {
+        _vehicleNameController.text = state.vehicleName;
+      }
+      if (state.vehicleNumber.isNotEmpty && _vehicleNumberController.text.isEmpty) {
+        _vehicleNumberController.text = state.vehicleNumber;
+      }
+      if (state.vehicleColor.isNotEmpty && _vehicleColorController.text.isEmpty) {
+        _vehicleColorController.text = state.vehicleColor;
+      }
+      if (state.vehicleModel.isNotEmpty && _vehicleModelController.text.isEmpty) {
+        _vehicleModelController.text = state.vehicleModel;
+      }
+      if (state.vehicleYear.isNotEmpty && _vehicleYearController.text.isEmpty) {
+        _vehicleYearController.text = state.vehicleYear;
+      }
+      if (state.vehicleCapacity.isNotEmpty && _vehicleCapacityController.text.isEmpty) {
+        _vehicleCapacityController.text = state.vehicleCapacity;
+      }
     });
   }
 
@@ -68,6 +93,7 @@ class _OnboardingStepperScreenState extends ConsumerState<OnboardingStepperScree
     _nameController.dispose();
     _emailController.dispose();
     _dobController.dispose();
+    _phoneController.dispose();
     _dlNumberController.dispose();
     _aadharNumberController.dispose();
     _panNumberController.dispose();
@@ -138,7 +164,7 @@ class _OnboardingStepperScreenState extends ConsumerState<OnboardingStepperScree
             // Step Content
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 80),
                 child: Form(
                   key: _formKey,
                   child: KeyedSubtree(
@@ -238,13 +264,66 @@ class _OnboardingStepperScreenState extends ConsumerState<OnboardingStepperScree
           ),
           const SizedBox(height: 20),
 
+          // Full Name (Read-only / Non-editable just like mobile number)
           AppTextField(
             controller: _nameController,
             label: 'Full Name',
             hint: 'Enter your full name',
+            prefixIcon: Icons.person_outline_rounded,
+            readOnly: true,
+            fillColor: isDark
+                ? AppColors.darkSurface02
+                : AppColors.lightSurface02,
+            style: TextStyle(
+              color: isDark ? AppColors.neutral400 : AppColors.neutral600,
+            ),
+            labelStyle: TextStyle(
+              fontSize: 14,
+              color: isDark ? AppColors.neutral400 : AppColors.neutral500,
+            ),
+            floatingLabelStyle: TextStyle(
+              fontSize: 16,
+              color: isDark ? AppColors.neutral400 : AppColors.neutral500,
+            ),
+            suffix: Icon(
+              Icons.lock_outline_rounded,
+              size: 18,
+              color: isDark ? AppColors.neutral500 : AppColors.neutral400,
+            ),
             validator: (v) => v == null || v.isEmpty ? 'Full name is required' : null,
           ),
           const SizedBox(height: 16),
+
+          // Mobile Number (Read-only)
+          if (widget.phoneNumber.isNotEmpty) ...[
+            AppTextField(
+              controller: _phoneController,
+              label: 'Mobile Number',
+              hint: 'Registered phone number',
+              prefixIcon: Icons.phone_outlined,
+              readOnly: true,
+              fillColor: isDark
+                  ? AppColors.darkSurface02
+                  : AppColors.lightSurface02,
+              style: TextStyle(
+                color: isDark ? AppColors.neutral400 : AppColors.neutral600,
+              ),
+              labelStyle: TextStyle(
+                fontSize: 14,
+                color: isDark ? AppColors.neutral400 : AppColors.neutral500,
+              ),
+              floatingLabelStyle: TextStyle(
+                fontSize: 16,
+                color: isDark ? AppColors.neutral400 : AppColors.neutral500,
+              ),
+              suffix: Icon(
+                Icons.lock_outline_rounded,
+                size: 18,
+                color: isDark ? AppColors.neutral500 : AppColors.neutral400,
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
 
           AppTextField(
             controller: _emailController,
@@ -288,6 +367,40 @@ class _OnboardingStepperScreenState extends ConsumerState<OnboardingStepperScree
               if (val != null) setState(() => _selectedGender = val);
             },
           ),
+          const SizedBox(height: 16),
+
+          Builder(
+            builder: (context) {
+              final effectiveCityId = _selectedCityId ?? state.selectedCityId;
+              CityModel? selectedCity;
+              if (effectiveCityId != null && state.cities.isNotEmpty) {
+                try {
+                  selectedCity = state.cities.firstWhere((c) => c.id == effectiveCityId);
+                } catch (_) {
+                  selectedCity = null;
+                }
+              }
+
+              return AppDropdown<CityModel>(
+                label: 'Service City',
+                hint: 'Select your operational city',
+                items: state.cities,
+                itemLabel: (city) => city.name,
+                initialValue: selectedCity,
+                prefixIcon: Icons.location_city_rounded,
+                onChanged: (val) {
+                  setState(() => _selectedCityId = val?.id);
+                  if (val != null) {
+                    controller.selectCity(val.id);
+                  }
+                },
+                validator: (val) =>
+                    (val == null && (_selectedCityId == null || _selectedCityId!.isEmpty))
+                        ? 'Please select a serviceable city'
+                        : null,
+              );
+            },
+          ),
           const SizedBox(height: 30),
 
           AppButton(
@@ -300,6 +413,7 @@ class _OnboardingStepperScreenState extends ConsumerState<OnboardingStepperScree
                   email: _emailController.text.trim(),
                   dateOfBirth: _dobController.text.trim(),
                   gender: _selectedGender,
+                  cityId: _selectedCityId ?? state.selectedCityId,
                 );
               }
             },
@@ -540,12 +654,28 @@ class _OnboardingStepperScreenState extends ConsumerState<OnboardingStepperScree
     bool isDark,
   ) {
     final selectedCategory = state.categories.cast<VehicleCategory?>().firstWhere(
-          (c) => c?.id == state.selectedCategoryId,
+          (c) =>
+              c?.id == state.selectedCategoryId ||
+              (state.selectedCategoryId != null &&
+                  c?.name.toLowerCase() == state.selectedCategoryId!.toLowerCase()),
           orElse: () => null,
         );
 
+    // Auto-trigger loading subcategories if category is known and subcategories are empty
+    if (state.selectedCategoryId != null &&
+        state.selectedCategoryId!.isNotEmpty &&
+        state.subCategories.isEmpty &&
+        !state.isLoading) {
+      Future.microtask(() {
+        controller.loadSubCategories(state.selectedCategoryId!);
+      });
+    }
+
     final selectedSubCategory = state.subCategories.cast<VehicleSubCategory?>().firstWhere(
-          (sc) => sc?.id == state.selectedSubCategoryId,
+          (sc) =>
+              sc?.id == state.selectedSubCategoryId ||
+              (state.selectedSubCategoryId != null &&
+                  sc?.name.toLowerCase() == state.selectedSubCategoryId!.toLowerCase()),
           orElse: () => null,
         );
 
@@ -636,7 +766,7 @@ class _OnboardingStepperScreenState extends ConsumerState<OnboardingStepperScree
           label: 'Vehicle Category',
           items: state.categories,
           itemLabel: (c) => c.name,
-          hint: 'Select Category',
+          hint: state.categories.isEmpty ? 'Loading categories...' : 'Select Category',
           initialValue: selectedCategory,
           onChanged: (val) {
             if (val != null) {
@@ -650,7 +780,7 @@ class _OnboardingStepperScreenState extends ConsumerState<OnboardingStepperScree
           label: 'Vehicle Sub-Category',
           items: state.subCategories,
           itemLabel: (sc) => sc.name,
-          hint: 'Select Sub-Category',
+          hint: state.subCategories.isEmpty ? 'Loading sub-categories...' : 'Select Sub-Category',
           initialValue: selectedSubCategory,
           onChanged: (val) {
             if (val != null) {

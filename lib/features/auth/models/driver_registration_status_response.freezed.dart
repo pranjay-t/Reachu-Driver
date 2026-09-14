@@ -277,7 +277,7 @@ as double?,
 /// @nodoc
 mixin _$ActionRequiredItem {
 
- String get stepId; String get documentKey; String? get rejectionReason;
+ String get stepId; String? get kind; String? get documentKey; String? get fieldKey; String? get label; String? get rejectionReason;
 /// Create a copy of ActionRequiredItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -288,16 +288,16 @@ $ActionRequiredItemCopyWith<ActionRequiredItem> get copyWith => _$ActionRequired
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActionRequiredItem&&(identical(other.stepId, stepId) || other.stepId == stepId)&&(identical(other.documentKey, documentKey) || other.documentKey == documentKey)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActionRequiredItem&&(identical(other.stepId, stepId) || other.stepId == stepId)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.documentKey, documentKey) || other.documentKey == documentKey)&&(identical(other.fieldKey, fieldKey) || other.fieldKey == fieldKey)&&(identical(other.label, label) || other.label == label)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,stepId,documentKey,rejectionReason);
+int get hashCode => Object.hash(runtimeType,stepId,kind,documentKey,fieldKey,label,rejectionReason);
 
 @override
 String toString() {
-  return 'ActionRequiredItem(stepId: $stepId, documentKey: $documentKey, rejectionReason: $rejectionReason)';
+  return 'ActionRequiredItem(stepId: $stepId, kind: $kind, documentKey: $documentKey, fieldKey: $fieldKey, label: $label, rejectionReason: $rejectionReason)';
 }
 
 
@@ -308,7 +308,7 @@ abstract mixin class $ActionRequiredItemCopyWith<$Res>  {
   factory $ActionRequiredItemCopyWith(ActionRequiredItem value, $Res Function(ActionRequiredItem) _then) = _$ActionRequiredItemCopyWithImpl;
 @useResult
 $Res call({
- String stepId, String documentKey, String? rejectionReason
+ String stepId, String? kind, String? documentKey, String? fieldKey, String? label, String? rejectionReason
 });
 
 
@@ -325,11 +325,14 @@ class _$ActionRequiredItemCopyWithImpl<$Res>
 
 /// Create a copy of ActionRequiredItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? stepId = null,Object? documentKey = null,Object? rejectionReason = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? stepId = null,Object? kind = freezed,Object? documentKey = freezed,Object? fieldKey = freezed,Object? label = freezed,Object? rejectionReason = freezed,}) {
   return _then(_self.copyWith(
 stepId: null == stepId ? _self.stepId : stepId // ignore: cast_nullable_to_non_nullable
-as String,documentKey: null == documentKey ? _self.documentKey : documentKey // ignore: cast_nullable_to_non_nullable
-as String,rejectionReason: freezed == rejectionReason ? _self.rejectionReason : rejectionReason // ignore: cast_nullable_to_non_nullable
+as String,kind: freezed == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
+as String?,documentKey: freezed == documentKey ? _self.documentKey : documentKey // ignore: cast_nullable_to_non_nullable
+as String?,fieldKey: freezed == fieldKey ? _self.fieldKey : fieldKey // ignore: cast_nullable_to_non_nullable
+as String?,label: freezed == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String?,rejectionReason: freezed == rejectionReason ? _self.rejectionReason : rejectionReason // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -415,10 +418,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String stepId,  String documentKey,  String? rejectionReason)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String stepId,  String? kind,  String? documentKey,  String? fieldKey,  String? label,  String? rejectionReason)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ActionRequiredItem() when $default != null:
-return $default(_that.stepId,_that.documentKey,_that.rejectionReason);case _:
+return $default(_that.stepId,_that.kind,_that.documentKey,_that.fieldKey,_that.label,_that.rejectionReason);case _:
   return orElse();
 
 }
@@ -436,10 +439,10 @@ return $default(_that.stepId,_that.documentKey,_that.rejectionReason);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String stepId,  String documentKey,  String? rejectionReason)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String stepId,  String? kind,  String? documentKey,  String? fieldKey,  String? label,  String? rejectionReason)  $default,) {final _that = this;
 switch (_that) {
 case _ActionRequiredItem():
-return $default(_that.stepId,_that.documentKey,_that.rejectionReason);case _:
+return $default(_that.stepId,_that.kind,_that.documentKey,_that.fieldKey,_that.label,_that.rejectionReason);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -456,10 +459,10 @@ return $default(_that.stepId,_that.documentKey,_that.rejectionReason);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String stepId,  String documentKey,  String? rejectionReason)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String stepId,  String? kind,  String? documentKey,  String? fieldKey,  String? label,  String? rejectionReason)?  $default,) {final _that = this;
 switch (_that) {
 case _ActionRequiredItem() when $default != null:
-return $default(_that.stepId,_that.documentKey,_that.rejectionReason);case _:
+return $default(_that.stepId,_that.kind,_that.documentKey,_that.fieldKey,_that.label,_that.rejectionReason);case _:
   return null;
 
 }
@@ -470,12 +473,15 @@ return $default(_that.stepId,_that.documentKey,_that.rejectionReason);case _:
 /// @nodoc
 
 
-class _ActionRequiredItem implements ActionRequiredItem {
-  const _ActionRequiredItem({required this.stepId, required this.documentKey, this.rejectionReason});
+class _ActionRequiredItem extends ActionRequiredItem {
+  const _ActionRequiredItem({required this.stepId, this.kind, this.documentKey, this.fieldKey, this.label, this.rejectionReason}): super._();
   
 
 @override final  String stepId;
-@override final  String documentKey;
+@override final  String? kind;
+@override final  String? documentKey;
+@override final  String? fieldKey;
+@override final  String? label;
 @override final  String? rejectionReason;
 
 /// Create a copy of ActionRequiredItem
@@ -488,16 +494,16 @@ _$ActionRequiredItemCopyWith<_ActionRequiredItem> get copyWith => __$ActionRequi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ActionRequiredItem&&(identical(other.stepId, stepId) || other.stepId == stepId)&&(identical(other.documentKey, documentKey) || other.documentKey == documentKey)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ActionRequiredItem&&(identical(other.stepId, stepId) || other.stepId == stepId)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.documentKey, documentKey) || other.documentKey == documentKey)&&(identical(other.fieldKey, fieldKey) || other.fieldKey == fieldKey)&&(identical(other.label, label) || other.label == label)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,stepId,documentKey,rejectionReason);
+int get hashCode => Object.hash(runtimeType,stepId,kind,documentKey,fieldKey,label,rejectionReason);
 
 @override
 String toString() {
-  return 'ActionRequiredItem(stepId: $stepId, documentKey: $documentKey, rejectionReason: $rejectionReason)';
+  return 'ActionRequiredItem(stepId: $stepId, kind: $kind, documentKey: $documentKey, fieldKey: $fieldKey, label: $label, rejectionReason: $rejectionReason)';
 }
 
 
@@ -508,7 +514,7 @@ abstract mixin class _$ActionRequiredItemCopyWith<$Res> implements $ActionRequir
   factory _$ActionRequiredItemCopyWith(_ActionRequiredItem value, $Res Function(_ActionRequiredItem) _then) = __$ActionRequiredItemCopyWithImpl;
 @override @useResult
 $Res call({
- String stepId, String documentKey, String? rejectionReason
+ String stepId, String? kind, String? documentKey, String? fieldKey, String? label, String? rejectionReason
 });
 
 
@@ -525,11 +531,14 @@ class __$ActionRequiredItemCopyWithImpl<$Res>
 
 /// Create a copy of ActionRequiredItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? stepId = null,Object? documentKey = null,Object? rejectionReason = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? stepId = null,Object? kind = freezed,Object? documentKey = freezed,Object? fieldKey = freezed,Object? label = freezed,Object? rejectionReason = freezed,}) {
   return _then(_ActionRequiredItem(
 stepId: null == stepId ? _self.stepId : stepId // ignore: cast_nullable_to_non_nullable
-as String,documentKey: null == documentKey ? _self.documentKey : documentKey // ignore: cast_nullable_to_non_nullable
-as String,rejectionReason: freezed == rejectionReason ? _self.rejectionReason : rejectionReason // ignore: cast_nullable_to_non_nullable
+as String,kind: freezed == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
+as String?,documentKey: freezed == documentKey ? _self.documentKey : documentKey // ignore: cast_nullable_to_non_nullable
+as String?,fieldKey: freezed == fieldKey ? _self.fieldKey : fieldKey // ignore: cast_nullable_to_non_nullable
+as String?,label: freezed == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String?,rejectionReason: freezed == rejectionReason ? _self.rejectionReason : rejectionReason // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -813,9 +822,293 @@ as int?,
 }
 
 /// @nodoc
+mixin _$FieldDetail {
+
+ String? get label; String? get type; dynamic get value; String? get displayValue; String? get status; String? get rejectionReason; String? get rejectedAt; String? get verifiedAt; dynamic get reviewedValue; int? get resubmissionCount;
+/// Create a copy of FieldDetail
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FieldDetailCopyWith<FieldDetail> get copyWith => _$FieldDetailCopyWithImpl<FieldDetail>(this as FieldDetail, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FieldDetail&&(identical(other.label, label) || other.label == label)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.value, value)&&(identical(other.displayValue, displayValue) || other.displayValue == displayValue)&&(identical(other.status, status) || other.status == status)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason)&&(identical(other.rejectedAt, rejectedAt) || other.rejectedAt == rejectedAt)&&(identical(other.verifiedAt, verifiedAt) || other.verifiedAt == verifiedAt)&&const DeepCollectionEquality().equals(other.reviewedValue, reviewedValue)&&(identical(other.resubmissionCount, resubmissionCount) || other.resubmissionCount == resubmissionCount));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,label,type,const DeepCollectionEquality().hash(value),displayValue,status,rejectionReason,rejectedAt,verifiedAt,const DeepCollectionEquality().hash(reviewedValue),resubmissionCount);
+
+@override
+String toString() {
+  return 'FieldDetail(label: $label, type: $type, value: $value, displayValue: $displayValue, status: $status, rejectionReason: $rejectionReason, rejectedAt: $rejectedAt, verifiedAt: $verifiedAt, reviewedValue: $reviewedValue, resubmissionCount: $resubmissionCount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FieldDetailCopyWith<$Res>  {
+  factory $FieldDetailCopyWith(FieldDetail value, $Res Function(FieldDetail) _then) = _$FieldDetailCopyWithImpl;
+@useResult
+$Res call({
+ String? label, String? type, dynamic value, String? displayValue, String? status, String? rejectionReason, String? rejectedAt, String? verifiedAt, dynamic reviewedValue, int? resubmissionCount
+});
+
+
+
+
+}
+/// @nodoc
+class _$FieldDetailCopyWithImpl<$Res>
+    implements $FieldDetailCopyWith<$Res> {
+  _$FieldDetailCopyWithImpl(this._self, this._then);
+
+  final FieldDetail _self;
+  final $Res Function(FieldDetail) _then;
+
+/// Create a copy of FieldDetail
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? label = freezed,Object? type = freezed,Object? value = freezed,Object? displayValue = freezed,Object? status = freezed,Object? rejectionReason = freezed,Object? rejectedAt = freezed,Object? verifiedAt = freezed,Object? reviewedValue = freezed,Object? resubmissionCount = freezed,}) {
+  return _then(_self.copyWith(
+label: freezed == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String?,value: freezed == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as dynamic,displayValue: freezed == displayValue ? _self.displayValue : displayValue // ignore: cast_nullable_to_non_nullable
+as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,rejectionReason: freezed == rejectionReason ? _self.rejectionReason : rejectionReason // ignore: cast_nullable_to_non_nullable
+as String?,rejectedAt: freezed == rejectedAt ? _self.rejectedAt : rejectedAt // ignore: cast_nullable_to_non_nullable
+as String?,verifiedAt: freezed == verifiedAt ? _self.verifiedAt : verifiedAt // ignore: cast_nullable_to_non_nullable
+as String?,reviewedValue: freezed == reviewedValue ? _self.reviewedValue : reviewedValue // ignore: cast_nullable_to_non_nullable
+as dynamic,resubmissionCount: freezed == resubmissionCount ? _self.resubmissionCount : resubmissionCount // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [FieldDetail].
+extension FieldDetailPatterns on FieldDetail {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FieldDetail value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _FieldDetail() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FieldDetail value)  $default,){
+final _that = this;
+switch (_that) {
+case _FieldDetail():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FieldDetail value)?  $default,){
+final _that = this;
+switch (_that) {
+case _FieldDetail() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? label,  String? type,  dynamic value,  String? displayValue,  String? status,  String? rejectionReason,  String? rejectedAt,  String? verifiedAt,  dynamic reviewedValue,  int? resubmissionCount)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _FieldDetail() when $default != null:
+return $default(_that.label,_that.type,_that.value,_that.displayValue,_that.status,_that.rejectionReason,_that.rejectedAt,_that.verifiedAt,_that.reviewedValue,_that.resubmissionCount);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? label,  String? type,  dynamic value,  String? displayValue,  String? status,  String? rejectionReason,  String? rejectedAt,  String? verifiedAt,  dynamic reviewedValue,  int? resubmissionCount)  $default,) {final _that = this;
+switch (_that) {
+case _FieldDetail():
+return $default(_that.label,_that.type,_that.value,_that.displayValue,_that.status,_that.rejectionReason,_that.rejectedAt,_that.verifiedAt,_that.reviewedValue,_that.resubmissionCount);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? label,  String? type,  dynamic value,  String? displayValue,  String? status,  String? rejectionReason,  String? rejectedAt,  String? verifiedAt,  dynamic reviewedValue,  int? resubmissionCount)?  $default,) {final _that = this;
+switch (_that) {
+case _FieldDetail() when $default != null:
+return $default(_that.label,_that.type,_that.value,_that.displayValue,_that.status,_that.rejectionReason,_that.rejectedAt,_that.verifiedAt,_that.reviewedValue,_that.resubmissionCount);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _FieldDetail implements FieldDetail {
+  const _FieldDetail({this.label, this.type, this.value, this.displayValue, this.status, this.rejectionReason, this.rejectedAt, this.verifiedAt, this.reviewedValue, this.resubmissionCount});
+  
+
+@override final  String? label;
+@override final  String? type;
+@override final  dynamic value;
+@override final  String? displayValue;
+@override final  String? status;
+@override final  String? rejectionReason;
+@override final  String? rejectedAt;
+@override final  String? verifiedAt;
+@override final  dynamic reviewedValue;
+@override final  int? resubmissionCount;
+
+/// Create a copy of FieldDetail
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FieldDetailCopyWith<_FieldDetail> get copyWith => __$FieldDetailCopyWithImpl<_FieldDetail>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FieldDetail&&(identical(other.label, label) || other.label == label)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.value, value)&&(identical(other.displayValue, displayValue) || other.displayValue == displayValue)&&(identical(other.status, status) || other.status == status)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason)&&(identical(other.rejectedAt, rejectedAt) || other.rejectedAt == rejectedAt)&&(identical(other.verifiedAt, verifiedAt) || other.verifiedAt == verifiedAt)&&const DeepCollectionEquality().equals(other.reviewedValue, reviewedValue)&&(identical(other.resubmissionCount, resubmissionCount) || other.resubmissionCount == resubmissionCount));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,label,type,const DeepCollectionEquality().hash(value),displayValue,status,rejectionReason,rejectedAt,verifiedAt,const DeepCollectionEquality().hash(reviewedValue),resubmissionCount);
+
+@override
+String toString() {
+  return 'FieldDetail(label: $label, type: $type, value: $value, displayValue: $displayValue, status: $status, rejectionReason: $rejectionReason, rejectedAt: $rejectedAt, verifiedAt: $verifiedAt, reviewedValue: $reviewedValue, resubmissionCount: $resubmissionCount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FieldDetailCopyWith<$Res> implements $FieldDetailCopyWith<$Res> {
+  factory _$FieldDetailCopyWith(_FieldDetail value, $Res Function(_FieldDetail) _then) = __$FieldDetailCopyWithImpl;
+@override @useResult
+$Res call({
+ String? label, String? type, dynamic value, String? displayValue, String? status, String? rejectionReason, String? rejectedAt, String? verifiedAt, dynamic reviewedValue, int? resubmissionCount
+});
+
+
+
+
+}
+/// @nodoc
+class __$FieldDetailCopyWithImpl<$Res>
+    implements _$FieldDetailCopyWith<$Res> {
+  __$FieldDetailCopyWithImpl(this._self, this._then);
+
+  final _FieldDetail _self;
+  final $Res Function(_FieldDetail) _then;
+
+/// Create a copy of FieldDetail
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? label = freezed,Object? type = freezed,Object? value = freezed,Object? displayValue = freezed,Object? status = freezed,Object? rejectionReason = freezed,Object? rejectedAt = freezed,Object? verifiedAt = freezed,Object? reviewedValue = freezed,Object? resubmissionCount = freezed,}) {
+  return _then(_FieldDetail(
+label: freezed == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as String?,value: freezed == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as dynamic,displayValue: freezed == displayValue ? _self.displayValue : displayValue // ignore: cast_nullable_to_non_nullable
+as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,rejectionReason: freezed == rejectionReason ? _self.rejectionReason : rejectionReason // ignore: cast_nullable_to_non_nullable
+as String?,rejectedAt: freezed == rejectedAt ? _self.rejectedAt : rejectedAt // ignore: cast_nullable_to_non_nullable
+as String?,verifiedAt: freezed == verifiedAt ? _self.verifiedAt : verifiedAt // ignore: cast_nullable_to_non_nullable
+as String?,reviewedValue: freezed == reviewedValue ? _self.reviewedValue : reviewedValue // ignore: cast_nullable_to_non_nullable
+as dynamic,resubmissionCount: freezed == resubmissionCount ? _self.resubmissionCount : resubmissionCount // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$StepDetail {
 
- String get status; bool get unlocked; String? get submittedAt; String? get verifiedAt; String? get rejectionReason; Map<String, bool>? get fieldCompletion; Map<String, DocumentDetail>? get documents;
+ String get status; bool get unlocked; String? get submittedAt; String? get verifiedAt; String? get rejectionReason; Map<String, bool>? get fieldCompletion; Map<String, FieldDetail>? get fields; Map<String, DocumentDetail>? get documents;
 /// Create a copy of StepDetail
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -826,16 +1119,16 @@ $StepDetailCopyWith<StepDetail> get copyWith => _$StepDetailCopyWithImpl<StepDet
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StepDetail&&(identical(other.status, status) || other.status == status)&&(identical(other.unlocked, unlocked) || other.unlocked == unlocked)&&(identical(other.submittedAt, submittedAt) || other.submittedAt == submittedAt)&&(identical(other.verifiedAt, verifiedAt) || other.verifiedAt == verifiedAt)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason)&&const DeepCollectionEquality().equals(other.fieldCompletion, fieldCompletion)&&const DeepCollectionEquality().equals(other.documents, documents));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StepDetail&&(identical(other.status, status) || other.status == status)&&(identical(other.unlocked, unlocked) || other.unlocked == unlocked)&&(identical(other.submittedAt, submittedAt) || other.submittedAt == submittedAt)&&(identical(other.verifiedAt, verifiedAt) || other.verifiedAt == verifiedAt)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason)&&const DeepCollectionEquality().equals(other.fieldCompletion, fieldCompletion)&&const DeepCollectionEquality().equals(other.fields, fields)&&const DeepCollectionEquality().equals(other.documents, documents));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,unlocked,submittedAt,verifiedAt,rejectionReason,const DeepCollectionEquality().hash(fieldCompletion),const DeepCollectionEquality().hash(documents));
+int get hashCode => Object.hash(runtimeType,status,unlocked,submittedAt,verifiedAt,rejectionReason,const DeepCollectionEquality().hash(fieldCompletion),const DeepCollectionEquality().hash(fields),const DeepCollectionEquality().hash(documents));
 
 @override
 String toString() {
-  return 'StepDetail(status: $status, unlocked: $unlocked, submittedAt: $submittedAt, verifiedAt: $verifiedAt, rejectionReason: $rejectionReason, fieldCompletion: $fieldCompletion, documents: $documents)';
+  return 'StepDetail(status: $status, unlocked: $unlocked, submittedAt: $submittedAt, verifiedAt: $verifiedAt, rejectionReason: $rejectionReason, fieldCompletion: $fieldCompletion, fields: $fields, documents: $documents)';
 }
 
 
@@ -846,7 +1139,7 @@ abstract mixin class $StepDetailCopyWith<$Res>  {
   factory $StepDetailCopyWith(StepDetail value, $Res Function(StepDetail) _then) = _$StepDetailCopyWithImpl;
 @useResult
 $Res call({
- String status, bool unlocked, String? submittedAt, String? verifiedAt, String? rejectionReason, Map<String, bool>? fieldCompletion, Map<String, DocumentDetail>? documents
+ String status, bool unlocked, String? submittedAt, String? verifiedAt, String? rejectionReason, Map<String, bool>? fieldCompletion, Map<String, FieldDetail>? fields, Map<String, DocumentDetail>? documents
 });
 
 
@@ -863,7 +1156,7 @@ class _$StepDetailCopyWithImpl<$Res>
 
 /// Create a copy of StepDetail
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? unlocked = null,Object? submittedAt = freezed,Object? verifiedAt = freezed,Object? rejectionReason = freezed,Object? fieldCompletion = freezed,Object? documents = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? unlocked = null,Object? submittedAt = freezed,Object? verifiedAt = freezed,Object? rejectionReason = freezed,Object? fieldCompletion = freezed,Object? fields = freezed,Object? documents = freezed,}) {
   return _then(_self.copyWith(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,unlocked: null == unlocked ? _self.unlocked : unlocked // ignore: cast_nullable_to_non_nullable
@@ -871,7 +1164,8 @@ as bool,submittedAt: freezed == submittedAt ? _self.submittedAt : submittedAt //
 as String?,verifiedAt: freezed == verifiedAt ? _self.verifiedAt : verifiedAt // ignore: cast_nullable_to_non_nullable
 as String?,rejectionReason: freezed == rejectionReason ? _self.rejectionReason : rejectionReason // ignore: cast_nullable_to_non_nullable
 as String?,fieldCompletion: freezed == fieldCompletion ? _self.fieldCompletion : fieldCompletion // ignore: cast_nullable_to_non_nullable
-as Map<String, bool>?,documents: freezed == documents ? _self.documents : documents // ignore: cast_nullable_to_non_nullable
+as Map<String, bool>?,fields: freezed == fields ? _self.fields : fields // ignore: cast_nullable_to_non_nullable
+as Map<String, FieldDetail>?,documents: freezed == documents ? _self.documents : documents // ignore: cast_nullable_to_non_nullable
 as Map<String, DocumentDetail>?,
   ));
 }
@@ -957,10 +1251,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String status,  bool unlocked,  String? submittedAt,  String? verifiedAt,  String? rejectionReason,  Map<String, bool>? fieldCompletion,  Map<String, DocumentDetail>? documents)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String status,  bool unlocked,  String? submittedAt,  String? verifiedAt,  String? rejectionReason,  Map<String, bool>? fieldCompletion,  Map<String, FieldDetail>? fields,  Map<String, DocumentDetail>? documents)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _StepDetail() when $default != null:
-return $default(_that.status,_that.unlocked,_that.submittedAt,_that.verifiedAt,_that.rejectionReason,_that.fieldCompletion,_that.documents);case _:
+return $default(_that.status,_that.unlocked,_that.submittedAt,_that.verifiedAt,_that.rejectionReason,_that.fieldCompletion,_that.fields,_that.documents);case _:
   return orElse();
 
 }
@@ -978,10 +1272,10 @@ return $default(_that.status,_that.unlocked,_that.submittedAt,_that.verifiedAt,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String status,  bool unlocked,  String? submittedAt,  String? verifiedAt,  String? rejectionReason,  Map<String, bool>? fieldCompletion,  Map<String, DocumentDetail>? documents)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String status,  bool unlocked,  String? submittedAt,  String? verifiedAt,  String? rejectionReason,  Map<String, bool>? fieldCompletion,  Map<String, FieldDetail>? fields,  Map<String, DocumentDetail>? documents)  $default,) {final _that = this;
 switch (_that) {
 case _StepDetail():
-return $default(_that.status,_that.unlocked,_that.submittedAt,_that.verifiedAt,_that.rejectionReason,_that.fieldCompletion,_that.documents);case _:
+return $default(_that.status,_that.unlocked,_that.submittedAt,_that.verifiedAt,_that.rejectionReason,_that.fieldCompletion,_that.fields,_that.documents);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -998,10 +1292,10 @@ return $default(_that.status,_that.unlocked,_that.submittedAt,_that.verifiedAt,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String status,  bool unlocked,  String? submittedAt,  String? verifiedAt,  String? rejectionReason,  Map<String, bool>? fieldCompletion,  Map<String, DocumentDetail>? documents)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String status,  bool unlocked,  String? submittedAt,  String? verifiedAt,  String? rejectionReason,  Map<String, bool>? fieldCompletion,  Map<String, FieldDetail>? fields,  Map<String, DocumentDetail>? documents)?  $default,) {final _that = this;
 switch (_that) {
 case _StepDetail() when $default != null:
-return $default(_that.status,_that.unlocked,_that.submittedAt,_that.verifiedAt,_that.rejectionReason,_that.fieldCompletion,_that.documents);case _:
+return $default(_that.status,_that.unlocked,_that.submittedAt,_that.verifiedAt,_that.rejectionReason,_that.fieldCompletion,_that.fields,_that.documents);case _:
   return null;
 
 }
@@ -1013,7 +1307,7 @@ return $default(_that.status,_that.unlocked,_that.submittedAt,_that.verifiedAt,_
 
 
 class _StepDetail implements StepDetail {
-  const _StepDetail({required this.status, required this.unlocked, this.submittedAt, this.verifiedAt, this.rejectionReason, final  Map<String, bool>? fieldCompletion, final  Map<String, DocumentDetail>? documents}): _fieldCompletion = fieldCompletion,_documents = documents;
+  const _StepDetail({required this.status, required this.unlocked, this.submittedAt, this.verifiedAt, this.rejectionReason, final  Map<String, bool>? fieldCompletion, final  Map<String, FieldDetail>? fields, final  Map<String, DocumentDetail>? documents}): _fieldCompletion = fieldCompletion,_fields = fields,_documents = documents;
   
 
 @override final  String status;
@@ -1026,6 +1320,15 @@ class _StepDetail implements StepDetail {
   final value = _fieldCompletion;
   if (value == null) return null;
   if (_fieldCompletion is EqualUnmodifiableMapView) return _fieldCompletion;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
+
+ final  Map<String, FieldDetail>? _fields;
+@override Map<String, FieldDetail>? get fields {
+  final value = _fields;
+  if (value == null) return null;
+  if (_fields is EqualUnmodifiableMapView) return _fields;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableMapView(value);
 }
@@ -1050,16 +1353,16 @@ _$StepDetailCopyWith<_StepDetail> get copyWith => __$StepDetailCopyWithImpl<_Ste
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StepDetail&&(identical(other.status, status) || other.status == status)&&(identical(other.unlocked, unlocked) || other.unlocked == unlocked)&&(identical(other.submittedAt, submittedAt) || other.submittedAt == submittedAt)&&(identical(other.verifiedAt, verifiedAt) || other.verifiedAt == verifiedAt)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason)&&const DeepCollectionEquality().equals(other._fieldCompletion, _fieldCompletion)&&const DeepCollectionEquality().equals(other._documents, _documents));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StepDetail&&(identical(other.status, status) || other.status == status)&&(identical(other.unlocked, unlocked) || other.unlocked == unlocked)&&(identical(other.submittedAt, submittedAt) || other.submittedAt == submittedAt)&&(identical(other.verifiedAt, verifiedAt) || other.verifiedAt == verifiedAt)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason)&&const DeepCollectionEquality().equals(other._fieldCompletion, _fieldCompletion)&&const DeepCollectionEquality().equals(other._fields, _fields)&&const DeepCollectionEquality().equals(other._documents, _documents));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,unlocked,submittedAt,verifiedAt,rejectionReason,const DeepCollectionEquality().hash(_fieldCompletion),const DeepCollectionEquality().hash(_documents));
+int get hashCode => Object.hash(runtimeType,status,unlocked,submittedAt,verifiedAt,rejectionReason,const DeepCollectionEquality().hash(_fieldCompletion),const DeepCollectionEquality().hash(_fields),const DeepCollectionEquality().hash(_documents));
 
 @override
 String toString() {
-  return 'StepDetail(status: $status, unlocked: $unlocked, submittedAt: $submittedAt, verifiedAt: $verifiedAt, rejectionReason: $rejectionReason, fieldCompletion: $fieldCompletion, documents: $documents)';
+  return 'StepDetail(status: $status, unlocked: $unlocked, submittedAt: $submittedAt, verifiedAt: $verifiedAt, rejectionReason: $rejectionReason, fieldCompletion: $fieldCompletion, fields: $fields, documents: $documents)';
 }
 
 
@@ -1070,7 +1373,7 @@ abstract mixin class _$StepDetailCopyWith<$Res> implements $StepDetailCopyWith<$
   factory _$StepDetailCopyWith(_StepDetail value, $Res Function(_StepDetail) _then) = __$StepDetailCopyWithImpl;
 @override @useResult
 $Res call({
- String status, bool unlocked, String? submittedAt, String? verifiedAt, String? rejectionReason, Map<String, bool>? fieldCompletion, Map<String, DocumentDetail>? documents
+ String status, bool unlocked, String? submittedAt, String? verifiedAt, String? rejectionReason, Map<String, bool>? fieldCompletion, Map<String, FieldDetail>? fields, Map<String, DocumentDetail>? documents
 });
 
 
@@ -1087,7 +1390,7 @@ class __$StepDetailCopyWithImpl<$Res>
 
 /// Create a copy of StepDetail
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? unlocked = null,Object? submittedAt = freezed,Object? verifiedAt = freezed,Object? rejectionReason = freezed,Object? fieldCompletion = freezed,Object? documents = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? unlocked = null,Object? submittedAt = freezed,Object? verifiedAt = freezed,Object? rejectionReason = freezed,Object? fieldCompletion = freezed,Object? fields = freezed,Object? documents = freezed,}) {
   return _then(_StepDetail(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,unlocked: null == unlocked ? _self.unlocked : unlocked // ignore: cast_nullable_to_non_nullable
@@ -1095,7 +1398,8 @@ as bool,submittedAt: freezed == submittedAt ? _self.submittedAt : submittedAt //
 as String?,verifiedAt: freezed == verifiedAt ? _self.verifiedAt : verifiedAt // ignore: cast_nullable_to_non_nullable
 as String?,rejectionReason: freezed == rejectionReason ? _self.rejectionReason : rejectionReason // ignore: cast_nullable_to_non_nullable
 as String?,fieldCompletion: freezed == fieldCompletion ? _self._fieldCompletion : fieldCompletion // ignore: cast_nullable_to_non_nullable
-as Map<String, bool>?,documents: freezed == documents ? _self._documents : documents // ignore: cast_nullable_to_non_nullable
+as Map<String, bool>?,fields: freezed == fields ? _self._fields : fields // ignore: cast_nullable_to_non_nullable
+as Map<String, FieldDetail>?,documents: freezed == documents ? _self._documents : documents // ignore: cast_nullable_to_non_nullable
 as Map<String, DocumentDetail>?,
   ));
 }
@@ -1392,7 +1696,7 @@ as Map<String, StepDetail>?,
 /// @nodoc
 mixin _$PersonalInfoData {
 
- String? get name; String? get email; String? get dateOfBirth; String? get gender;
+ String? get name; String? get email; String? get dateOfBirth; String? get gender; String? get cityId; String? get homeCityId; String? get homeCityName;
 /// Create a copy of PersonalInfoData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1403,16 +1707,16 @@ $PersonalInfoDataCopyWith<PersonalInfoData> get copyWith => _$PersonalInfoDataCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PersonalInfoData&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.dateOfBirth, dateOfBirth) || other.dateOfBirth == dateOfBirth)&&(identical(other.gender, gender) || other.gender == gender));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PersonalInfoData&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.dateOfBirth, dateOfBirth) || other.dateOfBirth == dateOfBirth)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.cityId, cityId) || other.cityId == cityId)&&(identical(other.homeCityId, homeCityId) || other.homeCityId == homeCityId)&&(identical(other.homeCityName, homeCityName) || other.homeCityName == homeCityName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,name,email,dateOfBirth,gender);
+int get hashCode => Object.hash(runtimeType,name,email,dateOfBirth,gender,cityId,homeCityId,homeCityName);
 
 @override
 String toString() {
-  return 'PersonalInfoData(name: $name, email: $email, dateOfBirth: $dateOfBirth, gender: $gender)';
+  return 'PersonalInfoData(name: $name, email: $email, dateOfBirth: $dateOfBirth, gender: $gender, cityId: $cityId, homeCityId: $homeCityId, homeCityName: $homeCityName)';
 }
 
 
@@ -1423,7 +1727,7 @@ abstract mixin class $PersonalInfoDataCopyWith<$Res>  {
   factory $PersonalInfoDataCopyWith(PersonalInfoData value, $Res Function(PersonalInfoData) _then) = _$PersonalInfoDataCopyWithImpl;
 @useResult
 $Res call({
- String? name, String? email, String? dateOfBirth, String? gender
+ String? name, String? email, String? dateOfBirth, String? gender, String? cityId, String? homeCityId, String? homeCityName
 });
 
 
@@ -1440,12 +1744,15 @@ class _$PersonalInfoDataCopyWithImpl<$Res>
 
 /// Create a copy of PersonalInfoData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? email = freezed,Object? dateOfBirth = freezed,Object? gender = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? email = freezed,Object? dateOfBirth = freezed,Object? gender = freezed,Object? cityId = freezed,Object? homeCityId = freezed,Object? homeCityName = freezed,}) {
   return _then(_self.copyWith(
 name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String?,dateOfBirth: freezed == dateOfBirth ? _self.dateOfBirth : dateOfBirth // ignore: cast_nullable_to_non_nullable
 as String?,gender: freezed == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
+as String?,cityId: freezed == cityId ? _self.cityId : cityId // ignore: cast_nullable_to_non_nullable
+as String?,homeCityId: freezed == homeCityId ? _self.homeCityId : homeCityId // ignore: cast_nullable_to_non_nullable
+as String?,homeCityName: freezed == homeCityName ? _self.homeCityName : homeCityName // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -1531,10 +1838,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? name,  String? email,  String? dateOfBirth,  String? gender)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? name,  String? email,  String? dateOfBirth,  String? gender,  String? cityId,  String? homeCityId,  String? homeCityName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PersonalInfoData() when $default != null:
-return $default(_that.name,_that.email,_that.dateOfBirth,_that.gender);case _:
+return $default(_that.name,_that.email,_that.dateOfBirth,_that.gender,_that.cityId,_that.homeCityId,_that.homeCityName);case _:
   return orElse();
 
 }
@@ -1552,10 +1859,10 @@ return $default(_that.name,_that.email,_that.dateOfBirth,_that.gender);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? name,  String? email,  String? dateOfBirth,  String? gender)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? name,  String? email,  String? dateOfBirth,  String? gender,  String? cityId,  String? homeCityId,  String? homeCityName)  $default,) {final _that = this;
 switch (_that) {
 case _PersonalInfoData():
-return $default(_that.name,_that.email,_that.dateOfBirth,_that.gender);case _:
+return $default(_that.name,_that.email,_that.dateOfBirth,_that.gender,_that.cityId,_that.homeCityId,_that.homeCityName);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1572,10 +1879,10 @@ return $default(_that.name,_that.email,_that.dateOfBirth,_that.gender);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? name,  String? email,  String? dateOfBirth,  String? gender)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? name,  String? email,  String? dateOfBirth,  String? gender,  String? cityId,  String? homeCityId,  String? homeCityName)?  $default,) {final _that = this;
 switch (_that) {
 case _PersonalInfoData() when $default != null:
-return $default(_that.name,_that.email,_that.dateOfBirth,_that.gender);case _:
+return $default(_that.name,_that.email,_that.dateOfBirth,_that.gender,_that.cityId,_that.homeCityId,_that.homeCityName);case _:
   return null;
 
 }
@@ -1587,13 +1894,16 @@ return $default(_that.name,_that.email,_that.dateOfBirth,_that.gender);case _:
 
 
 class _PersonalInfoData implements PersonalInfoData {
-  const _PersonalInfoData({this.name, this.email, this.dateOfBirth, this.gender});
+  const _PersonalInfoData({this.name, this.email, this.dateOfBirth, this.gender, this.cityId, this.homeCityId, this.homeCityName});
   
 
 @override final  String? name;
 @override final  String? email;
 @override final  String? dateOfBirth;
 @override final  String? gender;
+@override final  String? cityId;
+@override final  String? homeCityId;
+@override final  String? homeCityName;
 
 /// Create a copy of PersonalInfoData
 /// with the given fields replaced by the non-null parameter values.
@@ -1605,16 +1915,16 @@ _$PersonalInfoDataCopyWith<_PersonalInfoData> get copyWith => __$PersonalInfoDat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PersonalInfoData&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.dateOfBirth, dateOfBirth) || other.dateOfBirth == dateOfBirth)&&(identical(other.gender, gender) || other.gender == gender));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PersonalInfoData&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.dateOfBirth, dateOfBirth) || other.dateOfBirth == dateOfBirth)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.cityId, cityId) || other.cityId == cityId)&&(identical(other.homeCityId, homeCityId) || other.homeCityId == homeCityId)&&(identical(other.homeCityName, homeCityName) || other.homeCityName == homeCityName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,name,email,dateOfBirth,gender);
+int get hashCode => Object.hash(runtimeType,name,email,dateOfBirth,gender,cityId,homeCityId,homeCityName);
 
 @override
 String toString() {
-  return 'PersonalInfoData(name: $name, email: $email, dateOfBirth: $dateOfBirth, gender: $gender)';
+  return 'PersonalInfoData(name: $name, email: $email, dateOfBirth: $dateOfBirth, gender: $gender, cityId: $cityId, homeCityId: $homeCityId, homeCityName: $homeCityName)';
 }
 
 
@@ -1625,7 +1935,7 @@ abstract mixin class _$PersonalInfoDataCopyWith<$Res> implements $PersonalInfoDa
   factory _$PersonalInfoDataCopyWith(_PersonalInfoData value, $Res Function(_PersonalInfoData) _then) = __$PersonalInfoDataCopyWithImpl;
 @override @useResult
 $Res call({
- String? name, String? email, String? dateOfBirth, String? gender
+ String? name, String? email, String? dateOfBirth, String? gender, String? cityId, String? homeCityId, String? homeCityName
 });
 
 
@@ -1642,12 +1952,15 @@ class __$PersonalInfoDataCopyWithImpl<$Res>
 
 /// Create a copy of PersonalInfoData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = freezed,Object? email = freezed,Object? dateOfBirth = freezed,Object? gender = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = freezed,Object? email = freezed,Object? dateOfBirth = freezed,Object? gender = freezed,Object? cityId = freezed,Object? homeCityId = freezed,Object? homeCityName = freezed,}) {
   return _then(_PersonalInfoData(
 name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String?,dateOfBirth: freezed == dateOfBirth ? _self.dateOfBirth : dateOfBirth // ignore: cast_nullable_to_non_nullable
 as String?,gender: freezed == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
+as String?,cityId: freezed == cityId ? _self.cityId : cityId // ignore: cast_nullable_to_non_nullable
+as String?,homeCityId: freezed == homeCityId ? _self.homeCityId : homeCityId // ignore: cast_nullable_to_non_nullable
+as String?,homeCityName: freezed == homeCityName ? _self.homeCityName : homeCityName // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -1658,7 +1971,7 @@ as String?,
 /// @nodoc
 mixin _$VehicleInfoData {
 
- String? get vehicleName; String? get vehicleNumber; String? get vehicleColor; String? get vehicleModel; String? get vehicleYear; String? get vehicleCapacity; String? get vehicleType; String? get vehicleSubType;
+ String? get vehicleId; String? get vehicleName; String? get vehicleNumber; String? get vehicleColor; String? get vehicleModel; String? get vehicleYear; String? get vehicleCapacity; String? get vehicleType; String? get vehicleSubType;
 /// Create a copy of VehicleInfoData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1669,16 +1982,16 @@ $VehicleInfoDataCopyWith<VehicleInfoData> get copyWith => _$VehicleInfoDataCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is VehicleInfoData&&(identical(other.vehicleName, vehicleName) || other.vehicleName == vehicleName)&&(identical(other.vehicleNumber, vehicleNumber) || other.vehicleNumber == vehicleNumber)&&(identical(other.vehicleColor, vehicleColor) || other.vehicleColor == vehicleColor)&&(identical(other.vehicleModel, vehicleModel) || other.vehicleModel == vehicleModel)&&(identical(other.vehicleYear, vehicleYear) || other.vehicleYear == vehicleYear)&&(identical(other.vehicleCapacity, vehicleCapacity) || other.vehicleCapacity == vehicleCapacity)&&(identical(other.vehicleType, vehicleType) || other.vehicleType == vehicleType)&&(identical(other.vehicleSubType, vehicleSubType) || other.vehicleSubType == vehicleSubType));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VehicleInfoData&&(identical(other.vehicleId, vehicleId) || other.vehicleId == vehicleId)&&(identical(other.vehicleName, vehicleName) || other.vehicleName == vehicleName)&&(identical(other.vehicleNumber, vehicleNumber) || other.vehicleNumber == vehicleNumber)&&(identical(other.vehicleColor, vehicleColor) || other.vehicleColor == vehicleColor)&&(identical(other.vehicleModel, vehicleModel) || other.vehicleModel == vehicleModel)&&(identical(other.vehicleYear, vehicleYear) || other.vehicleYear == vehicleYear)&&(identical(other.vehicleCapacity, vehicleCapacity) || other.vehicleCapacity == vehicleCapacity)&&(identical(other.vehicleType, vehicleType) || other.vehicleType == vehicleType)&&(identical(other.vehicleSubType, vehicleSubType) || other.vehicleSubType == vehicleSubType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,vehicleName,vehicleNumber,vehicleColor,vehicleModel,vehicleYear,vehicleCapacity,vehicleType,vehicleSubType);
+int get hashCode => Object.hash(runtimeType,vehicleId,vehicleName,vehicleNumber,vehicleColor,vehicleModel,vehicleYear,vehicleCapacity,vehicleType,vehicleSubType);
 
 @override
 String toString() {
-  return 'VehicleInfoData(vehicleName: $vehicleName, vehicleNumber: $vehicleNumber, vehicleColor: $vehicleColor, vehicleModel: $vehicleModel, vehicleYear: $vehicleYear, vehicleCapacity: $vehicleCapacity, vehicleType: $vehicleType, vehicleSubType: $vehicleSubType)';
+  return 'VehicleInfoData(vehicleId: $vehicleId, vehicleName: $vehicleName, vehicleNumber: $vehicleNumber, vehicleColor: $vehicleColor, vehicleModel: $vehicleModel, vehicleYear: $vehicleYear, vehicleCapacity: $vehicleCapacity, vehicleType: $vehicleType, vehicleSubType: $vehicleSubType)';
 }
 
 
@@ -1689,7 +2002,7 @@ abstract mixin class $VehicleInfoDataCopyWith<$Res>  {
   factory $VehicleInfoDataCopyWith(VehicleInfoData value, $Res Function(VehicleInfoData) _then) = _$VehicleInfoDataCopyWithImpl;
 @useResult
 $Res call({
- String? vehicleName, String? vehicleNumber, String? vehicleColor, String? vehicleModel, String? vehicleYear, String? vehicleCapacity, String? vehicleType, String? vehicleSubType
+ String? vehicleId, String? vehicleName, String? vehicleNumber, String? vehicleColor, String? vehicleModel, String? vehicleYear, String? vehicleCapacity, String? vehicleType, String? vehicleSubType
 });
 
 
@@ -1706,9 +2019,10 @@ class _$VehicleInfoDataCopyWithImpl<$Res>
 
 /// Create a copy of VehicleInfoData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? vehicleName = freezed,Object? vehicleNumber = freezed,Object? vehicleColor = freezed,Object? vehicleModel = freezed,Object? vehicleYear = freezed,Object? vehicleCapacity = freezed,Object? vehicleType = freezed,Object? vehicleSubType = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? vehicleId = freezed,Object? vehicleName = freezed,Object? vehicleNumber = freezed,Object? vehicleColor = freezed,Object? vehicleModel = freezed,Object? vehicleYear = freezed,Object? vehicleCapacity = freezed,Object? vehicleType = freezed,Object? vehicleSubType = freezed,}) {
   return _then(_self.copyWith(
-vehicleName: freezed == vehicleName ? _self.vehicleName : vehicleName // ignore: cast_nullable_to_non_nullable
+vehicleId: freezed == vehicleId ? _self.vehicleId : vehicleId // ignore: cast_nullable_to_non_nullable
+as String?,vehicleName: freezed == vehicleName ? _self.vehicleName : vehicleName // ignore: cast_nullable_to_non_nullable
 as String?,vehicleNumber: freezed == vehicleNumber ? _self.vehicleNumber : vehicleNumber // ignore: cast_nullable_to_non_nullable
 as String?,vehicleColor: freezed == vehicleColor ? _self.vehicleColor : vehicleColor // ignore: cast_nullable_to_non_nullable
 as String?,vehicleModel: freezed == vehicleModel ? _self.vehicleModel : vehicleModel // ignore: cast_nullable_to_non_nullable
@@ -1801,10 +2115,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? vehicleName,  String? vehicleNumber,  String? vehicleColor,  String? vehicleModel,  String? vehicleYear,  String? vehicleCapacity,  String? vehicleType,  String? vehicleSubType)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? vehicleId,  String? vehicleName,  String? vehicleNumber,  String? vehicleColor,  String? vehicleModel,  String? vehicleYear,  String? vehicleCapacity,  String? vehicleType,  String? vehicleSubType)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _VehicleInfoData() when $default != null:
-return $default(_that.vehicleName,_that.vehicleNumber,_that.vehicleColor,_that.vehicleModel,_that.vehicleYear,_that.vehicleCapacity,_that.vehicleType,_that.vehicleSubType);case _:
+return $default(_that.vehicleId,_that.vehicleName,_that.vehicleNumber,_that.vehicleColor,_that.vehicleModel,_that.vehicleYear,_that.vehicleCapacity,_that.vehicleType,_that.vehicleSubType);case _:
   return orElse();
 
 }
@@ -1822,10 +2136,10 @@ return $default(_that.vehicleName,_that.vehicleNumber,_that.vehicleColor,_that.v
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? vehicleName,  String? vehicleNumber,  String? vehicleColor,  String? vehicleModel,  String? vehicleYear,  String? vehicleCapacity,  String? vehicleType,  String? vehicleSubType)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? vehicleId,  String? vehicleName,  String? vehicleNumber,  String? vehicleColor,  String? vehicleModel,  String? vehicleYear,  String? vehicleCapacity,  String? vehicleType,  String? vehicleSubType)  $default,) {final _that = this;
 switch (_that) {
 case _VehicleInfoData():
-return $default(_that.vehicleName,_that.vehicleNumber,_that.vehicleColor,_that.vehicleModel,_that.vehicleYear,_that.vehicleCapacity,_that.vehicleType,_that.vehicleSubType);case _:
+return $default(_that.vehicleId,_that.vehicleName,_that.vehicleNumber,_that.vehicleColor,_that.vehicleModel,_that.vehicleYear,_that.vehicleCapacity,_that.vehicleType,_that.vehicleSubType);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1842,10 +2156,10 @@ return $default(_that.vehicleName,_that.vehicleNumber,_that.vehicleColor,_that.v
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? vehicleName,  String? vehicleNumber,  String? vehicleColor,  String? vehicleModel,  String? vehicleYear,  String? vehicleCapacity,  String? vehicleType,  String? vehicleSubType)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? vehicleId,  String? vehicleName,  String? vehicleNumber,  String? vehicleColor,  String? vehicleModel,  String? vehicleYear,  String? vehicleCapacity,  String? vehicleType,  String? vehicleSubType)?  $default,) {final _that = this;
 switch (_that) {
 case _VehicleInfoData() when $default != null:
-return $default(_that.vehicleName,_that.vehicleNumber,_that.vehicleColor,_that.vehicleModel,_that.vehicleYear,_that.vehicleCapacity,_that.vehicleType,_that.vehicleSubType);case _:
+return $default(_that.vehicleId,_that.vehicleName,_that.vehicleNumber,_that.vehicleColor,_that.vehicleModel,_that.vehicleYear,_that.vehicleCapacity,_that.vehicleType,_that.vehicleSubType);case _:
   return null;
 
 }
@@ -1857,9 +2171,10 @@ return $default(_that.vehicleName,_that.vehicleNumber,_that.vehicleColor,_that.v
 
 
 class _VehicleInfoData implements VehicleInfoData {
-  const _VehicleInfoData({this.vehicleName, this.vehicleNumber, this.vehicleColor, this.vehicleModel, this.vehicleYear, this.vehicleCapacity, this.vehicleType, this.vehicleSubType});
+  const _VehicleInfoData({this.vehicleId, this.vehicleName, this.vehicleNumber, this.vehicleColor, this.vehicleModel, this.vehicleYear, this.vehicleCapacity, this.vehicleType, this.vehicleSubType});
   
 
+@override final  String? vehicleId;
 @override final  String? vehicleName;
 @override final  String? vehicleNumber;
 @override final  String? vehicleColor;
@@ -1879,16 +2194,16 @@ _$VehicleInfoDataCopyWith<_VehicleInfoData> get copyWith => __$VehicleInfoDataCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VehicleInfoData&&(identical(other.vehicleName, vehicleName) || other.vehicleName == vehicleName)&&(identical(other.vehicleNumber, vehicleNumber) || other.vehicleNumber == vehicleNumber)&&(identical(other.vehicleColor, vehicleColor) || other.vehicleColor == vehicleColor)&&(identical(other.vehicleModel, vehicleModel) || other.vehicleModel == vehicleModel)&&(identical(other.vehicleYear, vehicleYear) || other.vehicleYear == vehicleYear)&&(identical(other.vehicleCapacity, vehicleCapacity) || other.vehicleCapacity == vehicleCapacity)&&(identical(other.vehicleType, vehicleType) || other.vehicleType == vehicleType)&&(identical(other.vehicleSubType, vehicleSubType) || other.vehicleSubType == vehicleSubType));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VehicleInfoData&&(identical(other.vehicleId, vehicleId) || other.vehicleId == vehicleId)&&(identical(other.vehicleName, vehicleName) || other.vehicleName == vehicleName)&&(identical(other.vehicleNumber, vehicleNumber) || other.vehicleNumber == vehicleNumber)&&(identical(other.vehicleColor, vehicleColor) || other.vehicleColor == vehicleColor)&&(identical(other.vehicleModel, vehicleModel) || other.vehicleModel == vehicleModel)&&(identical(other.vehicleYear, vehicleYear) || other.vehicleYear == vehicleYear)&&(identical(other.vehicleCapacity, vehicleCapacity) || other.vehicleCapacity == vehicleCapacity)&&(identical(other.vehicleType, vehicleType) || other.vehicleType == vehicleType)&&(identical(other.vehicleSubType, vehicleSubType) || other.vehicleSubType == vehicleSubType));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,vehicleName,vehicleNumber,vehicleColor,vehicleModel,vehicleYear,vehicleCapacity,vehicleType,vehicleSubType);
+int get hashCode => Object.hash(runtimeType,vehicleId,vehicleName,vehicleNumber,vehicleColor,vehicleModel,vehicleYear,vehicleCapacity,vehicleType,vehicleSubType);
 
 @override
 String toString() {
-  return 'VehicleInfoData(vehicleName: $vehicleName, vehicleNumber: $vehicleNumber, vehicleColor: $vehicleColor, vehicleModel: $vehicleModel, vehicleYear: $vehicleYear, vehicleCapacity: $vehicleCapacity, vehicleType: $vehicleType, vehicleSubType: $vehicleSubType)';
+  return 'VehicleInfoData(vehicleId: $vehicleId, vehicleName: $vehicleName, vehicleNumber: $vehicleNumber, vehicleColor: $vehicleColor, vehicleModel: $vehicleModel, vehicleYear: $vehicleYear, vehicleCapacity: $vehicleCapacity, vehicleType: $vehicleType, vehicleSubType: $vehicleSubType)';
 }
 
 
@@ -1899,7 +2214,7 @@ abstract mixin class _$VehicleInfoDataCopyWith<$Res> implements $VehicleInfoData
   factory _$VehicleInfoDataCopyWith(_VehicleInfoData value, $Res Function(_VehicleInfoData) _then) = __$VehicleInfoDataCopyWithImpl;
 @override @useResult
 $Res call({
- String? vehicleName, String? vehicleNumber, String? vehicleColor, String? vehicleModel, String? vehicleYear, String? vehicleCapacity, String? vehicleType, String? vehicleSubType
+ String? vehicleId, String? vehicleName, String? vehicleNumber, String? vehicleColor, String? vehicleModel, String? vehicleYear, String? vehicleCapacity, String? vehicleType, String? vehicleSubType
 });
 
 
@@ -1916,9 +2231,10 @@ class __$VehicleInfoDataCopyWithImpl<$Res>
 
 /// Create a copy of VehicleInfoData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? vehicleName = freezed,Object? vehicleNumber = freezed,Object? vehicleColor = freezed,Object? vehicleModel = freezed,Object? vehicleYear = freezed,Object? vehicleCapacity = freezed,Object? vehicleType = freezed,Object? vehicleSubType = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? vehicleId = freezed,Object? vehicleName = freezed,Object? vehicleNumber = freezed,Object? vehicleColor = freezed,Object? vehicleModel = freezed,Object? vehicleYear = freezed,Object? vehicleCapacity = freezed,Object? vehicleType = freezed,Object? vehicleSubType = freezed,}) {
   return _then(_VehicleInfoData(
-vehicleName: freezed == vehicleName ? _self.vehicleName : vehicleName // ignore: cast_nullable_to_non_nullable
+vehicleId: freezed == vehicleId ? _self.vehicleId : vehicleId // ignore: cast_nullable_to_non_nullable
+as String?,vehicleName: freezed == vehicleName ? _self.vehicleName : vehicleName // ignore: cast_nullable_to_non_nullable
 as String?,vehicleNumber: freezed == vehicleNumber ? _self.vehicleNumber : vehicleNumber // ignore: cast_nullable_to_non_nullable
 as String?,vehicleColor: freezed == vehicleColor ? _self.vehicleColor : vehicleColor // ignore: cast_nullable_to_non_nullable
 as String?,vehicleModel: freezed == vehicleModel ? _self.vehicleModel : vehicleModel // ignore: cast_nullable_to_non_nullable

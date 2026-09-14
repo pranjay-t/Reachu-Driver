@@ -341,15 +341,43 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       ),
                       const SizedBox(height: AppDimensions.space48),
 
-                      // Form Fields
+                      // Name Field (Read-only just like mobile number)
                       AppTextField(
                         controller: _nameController,
                         label: context.l10n.fullName,
                         prefixIcon: Icons.person_outline,
+                        readOnly: true,
+                        fillColor: isDark
+                            ? AppColors.darkSurface02
+                            : AppColors.lightSurface02,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: AppColors.neutral500,
+                        ),
+                        labelStyle: const TextStyle(
+                          fontSize: 14,
+                          color: AppColors.neutral500,
+                        ),
+                        floatingLabelStyle: const TextStyle(
+                          fontSize: 16,
+                          color: AppColors.neutral500,
+                        ),
+                        suffix: const Icon(
+                          Icons.lock_outline_rounded,
+                          size: 18,
+                          color: AppColors.neutral400,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.radiusMD,
+                          ),
+                          borderSide: const BorderSide(
+                            color: AppColors.neutral200,
+                            width: 1,
+                          ),
+                        ),
                         validator: (value) => value == null || value.isEmpty
                             ? context.l10n.fullNameRequired
                             : null,
-                        floatingLabelStyle: const TextStyle(fontSize: 16),
                       ),
                       const SizedBox(height: AppDimensions.space24),
 

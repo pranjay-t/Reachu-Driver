@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../../core/network/api_endpoints.dart';
 import '../../../core/network/result.dart';
 import '../../../core/socket/socket_stream_manager.dart';
 import '../../../core/utils/app_logger.dart';
@@ -23,6 +24,9 @@ class HomeController extends _$HomeController {
     switch (result) {
       case Success(:final data):
         if (data.success) {
+          final driver = data.data.driver;
+          final fullUrl = ApiEndpoints.getFullImageUrl(driver.image);
+          AppLogger.d("👤 [HomeController.getHomeData] Driver: '${driver.name}' | Image Raw: '${driver.image}' | Complete URL: '$fullUrl'");
           return data.data;
         } else {
           throw Exception(data.message);

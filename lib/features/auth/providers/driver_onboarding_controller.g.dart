@@ -44,7 +44,7 @@ final class DriverOnboardingControllerProvider
 }
 
 String _$driverOnboardingControllerHash() =>
-    r'04aa6aaa874720b60aa9fd2b57dcbd6fed8c9060';
+    r'2d0163d82d02d6b80693235c87085becb53014df';
 
 abstract class _$DriverOnboardingController
     extends $Notifier<DriverOnboardingState> {

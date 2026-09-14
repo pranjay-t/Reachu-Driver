@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../auth/providers/auth_state_provider.dart';
+import '../../account/providers/company_controller.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -20,6 +21,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    // Pre-fetch company details / CDN bucket URL in the background
+    ref.read(companyControllerProvider);
+
     _timer = Timer(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() {

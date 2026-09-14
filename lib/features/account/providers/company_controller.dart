@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/company_model.dart';
 import '../repositories/company_repository.dart';
+import '../../../core/network/company_bucket_url.dart';
 import '../../../core/network/result.dart';
 import '../../../core/network/network_exceptions.dart';
 
@@ -13,6 +14,9 @@ Future<CompanyData> companyController(Ref ref) async {
 
   switch (result) {
     case Success(:final data):
+      if (data.bucketUrl != null && data.bucketUrl!.isNotEmpty) {
+        await CompanyBucketUrl.update(data.bucketUrl);
+      }
       return data;
     case Failure(:final error):
       throw Exception(NetworkExceptions.getErrorMessage(error));

@@ -4,7 +4,9 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../shared/models/driver_model.dart';
+import '../../../core/network/api_endpoints.dart';
 import '../../../core/network/network_exceptions.dart';
+import '../../../core/utils/app_logger.dart';
 import '../repositories/profile_repository.dart';
 
 part 'profile_controller.g.dart';
@@ -37,7 +39,10 @@ class ProfileController extends _$ProfileController {
     switch (result) {
       case Success(:final data):
         if (data.success && data.user != null) {
-          return data.user!;
+          final user = data.user!;
+          final fullUrl = ApiEndpoints.getFullImageUrl(user.image);
+          AppLogger.d("👤 [ProfileController] Driver: '${user.name}' | Image Raw: '${user.image}' | Complete URL: '$fullUrl'");
+          return user;
         } else {
           throw Exception(data.message);
         }

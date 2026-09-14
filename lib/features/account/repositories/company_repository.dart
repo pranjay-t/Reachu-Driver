@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/network/api_endpoints.dart';
 import '../../../core/network/api_service.dart';
+import '../../../core/network/company_bucket_url.dart';
 import '../../../core/network/result.dart';
 import '../models/company_model.dart';
 
@@ -21,8 +22,17 @@ class CompanyRepository {
       ApiEndpoints.getCompany, 
       converter: (data) {
         final Map<String, dynamic> responseMap = data as Map<String, dynamic>;
-        final dataMap = responseMap['data'] as Map<String, dynamic>;
-        return CompanyData.fromJson(dataMap);
+        final dataMap = (responseMap['data'] is Map<String, dynamic>)
+            ? responseMap['data'] as Map<String, dynamic>
+            : responseMap;
+        final companyData = CompanyData.fromJson(dataMap);
+        final bucketUrl = companyData.bucketUrl ??
+            dataMap['bucketUrl']?.toString() ??
+            dataMap['imageBaseUrl']?.toString();
+        if (bucketUrl != null && bucketUrl.isNotEmpty) {
+          CompanyBucketUrl.update(bucketUrl);
+        }
+        return companyData;
       },
     );
   }

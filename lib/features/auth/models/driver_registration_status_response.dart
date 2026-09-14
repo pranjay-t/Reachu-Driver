@@ -38,17 +38,101 @@ abstract class ProgressInfo with _$ProgressInfo {
 
 @freezed
 abstract class ActionRequiredItem with _$ActionRequiredItem {
+  const ActionRequiredItem._();
+
   const factory ActionRequiredItem({
     required String stepId,
-    required String documentKey,
+    String? kind,
+    String? documentKey,
+    String? fieldKey,
+    String? label,
     String? rejectionReason,
   }) = _ActionRequiredItem;
 
+  bool get isField =>
+      kind == 'field' || (fieldKey != null && fieldKey!.isNotEmpty);
+  bool get isDocument =>
+      kind == 'document' || (documentKey != null && documentKey!.isNotEmpty && fieldKey == null);
+  String get itemKey =>
+      isField ? '${stepId}_field_$fieldKey' : '${stepId}_doc_$documentKey';
+
+  String get displayLabel {
+    if (label != null && label!.trim().isNotEmpty) {
+      return label!;
+    }
+    final rawKey = isField ? (fieldKey ?? '') : (documentKey ?? '');
+    switch (rawKey) {
+      case 'profileImage':
+        return 'Profile Photo';
+      case 'dlImage':
+        return 'Driving License Photo';
+      case 'dlNumber':
+        return 'Driving License Number';
+      case 'aadharFront':
+        return 'Aadhar Front Photo';
+      case 'aadharBack':
+        return 'Aadhar Back Photo';
+      case 'aadharNumber':
+        return 'Aadhar Number';
+      case 'panImage':
+        return 'PAN Card Photo';
+      case 'panNumber':
+        return 'PAN Card Number';
+      case 'vehicleImage':
+        return 'Vehicle Photo';
+      case 'vehicleNumberImage':
+        return 'Vehicle Number Plate Photo';
+      case 'rcImage':
+        return 'RC Document Photo';
+      case 'vehicleInsuranceImage':
+        return 'Vehicle Insurance Photo';
+      case 'vehicleNumber':
+        return 'Vehicle Number';
+      case 'vehicleType':
+        return 'Vehicle Category';
+      case 'vehicleSubType':
+        return 'Vehicle Sub-Category';
+      case 'vehicleName':
+        return 'Vehicle Name';
+      case 'vehicleColor':
+        return 'Vehicle Color';
+      case 'vehicleModel':
+        return 'Vehicle Model';
+      case 'vehicleYear':
+        return 'Manufacture Year';
+      case 'vehicleCapacity':
+        return 'Seating Capacity';
+      case 'dateOfBirth':
+        return 'Date of Birth';
+      case 'cityId':
+      case 'city':
+        return 'Service City';
+      case 'name':
+        return 'Full Name';
+      default:
+        final cleaned = rawKey.replaceAll(RegExp(r'Image$|Photo$'), '');
+        final formatted = cleaned.replaceAllMapped(
+          RegExp(r'([a-z])([A-Z])'),
+          (match) => '${match.group(1)} ${match.group(2)}',
+        );
+        if (formatted.isEmpty) return rawKey;
+        return formatted.split(' ').map((word) {
+          if (word.isEmpty) return '';
+          return word[0].toUpperCase() + word.substring(1);
+        }).join(' ');
+    }
+  }
+
   factory ActionRequiredItem.fromJson(Map<String, dynamic> json) {
     final map = _toMap(json) ?? {};
+    final kind = map['kind']?.toString() ??
+        (map['fieldKey'] != null ? 'field' : (map['documentKey'] != null ? 'document' : 'field'));
     return ActionRequiredItem(
       stepId: map['stepId']?.toString() ?? '',
-      documentKey: map['documentKey']?.toString() ?? '',
+      kind: kind,
+      documentKey: map['documentKey']?.toString(),
+      fieldKey: map['fieldKey']?.toString(),
+      label: map['label']?.toString(),
       rejectionReason: map['rejectionReason']?.toString(),
     );
   }
@@ -81,6 +165,38 @@ abstract class DocumentDetail with _$DocumentDetail {
 }
 
 @freezed
+abstract class FieldDetail with _$FieldDetail {
+  const factory FieldDetail({
+    String? label,
+    String? type,
+    dynamic value,
+    String? displayValue,
+    String? status,
+    String? rejectionReason,
+    String? rejectedAt,
+    String? verifiedAt,
+    dynamic reviewedValue,
+    int? resubmissionCount,
+  }) = _FieldDetail;
+
+  factory FieldDetail.fromJson(Map<String, dynamic> json) {
+    final map = _toMap(json) ?? {};
+    return FieldDetail(
+      label: map['label']?.toString(),
+      type: map['type']?.toString(),
+      value: map['value'],
+      displayValue: map['displayValue']?.toString() ?? map['value']?.toString(),
+      status: map['status']?.toString() ?? 'draft',
+      rejectionReason: map['rejectionReason']?.toString(),
+      rejectedAt: map['rejectedAt']?.toString(),
+      verifiedAt: map['verifiedAt']?.toString(),
+      reviewedValue: map['reviewedValue'],
+      resubmissionCount: (map['resubmissionCount'] as num?)?.toInt(),
+    );
+  }
+}
+
+@freezed
 abstract class StepDetail with _$StepDetail {
   const factory StepDetail({
     required String status,
@@ -89,12 +205,14 @@ abstract class StepDetail with _$StepDetail {
     String? verifiedAt,
     String? rejectionReason,
     Map<String, bool>? fieldCompletion,
+    Map<String, FieldDetail>? fields,
     Map<String, DocumentDetail>? documents,
   }) = _StepDetail;
 
   factory StepDetail.fromJson(Map<String, dynamic> json) {
     final map = _toMap(json) ?? {};
     final fieldCompMap = _toMap(map['fieldCompletion']);
+    final fieldsMap = _toMap(map['fields']);
     final docsMap = _toMap(map['documents']);
 
     return StepDetail(
@@ -104,6 +222,15 @@ abstract class StepDetail with _$StepDetail {
       verifiedAt: map['verifiedAt']?.toString(),
       rejectionReason: map['rejectionReason']?.toString(),
       fieldCompletion: fieldCompMap?.map((k, v) => MapEntry(k, v == true)),
+      fields: fieldsMap?.map(
+        (k, v) {
+          final fMap = _toMap(v);
+          return MapEntry(
+            k,
+            fMap != null ? FieldDetail.fromJson(fMap) : const FieldDetail(),
+          );
+        },
+      ),
       documents: docsMap?.map(
         (k, v) {
           final docMap = _toMap(v);
@@ -161,15 +288,25 @@ abstract class PersonalInfoData with _$PersonalInfoData {
     String? email,
     String? dateOfBirth,
     String? gender,
+    String? cityId,
+    String? homeCityId,
+    String? homeCityName,
   }) = _PersonalInfoData;
 
   factory PersonalInfoData.fromJson(Map<String, dynamic> json) {
     final map = _toMap(json) ?? {};
+    final cId = map['cityId']?.toString() ??
+        map['homeCityId']?.toString() ??
+        (map['city'] is Map ? map['city']['_id']?.toString() : map['city']?.toString());
     return PersonalInfoData(
       name: map['name']?.toString(),
       email: map['email']?.toString(),
       dateOfBirth: map['dateOfBirth']?.toString(),
       gender: map['gender']?.toString(),
+      cityId: cId,
+      homeCityId: map['homeCityId']?.toString() ?? cId,
+      homeCityName: map['homeCityName']?.toString() ??
+          (map['city'] is Map ? map['city']['name']?.toString() : null),
     );
   }
 }
@@ -177,6 +314,7 @@ abstract class PersonalInfoData with _$PersonalInfoData {
 @freezed
 abstract class VehicleInfoData with _$VehicleInfoData {
   const factory VehicleInfoData({
+    String? vehicleId,
     String? vehicleName,
     String? vehicleNumber,
     String? vehicleColor,
@@ -190,6 +328,7 @@ abstract class VehicleInfoData with _$VehicleInfoData {
   factory VehicleInfoData.fromJson(Map<String, dynamic> json) {
     final map = _toMap(json) ?? {};
     return VehicleInfoData(
+      vehicleId: map['vehicleId']?.toString() ?? map['_id']?.toString(),
       vehicleName: map['vehicleName']?.toString(),
       vehicleNumber: map['vehicleNumber']?.toString(),
       vehicleColor: map['vehicleColor']?.toString(),

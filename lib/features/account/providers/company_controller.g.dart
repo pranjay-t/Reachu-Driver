@@ -46,4 +46,4 @@ final class CompanyControllerProvider
   }
 }
 
-String _$companyControllerHash() => r'99f48cb6cb07615976d401bd19111da3067f5315';
+String _$companyControllerHash() => r'01fa33e97c434decdccb6b2cd862a70203063cea';

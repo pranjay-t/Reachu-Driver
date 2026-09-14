@@ -11,6 +11,7 @@ class CompanyData {
   final String website;
   final String address;
   final String? insuranceLink;
+  final String? bucketUrl;
 
   CompanyData({
     required this.id,
@@ -25,6 +26,7 @@ class CompanyData {
     required this.website,
     required this.address,
     this.insuranceLink,
+    this.bucketUrl,
   });
 
   factory CompanyData.fromJson(Map<String, dynamic> json) {
@@ -41,6 +43,7 @@ class CompanyData {
       website: (json['website'] ?? '').toString(),
       address: (json['address'] ?? '').toString(),
       insuranceLink: json['insuranceLink']?.toString(),
+      bucketUrl: (json['bucketUrl'] ?? json['imageBaseUrl'] ?? json['cdnUrl'])?.toString(),
     );
   }
 }

@@ -519,13 +519,7 @@ class _ArrivingClientScreenState extends ConsumerState<ArrivingClientScreen>
 
   Future<BitmapDescriptor?> _downloadAndCreateVehicleMarker(String path) async {
     try {
-      var cleanPath = path.startsWith('/') ? path.substring(1) : path;
-      if (cleanPath.startsWith('satyakabir-bucket/')) {
-        cleanPath = cleanPath.substring('satyakabir-bucket/'.length);
-      }
-      final imageUrl = path.startsWith('http')
-          ? path
-          : '${ApiEndpoints.imagebaseUrl}/$cleanPath';
+      final imageUrl = ApiEndpoints.getImageUrl(path);
 
       AppLogger.d("Downloading vehicle map marker from URL: $imageUrl");
       final response = await Dio()

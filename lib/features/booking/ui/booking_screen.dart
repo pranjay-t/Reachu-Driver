@@ -508,16 +508,9 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
     if (imagePath == null || imagePath.isEmpty) {
       return Icon(Icons.local_shipping, size: 24.sp, color: AppColors.neutral500);
     }
-    var cleanPath = imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
-    if (cleanPath.startsWith('satyakabir-bucket/')) {
-      cleanPath = cleanPath.substring('satyakabir-bucket/'.length);
-    }
-    final imageUrl = imagePath.startsWith('http')
-        ? imagePath
-        : '${ApiEndpoints.imagebaseUrl}/$cleanPath';
 
     return AppCachedImage(
-      imageUrl: imageUrl,
+      imageUrl: imagePath,
       width: 32.w,
       height: 32.h,
       fit: BoxFit.contain,

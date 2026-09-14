@@ -33,7 +33,7 @@ final class HomeControllerProvider
   HomeController create() => HomeController();
 }
 
-String _$homeControllerHash() => r'9c7ccc7ebf0145bae1ceefcf75c51af3ced4850b';
+String _$homeControllerHash() => r'cb9a22426045025a93a196cb98b8ac16c942dc56';
 
 abstract class _$HomeController extends $AsyncNotifier<HomeData> {
   FutureOr<HomeData> build();

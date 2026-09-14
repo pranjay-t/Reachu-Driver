@@ -424,9 +424,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       driver.image!.isNotEmpty &&
                                       driver.image != 'null')
                                   ? AppCachedImage(
-                                      imageUrl: driver.image!.startsWith('http')
-                                          ? driver.image!
-                                          : '${ApiEndpoints.imagebaseUrl}/${driver.image}',
+                                      imageUrl: driver.image!,
                                       width: 48.r,
                                       height: 48.r,
                                       borderRadius: BorderRadius.circular(24.r),

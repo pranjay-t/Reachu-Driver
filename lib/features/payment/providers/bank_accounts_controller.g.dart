@@ -35,7 +35,7 @@ final class BankAccountsControllerProvider
 }
 
 String _$bankAccountsControllerHash() =>
-    r'07c220153218dee8069c4bb676ff2cc7fb72439f';
+    r'f8b4714bbd8fe718b4922c6cc53cd6c42cba7fd9';
 
 abstract class _$BankAccountsController
     extends $AsyncNotifier<List<BankAccountData>> {

@@ -33,7 +33,7 @@ final class ProfileControllerProvider
   ProfileController create() => ProfileController();
 }
 
-String _$profileControllerHash() => r'76e7b98f02909d86257f742825203a566161246a';
+String _$profileControllerHash() => r'7975acb5016147f63ec3c414244d8cb7bb7c23d9';
 
 abstract class _$ProfileController extends $AsyncNotifier<DriverModel> {
   FutureOr<DriverModel> build();

@@ -209,5 +209,152 @@ void main() {
       final response = DriverRegistrationStatusResponse.fromJson(Map<String, dynamic>.from(untypedJsonMap));
       expect(response.success, isTrue);
     });
+
+    test('Parses field-level rejections in actionRequired correctly', () {
+      final jsonMap = {
+        "success": true,
+        "data": {
+          "overallStatus": "action_required",
+          "actionRequired": [
+            {
+              "kind": "field",
+              "stepId": "vehicle_details",
+              "documentKey": null,
+              "fieldKey": "vehicleNumber",
+              "label": "Vehicle Number",
+              "rejectionReason": "Does not match the government vehicle record (VAHAN)"
+            },
+            {
+              "kind": "field",
+              "stepId": "vehicle_details",
+              "documentKey": null,
+              "fieldKey": "vehicleType",
+              "label": "Vehicle Category",
+              "rejectionReason": "Does not match the uploaded documents"
+            },
+            {
+              "kind": "field",
+              "stepId": "vehicle_details",
+              "documentKey": null,
+              "fieldKey": "vehicleSubType",
+              "label": "Vehicle Sub-category",
+              "rejectionReason": "Does not match the uploaded documents"
+            }
+          ]
+        },
+        "message": "Registration status fetched successfully"
+      };
+
+      final response = DriverRegistrationStatusResponse.fromJson(jsonMap);
+      expect(response.success, isTrue);
+      expect(response.data?.actionRequired.length, equals(3));
+      final first = response.data!.actionRequired.first;
+      expect(first.isField, isTrue);
+      expect(first.isDocument, isFalse);
+      expect(first.fieldKey, equals('vehicleNumber'));
+      expect(first.label, equals('Vehicle Number'));
+      expect(first.rejectionReason, equals('Does not match the government vehicle record (VAHAN)'));
+    });
+
+    test('Parses real-world payload with rejected vehicle fields and previous values', () {
+      final jsonMap = {
+        "success": true,
+        "data": {
+          "registrationId": "6aa82495636b6d4f87b0d308",
+          "driverId": "6aa82495636b6d4f87b0d305",
+          "overallStatus": "action_required",
+          "currentStepId": "vehicle_details",
+          "steps": {
+            "vehicle_details": {
+              "status": "rejected",
+              "unlocked": true,
+              "fields": {
+                "vehicleNumber": {
+                  "label": "Vehicle Number",
+                  "type": "text",
+                  "value": "Mgg363637",
+                  "displayValue": "Mgg363637",
+                  "status": "rejected",
+                  "rejectionReason": "Does not match the government vehicle record (VAHAN)",
+                },
+                "vehicleType": {
+                  "label": "Vehicle Category",
+                  "type": "reference",
+                  "value": "6999ebeec98622be4c21e7b2",
+                  "displayValue": "Truck",
+                  "status": "rejected",
+                  "rejectionReason": "Does not match the uploaded documents",
+                },
+                "vehicleSubType": {
+                  "label": "Vehicle Sub-category",
+                  "type": "reference",
+                  "value": "69b515d19f60009f44543764",
+                  "displayValue": "Tata ACE (750kg)",
+                  "status": "rejected",
+                  "rejectionReason": "Does not match the uploaded documents",
+                }
+              }
+            }
+          },
+          "actionRequired": [
+            {
+              "kind": "field",
+              "stepId": "vehicle_details",
+              "documentKey": null,
+              "fieldKey": "vehicleNumber",
+              "label": "Vehicle Number",
+              "rejectionReason": "Does not match the government vehicle record (VAHAN)"
+            },
+            {
+              "kind": "field",
+              "stepId": "vehicle_details",
+              "documentKey": null,
+              "fieldKey": "vehicleType",
+              "label": "Vehicle Category",
+              "rejectionReason": "Does not match the uploaded documents"
+            },
+            {
+              "kind": "field",
+              "stepId": "vehicle_details",
+              "documentKey": null,
+              "fieldKey": "vehicleSubType",
+              "label": "Vehicle Sub-category",
+              "rejectionReason": "Does not match the uploaded documents"
+            }
+          ],
+          "personalInfo": {
+            "homeCityId": "69aaae4a56e8f5ff7a8b5fbb",
+            "homeCityName": "Bhopal",
+            "dateOfBirth": "2003-03-13T00:00:00.000Z",
+            "email": "pranjayt90@gmail.com",
+            "gender": "Male",
+            "name": "Pranjay Driver"
+          },
+          "vehicleInfo": {
+            "vehicleCapacity": 4,
+            "vehicleColor": "black",
+            "vehicleId": "6aa82c205206540c4d37b3fd",
+            "vehicleModel": "kvig",
+            "vehicleName": "Ace",
+            "vehicleNumber": "Mgg363637",
+            "vehicleSubType": "69b515d19f60009f44543764",
+            "vehicleType": "6999ebeec98622be4c21e7b2",
+            "vehicleYear": 2020
+          }
+        },
+        "message": "Registration status fetched successfully"
+      };
+
+      final response = DriverRegistrationStatusResponse.fromJson(jsonMap);
+      expect(response.success, isTrue);
+      expect(response.data!.actionRequired.length, equals(3));
+      final vehicleStep = response.data!.steps?['vehicle_details'];
+      expect(vehicleStep, isNotNull);
+      expect(vehicleStep!.fields?['vehicleNumber']?.value, equals("Mgg363637"));
+      expect(vehicleStep.fields?['vehicleType']?.displayValue, equals("Truck"));
+      expect(vehicleStep.fields?['vehicleSubType']?.displayValue, equals("Tata ACE (750kg)"));
+      expect(response.data!.personalInfo?.homeCityName, equals("Bhopal"));
+      expect(response.data!.vehicleInfo?.vehicleNumber, equals("Mgg363637"));
+    });
   });
 }

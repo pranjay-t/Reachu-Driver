@@ -38,10 +38,10 @@ class _AppDropdownState<T> extends FormFieldState<T>
     with SingleTickerProviderStateMixin {
   final LayerLink _layerLink = LayerLink();
   final OverlayPortalController _overlayController = OverlayPortalController();
+  final Object _tapRegionGroupId = Object();
   late AnimationController _animationController;
   late Animation<double> _expandAnimation;
-  bool _hasFocus = false;
-  final FocusNode _focusNode = FocusNode();
+  bool _isOpen = false;
 
   @override
   AppDropdown<T> get widget => super.widget as AppDropdown<T>;
@@ -57,18 +57,6 @@ class _AppDropdownState<T> extends FormFieldState<T>
       parent: _animationController,
       curve: Curves.easeInOut,
     );
-    _focusNode.addListener(_handleFocusChange);
-  }
-
-  void _handleFocusChange() {
-    if (_focusNode.hasFocus != _hasFocus) {
-      setState(() {
-        _hasFocus = _focusNode.hasFocus;
-      });
-      if (!_focusNode.hasFocus && _overlayController.isShowing) {
-        _closeDropdown();
-      }
-    }
   }
 
   @override
@@ -85,13 +73,15 @@ class _AppDropdownState<T> extends FormFieldState<T>
 
   @override
   void dispose() {
-    _focusNode.removeListener(_handleFocusChange);
-    _focusNode.dispose();
     _animationController.dispose();
     super.dispose();
   }
 
   void _closeDropdown() {
+    if (!_isOpen) return;
+    setState(() {
+      _isOpen = false;
+    });
     _animationController.reverse().then((_) {
       if (mounted) {
         _overlayController.hide();
@@ -99,14 +89,33 @@ class _AppDropdownState<T> extends FormFieldState<T>
     });
   }
 
+  void _openDropdown() {
+    if (!widget.enabled || _isOpen) return;
+    setState(() {
+      _isOpen = true;
+    });
+    _overlayController.show();
+    _animationController.forward();
+
+    // Auto-scroll the enclosing Scrollable so the dropdown and its overlay menu are fully visible
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Scrollable.ensureVisible(
+          context,
+          alignment: 0.12,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
+
   void _toggleDropdown() {
     if (!widget.enabled) return;
-    if (_overlayController.isShowing) {
+    if (_isOpen) {
       _closeDropdown();
     } else {
-      _focusNode.requestFocus();
-      _overlayController.show();
-      _animationController.forward();
+      _openDropdown();
     }
   }
 
@@ -122,16 +131,17 @@ class _AppDropdownState<T> extends FormFieldState<T>
 
     final borderColor = hasErrorState
         ? theme.colorScheme.error
-        : (_hasFocus
+        : (_isOpen
             ? theme.colorScheme.primary
             : (isDark ? AppColors.neutral700 : AppColors.neutral300));
 
     return CompositedTransformTarget(
       link: _layerLink,
       child: TapRegion(
+        groupId: _tapRegionGroupId,
         behavior: HitTestBehavior.opaque,
         onTapOutside: (event) {
-          if (_overlayController.isShowing) {
+          if (_isOpen) {
             _closeDropdown();
           }
         },
@@ -144,93 +154,90 @@ class _AppDropdownState<T> extends FormFieldState<T>
             children: [
               GestureDetector(
                 onTap: _toggleDropdown,
-                child: Focus(
-                  focusNode: _focusNode,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeInOut,
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                    decoration: BoxDecoration(
-                      color: _hasFocus ? focusFillColor : baseFillColor,
-                      borderRadius: BorderRadius.circular(14.r),
-                      border: Border.all(
-                        color: borderColor,
-                        width: _hasFocus ? 1.8 : 1.0,
-                      ),
-                      boxShadow: _hasFocus && widget.enabled
-                          ? [
-                              BoxShadow(
-                                  color: theme.colorScheme.primary
-                                      .withValues(alpha: isDark ? 0.15 : 0.08),
-                                  blurRadius: 10,
-                                  spreadRadius: 1,
-                                  offset: const Offset(0, 4),
-                                ),
-                            ]
-                          : [],
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeInOut,
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: _isOpen ? focusFillColor : baseFillColor,
+                    borderRadius: BorderRadius.circular(14.r),
+                    border: Border.all(
+                      color: borderColor,
+                      width: _isOpen ? 1.8 : 1.0,
                     ),
-                    child: Row(
-                      children: [
-                        if (widget.prefixIcon != null) ...[
-                          AnimatedScale(
-                            scale: _hasFocus ? 1.08 : 1.0,
-                            duration: const Duration(milliseconds: 200),
-                            child: Icon(
-                              widget.prefixIcon,
-                              size: 20.r,
-                              color: _hasFocus
-                                  ? theme.colorScheme.primary
-                                  : (isDark ? AppColors.neutral400 : AppColors.neutral500),
+                    boxShadow: _isOpen && widget.enabled
+                        ? [
+                            BoxShadow(
+                              color: theme.colorScheme.primary
+                                  .withValues(alpha: isDark ? 0.15 : 0.08),
+                              blurRadius: 10,
+                              spreadRadius: 1,
+                              offset: const Offset(0, 4),
                             ),
-                          ),
-                          SizedBox(width: 12.w),
-                        ],
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (widget.label != null &&
-                                  (value != null || _hasFocus))
-                                Text(
-                                  widget.label!,
-                                  style: TextStyle(
-                                    fontSize: 10.sp,
-                                    color: hasErrorState
-                                        ? theme.colorScheme.error
-                                        : (_hasFocus
-                                            ? theme.colorScheme.primary
-                                            : (isDark
-                                                ? AppColors.darkTextSecondary
-                                                : AppColors.lightTextSecondary)),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              Text(
-                                valueText ?? widget.hint ?? '',
-                                style: theme.textTheme.bodyLarge?.copyWith(
-                                  color: value != null
-                                      ? (isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary)
-                                      : (isDark ? AppColors.neutral500 : AppColors.neutral400),
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        RotationTransition(
-                          turns: Tween(begin: 0.0, end: 0.5)
-                              .animate(_expandAnimation),
+                          ]
+                        : [],
+                  ),
+                  child: Row(
+                    children: [
+                      if (widget.prefixIcon != null) ...[
+                        AnimatedScale(
+                          scale: _isOpen ? 1.08 : 1.0,
+                          duration: const Duration(milliseconds: 200),
                           child: Icon(
-                            Icons.keyboard_arrow_down,
-                            size: 22.r,
-                            color: _hasFocus
+                            widget.prefixIcon,
+                            size: 20.r,
+                            color: _isOpen
                                 ? theme.colorScheme.primary
                                 : (isDark ? AppColors.neutral400 : AppColors.neutral500),
                           ),
                         ),
+                        SizedBox(width: 12.w),
                       ],
-                    ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (widget.label != null &&
+                                (value != null || _isOpen))
+                              Text(
+                                widget.label!,
+                                style: TextStyle(
+                                  fontSize: 10.sp,
+                                  color: hasErrorState
+                                      ? theme.colorScheme.error
+                                      : (_isOpen
+                                          ? theme.colorScheme.primary
+                                          : (isDark
+                                              ? AppColors.darkTextSecondary
+                                              : AppColors.lightTextSecondary)),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            Text(
+                              valueText ?? widget.hint ?? '',
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                color: value != null
+                                    ? (isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary)
+                                    : (isDark ? AppColors.neutral500 : AppColors.neutral400),
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      RotationTransition(
+                        turns: Tween(begin: 0.0, end: 0.5)
+                            .animate(_expandAnimation),
+                        child: Icon(
+                          Icons.keyboard_arrow_down,
+                          size: 22.r,
+                          color: _isOpen
+                              ? theme.colorScheme.primary
+                              : (isDark ? AppColors.neutral400 : AppColors.neutral500),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -265,89 +272,94 @@ class _AppDropdownState<T> extends FormFieldState<T>
       targetAnchor: Alignment.bottomLeft,
       followerAnchor: Alignment.topLeft,
       offset: Offset(0, 4.h),
-      child: FadeTransition(
-        opacity: _expandAnimation,
-        child: SizeTransition(
-          sizeFactor: _expandAnimation,
-          axisAlignment: -1.0,
-          child: Material(
-            elevation: 8,
-            color: Colors.transparent,
-            child: Container(
-              width: _layerLink.leaderSize?.width,
-              constraints: BoxConstraints(
-                maxHeight: 250.h,
-              ),
-              decoration: BoxDecoration(
-                color: menuBackground,
-                borderRadius: BorderRadius.circular(14.r),
-                border: Border.all(
-                  color: borderThemeColor,
-                  width: 1,
+      child: TapRegion(
+        groupId: _tapRegionGroupId,
+        behavior: HitTestBehavior.opaque,
+        child: FadeTransition(
+          opacity: _expandAnimation,
+          child: SizeTransition(
+            sizeFactor: _expandAnimation,
+            axisAlignment: -1.0,
+            child: Material(
+              elevation: 8,
+              color: Colors.transparent,
+              child: Container(
+                width: _layerLink.leaderSize?.width,
+                constraints: BoxConstraints(
+                  maxHeight: 250.h,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
-                    blurRadius: 16,
-                    offset: const Offset(0, 8),
+                decoration: BoxDecoration(
+                  color: menuBackground,
+                  borderRadius: BorderRadius.circular(14.r),
+                  border: Border.all(
+                    color: borderThemeColor,
+                    width: 1,
                   ),
-                ],
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: ScrollConfiguration(
-                behavior: const ScrollBehavior().copyWith(overscroll: false),
-                child: ListView.separated(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  itemCount: widget.items.length,
-                  separatorBuilder: (context, index) => Divider(
-                    height: 1,
-                    color: isDark ? AppColors.neutral800 : AppColors.neutral100,
-                  ),
-                  itemBuilder: (context, index) {
-                    final item = widget.items[index];
-                    final isSelected = value == item;
-                    final label = widget.itemLabel(item);
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
+                      blurRadius: 16,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: ScrollConfiguration(
+                  behavior: const ScrollBehavior().copyWith(overscroll: false),
+                  child: ListView.separated(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemCount: widget.items.length,
+                    separatorBuilder: (context, index) => Divider(
+                      height: 1,
+                      color: isDark ? AppColors.neutral800 : AppColors.neutral100,
+                    ),
+                    itemBuilder: (context, index) {
+                      final item = widget.items[index];
+                      final isSelected = value == item;
+                      final label = widget.itemLabel(item);
 
-                    return InkWell(
-                      onTap: () {
-                        didChange(item);
-                        if (widget.onChanged != null) {
-                          widget.onChanged!(item);
-                        }
-                        _closeDropdown();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 16.w, vertical: 14.h),
-                        color: isSelected
-                            ? theme.colorScheme.primary.withValues(alpha: isDark ? 0.15 : 0.08)
-                            : null,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                label,
-                                style: theme.textTheme.bodyLarge?.copyWith(
-                                  color: isSelected
-                                      ? theme.colorScheme.primary
-                                      : (isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary),
-                                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                                  fontSize: 14.sp,
+                      return InkWell(
+                        onTap: () {
+                          didChange(item);
+                          if (widget.onChanged != null) {
+                            widget.onChanged!(item);
+                          }
+                          _closeDropdown();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16.w, vertical: 14.h),
+                          color: isSelected
+                              ? theme.colorScheme.primary.withValues(alpha: isDark ? 0.15 : 0.08)
+                              : null,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  label,
+                                  style: theme.textTheme.bodyLarge?.copyWith(
+                                    color: isSelected
+                                        ? theme.colorScheme.primary
+                                        : (isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary),
+                                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                                    fontSize: 14.sp,
+                                  ),
                                 ),
                               ),
-                            ),
-                            if (isSelected)
-                              Icon(
-                                Icons.check_circle,
-                                size: 18.r,
-                                color: theme.colorScheme.primary,
-                              ),
-                          ],
+                              if (isSelected)
+                                Icon(
+                                  Icons.check_circle,
+                                  size: 18.r,
+                                  color: theme.colorScheme.primary,
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

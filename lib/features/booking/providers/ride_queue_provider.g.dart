@@ -41,7 +41,7 @@ final class RideQueueProvider
   }
 }
 
-String _$rideQueueHash() => r'56197cc876cf068f8b0a32eccc7aa11b1897143e';
+String _$rideQueueHash() => r'6f76ef37c00648482e1c9257fb4a6cfe0d569b08';
 
 abstract class _$RideQueue extends $Notifier<List<RideRequestItem>> {
   List<RideRequestItem> build();

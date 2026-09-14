@@ -92,7 +92,11 @@ class ProfileRepository {
         } catch (e) {
           AppLogger.e("❌ Error parsing vehicle from profile raw data: $e");
         }
-        return GetUserResponse.fromJson(data as Map<String, dynamic>);
+        final res = GetUserResponse.fromJson(data as Map<String, dynamic>);
+        final userImage = res.user?.image;
+        final completeUrl = ApiEndpoints.getFullImageUrl(userImage);
+        AppLogger.d("👤 [ProfileRepository.getDriverById] Driver Profile Image Raw: '$userImage' | Complete URL: '$completeUrl'");
+        return res;
       },
     );
   }
@@ -126,13 +130,19 @@ class ProfileRepository {
       formData.files.add(
         MapEntry('image', await MultipartFile.fromFile(imagePath)),
       );
+      AppLogger.d("📤 [ProfileRepository.updateUserProfile] Uploading new driver profile image: $imagePath");
     }
 
     final result = await _apiService.put(
       path,
       data: formData,
-      converter: (data) =>
-          UpdateProfileResponse.fromJson(data as Map<String, dynamic>),
+      converter: (data) {
+        final res = UpdateProfileResponse.fromJson(data as Map<String, dynamic>);
+        final userImage = res.user?.image;
+        final completeUrl = ApiEndpoints.getFullImageUrl(userImage);
+        AppLogger.d("👤 [ProfileRepository.updateUserProfile] Driver Profile Image Updated Raw: '$userImage' | Complete URL: '$completeUrl'");
+        return res;
+      },
     );
 
     switch (result) {

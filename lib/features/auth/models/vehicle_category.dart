@@ -62,6 +62,14 @@ abstract class VehicleSubCategory with _$VehicleSubCategory {
     }
     return [];
   }
+
+  String? get categoryId {
+    if (vehicleCategoryId is String) return vehicleCategoryId as String;
+    if (vehicleCategoryId is Map) {
+      return vehicleCategoryId['_id']?.toString() ?? vehicleCategoryId['id']?.toString();
+    }
+    return null;
+  }
 }
 
 @freezed

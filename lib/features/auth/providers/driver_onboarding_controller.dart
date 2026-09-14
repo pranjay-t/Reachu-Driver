@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../models/city_model.dart';
 import '../models/driver_registration_status_response.dart';
 import '../models/onboarding_enums.dart';
 import '../models/vehicle_category.dart';
 import '../repositories/auth_repository.dart';
+import '../../../core/network/api_endpoints.dart';
 import '../../../core/network/result.dart';
 import '../../../core/network/network_exceptions.dart';
 import '../../../core/utils/app_snackbar.dart';
@@ -21,6 +23,10 @@ class DriverOnboardingState {
   // Active Navigation in Onboarding
   final int activeGroupIndex; // 0: Personal Details, 1: Driving License, 2: Identity Docs, 3: Vehicle Details
   final int activeSubStepIndex; // Sub-step inside group
+
+  // Serviceable Cities for Step 1
+  final List<CityModel> cities;
+  final String? selectedCityId;
 
   // Categories for Step 4
   final List<VehicleCategory> categories;
@@ -63,6 +69,8 @@ class DriverOnboardingState {
     this.errorMessage,
     this.activeGroupIndex = 0,
     this.activeSubStepIndex = 0,
+    this.cities = const [],
+    this.selectedCityId,
     this.categories = const [],
     this.subCategories = const [],
     this.selectedCategoryId,
@@ -99,6 +107,8 @@ class DriverOnboardingState {
     String? errorMessage,
     int? activeGroupIndex,
     int? activeSubStepIndex,
+    List<CityModel>? cities,
+    String? selectedCityId,
     List<VehicleCategory>? categories,
     List<VehicleSubCategory>? subCategories,
     String? selectedCategoryId,
@@ -134,6 +144,8 @@ class DriverOnboardingState {
       errorMessage: errorMessage,
       activeGroupIndex: activeGroupIndex ?? this.activeGroupIndex,
       activeSubStepIndex: activeSubStepIndex ?? this.activeSubStepIndex,
+      cities: cities ?? this.cities,
+      selectedCityId: selectedCityId ?? this.selectedCityId,
       categories: categories ?? this.categories,
       subCategories: subCategories ?? this.subCategories,
       selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
@@ -173,6 +185,7 @@ class DriverOnboardingController extends _$DriverOnboardingController {
     Future.microtask(() async {
       await fetchRegistrationStatus();
       await loadCategories();
+      await loadActiveCities();
     });
     return DriverOnboardingState();
   }
@@ -192,11 +205,73 @@ class DriverOnboardingController extends _$DriverOnboardingController {
           String email = state.email;
           String dob = state.dateOfBirth;
           String gender = state.gender;
+          String? cityId = state.selectedCityId;
           if (statusData.personalInfo != null) {
             name = statusData.personalInfo!.name ?? name;
             email = statusData.personalInfo!.email ?? email;
             dob = statusData.personalInfo!.dateOfBirth ?? dob;
             gender = statusData.personalInfo!.gender ?? gender;
+            cityId = statusData.personalInfo!.homeCityId ??
+                statusData.personalInfo!.cityId ??
+                cityId;
+          }
+
+          String vehicleName = state.vehicleName;
+          String vehicleNumber = state.vehicleNumber;
+          String vehicleColor = state.vehicleColor;
+          String vehicleModel = state.vehicleModel;
+          String vehicleYear = state.vehicleYear;
+          String vehicleCapacity = state.vehicleCapacity;
+          String? selectedCatId = state.selectedCategoryId;
+          String? selectedSubCatId = state.selectedSubCategoryId;
+
+          if (statusData.vehicleInfo != null) {
+            final vInfo = statusData.vehicleInfo!;
+            vehicleName = vInfo.vehicleName ?? vehicleName;
+            vehicleNumber = vInfo.vehicleNumber ?? vehicleNumber;
+            vehicleColor = vInfo.vehicleColor ?? vehicleColor;
+            vehicleModel = vInfo.vehicleModel ?? vehicleModel;
+            vehicleYear = vInfo.vehicleYear ?? vehicleYear;
+            vehicleCapacity = vInfo.vehicleCapacity ?? vehicleCapacity;
+            selectedCatId = vInfo.vehicleType ?? selectedCatId;
+            selectedSubCatId = vInfo.vehicleSubType ?? selectedSubCatId;
+          }
+
+          final vStepFields = statusData.steps?['vehicle_details']?.fields ??
+              statusData.uiSteps?['vehicle_preference']?.steps?['vehicle_details']?.fields;
+          if (vStepFields != null) {
+            if (vStepFields['vehicleName']?.value != null) {
+              vehicleName = vStepFields['vehicleName']!.value.toString();
+            }
+            if (vStepFields['vehicleNumber']?.value != null) {
+              vehicleNumber = vStepFields['vehicleNumber']!.value.toString();
+            }
+            if (vStepFields['vehicleColor']?.value != null) {
+              vehicleColor = vStepFields['vehicleColor']!.value.toString();
+            }
+            if (vStepFields['vehicleModel']?.value != null) {
+              vehicleModel = vStepFields['vehicleModel']!.value.toString();
+            }
+            if (vStepFields['vehicleYear']?.value != null) {
+              vehicleYear = vStepFields['vehicleYear']!.value.toString();
+            }
+            if (vStepFields['vehicleCapacity']?.value != null) {
+              vehicleCapacity = vStepFields['vehicleCapacity']!.value.toString();
+            }
+            if (vStepFields['vehicleType']?.value != null) {
+              selectedCatId = vStepFields['vehicleType']!.value.toString();
+            }
+            if (vStepFields['vehicleSubType']?.value != null) {
+              selectedSubCatId = vStepFields['vehicleSubType']!.value.toString();
+            }
+          }
+
+          final profilePhotoDoc = statusData.steps?['profile_photo']?.documents?['profileImage'] ??
+              statusData.uiSteps?['personal_details']?.steps?['profile_photo']?.documents?['profileImage'];
+          final profilePhotoUrl = profilePhotoDoc?.fileKey;
+          if (profilePhotoUrl != null && profilePhotoUrl.isNotEmpty) {
+            final fullUrl = ApiEndpoints.getFullImageUrl(profilePhotoUrl);
+            AppLogger.d("👤 [DriverOnboardingController] Profile Photo Raw: '$profilePhotoUrl' | Complete URL: '$fullUrl'");
           }
 
           state = state.copyWith(
@@ -208,7 +283,20 @@ class DriverOnboardingController extends _$DriverOnboardingController {
             email: email,
             dateOfBirth: dob,
             gender: gender,
+            selectedCityId: cityId,
+            vehicleName: vehicleName,
+            vehicleNumber: vehicleNumber,
+            vehicleColor: vehicleColor,
+            vehicleModel: vehicleModel,
+            vehicleYear: vehicleYear,
+            vehicleCapacity: vehicleCapacity,
+            selectedCategoryId: selectedCatId,
+            selectedSubCategoryId: selectedSubCatId,
           );
+
+          if (selectedCatId != null && selectedCatId.isNotEmpty) {
+            loadSubCategories(selectedCatId);
+          }
 
           // Check overall status to update global AuthStatus
           if (statusData.overallStatus == OverallStatus.approved) {
@@ -259,18 +347,48 @@ class DriverOnboardingController extends _$DriverOnboardingController {
     }
   }
 
+  Future<void> loadActiveCities() async {
+    final repository = ref.read(authRepositoryProvider);
+    final result = await repository.getActiveCities();
+    switch (result) {
+      case Success(:final data):
+        state = state.copyWith(cities: data.data);
+      case Failure(:final error):
+        AppLogger.e('Failed to load active cities', error: error);
+        break;
+    }
+  }
+
+  void selectCity(String? cityId) {
+    state = state.copyWith(selectedCityId: cityId);
+  }
+
   Future<void> loadSubCategories(String categoryId) async {
+    if (categoryId.trim().isEmpty) return;
+
     state = state.copyWith(
       selectedCategoryId: categoryId,
-      selectedSubCategoryId: null,
       subCategories: [],
     );
     final repository = ref.read(authRepositoryProvider);
     final result = await repository.getVehicleSubCategories(categoryId);
     switch (result) {
       case Success(:final data):
-        state = state.copyWith(subCategories: data.data);
-      case Failure():
+        List<VehicleSubCategory> subCats = data.data;
+        // If data contains all subcategories, filter to only those matching this category if populated
+        final hasCategoryMatch = subCats.any((sc) {
+          final catId = sc.categoryId;
+          return catId != null && catId == categoryId;
+        });
+        if (hasCategoryMatch) {
+          final matching = subCats.where((sc) => sc.categoryId == categoryId).toList();
+          if (matching.isNotEmpty) {
+            subCats = matching;
+          }
+        }
+        state = state.copyWith(subCategories: subCats);
+      case Failure(:final error):
+        AppLogger.e('Failed to load sub categories', error: error);
         break;
     }
   }
@@ -333,6 +451,7 @@ class DriverOnboardingController extends _$DriverOnboardingController {
     required String email,
     required String dateOfBirth,
     required String gender,
+    String? cityId,
   }) async {
     state = state.copyWith(
       isLoading: true,
@@ -340,6 +459,7 @@ class DriverOnboardingController extends _$DriverOnboardingController {
       email: email,
       dateOfBirth: dateOfBirth,
       gender: gender,
+      selectedCityId: cityId,
     );
     final repository = ref.read(authRepositoryProvider);
     final result = await repository.submitPersonalInfo(
@@ -347,6 +467,7 @@ class DriverOnboardingController extends _$DriverOnboardingController {
       email: email,
       dateOfBirth: dateOfBirth,
       gender: gender,
+      cityId: cityId,
     );
 
     switch (result) {
@@ -523,24 +644,33 @@ class DriverOnboardingController extends _$DriverOnboardingController {
     }
   }
 
-  // --- RESUBMIT REJECTED DOCUMENT ---
-  Future<bool> resubmitDocument({
+  // --- RESUBMIT REJECTED STEP (FIELDS & DOCUMENTS) ---
+  Future<bool> resubmitStepData({
     required String stepId,
-    required String documentKey,
-    required String filePath,
+    Map<String, dynamic>? fields,
+    Map<String, String>? files,
   }) async {
     state = state.copyWith(isLoading: true);
     final repository = ref.read(authRepositoryProvider);
 
     try {
-      final formData = FormData.fromMap({
-        documentKey: await MultipartFile.fromFile(filePath),
-      });
+      final Map<String, dynamic> formMap = {};
+      if (fields != null) {
+        formMap.addAll(fields);
+      }
+      if (files != null) {
+        for (final entry in files.entries) {
+          if (entry.value.isNotEmpty) {
+            formMap[entry.key] = await MultipartFile.fromFile(entry.value);
+          }
+        }
+      }
 
+      final formData = FormData.fromMap(formMap);
       final result = await repository.resubmitDocument(stepId, formData);
       switch (result) {
         case Success():
-          AppSnackbar.showSuccess(message: 'Document resubmitted successfully!');
+          AppSnackbar.showSuccess(message: 'Details resubmitted successfully!');
           await fetchRegistrationStatus();
           state = state.copyWith(isLoading: false);
           return true;
@@ -550,10 +680,22 @@ class DriverOnboardingController extends _$DriverOnboardingController {
           return false;
       }
     } catch (e) {
-      AppLogger.e('Error resubmitting document', error: e);
+      AppLogger.e('Error resubmitting step data', error: e);
       state = state.copyWith(isLoading: false);
       AppSnackbar.showError(message: 'Unexpected error during resubmission');
       return false;
     }
+  }
+
+  // --- RESUBMIT REJECTED DOCUMENT (BACKWARD COMPATIBLE) ---
+  Future<bool> resubmitDocument({
+    required String stepId,
+    required String documentKey,
+    required String filePath,
+  }) async {
+    return resubmitStepData(
+      stepId: stepId,
+      files: {documentKey: filePath},
+    );
   }
 }

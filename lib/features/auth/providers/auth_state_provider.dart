@@ -151,10 +151,10 @@ class AuthNotifier extends _$AuthNotifier {
       AppLogger.e('Error disconnecting SupportSocketService on logout: $e');
     }
 
-    // 3. Clear SharedPreferences user cache (preserving app preferences like language & theme)
+    // 3. Clear SharedPreferences user cache (preserving app preferences like language, theme & bucket URL)
     try {
       final prefs = await SharedPreferences.getInstance();
-      const preservedKeys = {'language_code', 'is_dark_mode'};
+      const preservedKeys = {'language_code', 'is_dark_mode', 'bucket_url'};
       final keys = prefs.getKeys();
       for (final key in keys) {
         if (!preservedKeys.contains(key)) {

@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:reachu_driver/core/firebase/firebase_crashlytics_service.dart';
 import 'package:reachu_driver/core/firebase/app_check_service.dart';
 import 'package:reachu_driver/core/firebase/notification_service.dart';
+import 'package:reachu_driver/core/network/company_bucket_url.dart';
 import 'package:reachu_driver/features/booking/ui/widgets/overlay_bubble.dart';
 import 'firebase_options.dart';
 import 'app.dart';
@@ -17,6 +18,7 @@ Future<void> main() async {
   await AppCheckService.initialize();
   await NotificationService.initialize();
   await dotenv.load(fileName: ".env");
+  await CompanyBucketUrl.init();
 
   FlavorConfig(
     name: "PROD",

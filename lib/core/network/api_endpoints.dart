@@ -1,10 +1,18 @@
 import 'package:flutter_flavor/flutter_flavor.dart';
+import 'company_bucket_url.dart';
 
 class ApiEndpoints {
   static String get baseUrl =>
       FlavorConfig.instance.variables["baseUrl"] as String;
-  static const String imagebaseUrl =
-      'https://sgp1.digitaloceanspaces.com/satyakabir-bucket';
+
+  /// Dynamically fetched bucket URL from Company API (backed by persistent cache)
+  static String get imagebaseUrl => CompanyBucketUrl.current;
+
+  /// Helper to safely resolve a complete image or file URL from a relative path or full URL
+  static String getImageUrl(String? path) => CompanyBucketUrl.getImageUrl(path);
+
+  /// Backwards-compatible alias for getImageUrl
+  static String getFullImageUrl(String? path) => CompanyBucketUrl.getImageUrl(path);
 
   // AUTHENTICATION
   static const String login = '/driver/registerLogin';
@@ -12,6 +20,7 @@ class ApiEndpoints {
   static const String userExist = '/isUserExist?phone=<phone>';
   static const String refreshToken = '/auth/refreshToken';
   static const String logout = '/auth/logout';
+  static const String getActiveCities = '/getActiveCities';
 
   // DRIVER ONBOARDING & DASHBOARD
   static const String getAllVehicleCategories = '/getAllVehicleCategories';

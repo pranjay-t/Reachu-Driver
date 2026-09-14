@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../core/network/api_endpoints.dart';
+import '../../core/utils/app_logger.dart';
 import '../../app/theme/app_colors.dart';
 
 class AppCachedImage extends StatelessWidget {
@@ -23,25 +24,19 @@ class AppCachedImage extends StatelessWidget {
     this.borderRadius,
   });
 
-  String get _fullUrl {
-    final trimmed = imageUrl.trim();
-    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
-      return trimmed;
-    }
-    // Remove any leading slash if present to avoid double slashes when concatenating
-    final path = trimmed.startsWith('/') ? trimmed.substring(1) : trimmed;
-    return '${ApiEndpoints.imagebaseUrl}/$path';
-  }
+  String get _fullUrl => ApiEndpoints.getFullImageUrl(imageUrl);
 
   @override
   Widget build(BuildContext context) {
-    final trimmedUrl = imageUrl.trim();
-    if (trimmedUrl.isEmpty || trimmedUrl == 'null' || trimmedUrl == 'undefined') {
+    final fullUrl = _fullUrl;
+    if (fullUrl.isEmpty) {
       return _buildErrorWidget(context);
     }
 
+    AppLogger.d("🖼️ [AppCachedImage] Loading Image | Input: '$imageUrl' | Complete URL: '$fullUrl'");
+
     Widget image = CachedNetworkImage(
-      imageUrl: _fullUrl,
+      imageUrl: fullUrl,
       width: width,
       height: height,
       fit: fit,
