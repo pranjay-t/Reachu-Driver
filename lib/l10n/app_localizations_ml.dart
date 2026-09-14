@@ -900,10 +900,10 @@ class AppLocalizationsMl extends AppLocalizations {
   String get onlinePayment => 'ഓൺലൈൻ പേയ്‌മെന്റ്';
 
   @override
-  String get todaysRideStatus => 'ഇന്നത്തെ യാത്രാ നില';
+  String get todaysRideStatus => 'ഇന്നത്തെ ഓർഡർ നില';
 
   @override
-  String get totalRides => 'മൊത്തം യാത്രകൾ';
+  String get totalRides => 'മൊത്തം ഓർഡറുകൾ';
 
   @override
   String get cancelled => 'റദ്ദാക്കി';

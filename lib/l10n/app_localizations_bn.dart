@@ -893,10 +893,10 @@ class AppLocalizationsBn extends AppLocalizations {
   String get onlinePayment => 'অনলাইন পেমেন্ট';
 
   @override
-  String get todaysRideStatus => 'আজকের রাইডের অবস্থা';
+  String get todaysRideStatus => 'আজকের অর্ডার স্ট্যাটাস';
 
   @override
-  String get totalRides => 'মোট রাইড';
+  String get totalRides => 'মোট অর্ডার';
 
   @override
   String get cancelled => 'বাতিল';

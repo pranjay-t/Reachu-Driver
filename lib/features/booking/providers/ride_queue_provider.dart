@@ -137,11 +137,11 @@ class RideQueue extends _$RideQueue {
       state = [newItem, ...state];
       _startTimerIfNeeded();
 
-      // Trigger local notification to play custom ride sound
-      NotificationService.showRideRequestNotification(
+      // Trigger local notification to play custom order sound
+      NotificationService.showOrderRequestNotification(
         orderId: orderId,
-        title: 'New Ride Request Available!',
-        body: 'Tap to view details for ₹${rideModel.totalFare.toStringAsFixed(2)} ride request.',
+        title: 'New Order Request Available!',
+        body: 'Tap to view details for ₹${rideModel.totalFare.toStringAsFixed(2)} order request.',
       );
 
       // Start in-app looping alarm sound + vibration

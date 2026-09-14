@@ -189,7 +189,7 @@ class SocketForegroundService : Service() {
             }
             ACTION_UPDATE -> {
                 val title = intent.getStringExtra(EXTRA_TITLE) ?: "You are Online"
-                val body = intent.getStringExtra(EXTRA_BODY) ?: "Waiting for rides..."
+                val body = intent.getStringExtra(EXTRA_BODY) ?: "Waiting for orders..."
                 ensureForegroundForOnlineDriver()
                 updateStatusNotification(title, body)
                 return START_STICKY
@@ -254,7 +254,7 @@ class SocketForegroundService : Service() {
         try {
             val notification = buildStatusNotification(
                 "You are Online",
-                "Waiting for rides..." 
+                "Waiting for orders..." 
             )
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 startForeground(
@@ -345,7 +345,7 @@ class SocketForegroundService : Service() {
 
         updateStatusNotification(
             "You are Online",
-            "Running in Background • Waiting for rides..."
+            "Running in Background • Waiting for orders..."
         )
 
         Thread {
@@ -473,7 +473,7 @@ class SocketForegroundService : Service() {
                         nm.cancel(RIDE_NOTIFICATION_ID)
 
                         updateStatusNotification(
-                            "Ride in Progress...",
+                            "Order in Progress...",
                             buildNotificationBody()
                         )
                     } catch (e: Exception) {
@@ -697,7 +697,7 @@ class SocketForegroundService : Service() {
             if (distance.isNotEmpty()) append(" • $distance km")
         }
 
-        showRideNotification(orderId, "New Ride Request!", body)
+        showRideNotification(orderId, "New Order Request!", body)
 
         // Automatically trigger floating bubble overlay on native ride request
         SafeOverlayService.showOverlay(this)
@@ -918,9 +918,9 @@ class SocketForegroundService : Service() {
         }
 
         if (isRide) {
-            sb.append(" • 🚗 Ride in Progress")
+            sb.append(" • 📦 Order in Progress")
         } else if (isOnDuty) {
-            sb.append(" • Waiting for rides...")
+            sb.append(" • Waiting for orders...")
         }
         return sb.toString()
     }

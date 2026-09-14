@@ -27,12 +27,12 @@ class NotificationService {
     playSound: true,
   );
 
-  /// Notification channel specifically for ride requests with a custom sound.
+  /// Notification channel specifically for order requests with a custom sound.
   static const AndroidNotificationChannel _rideChannel =
       AndroidNotificationChannel(
         'ride_request_channel_v10', // id — MUST match Kotlin SocketForegroundService.RIDE_CHANNEL_ID
-        'Ride Requests', // title
-        description: 'Notifications for incoming ride requests.', // description
+        'Order Requests', // title
+        description: 'Notifications for incoming order requests.', // description
         importance: Importance.max,
         playSound: true,
         sound: RawResourceAndroidNotificationSound('new_ride_sound'),
@@ -107,8 +107,8 @@ class NotificationService {
     FirebaseMessaging.onBackgroundMessage(firebaseBackgroundMessageHandler);
   }
 
-  /// Public static helper to display a local notification with custom ride request sound.
-  static void showRideRequestNotification({
+  /// Public static helper to display a local notification with custom order request sound.
+  static void showOrderRequestNotification({
     required String orderId,
     required String title,
     required String body,
@@ -120,8 +120,8 @@ class NotificationService {
       notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'ride_request_channel_v10',
-          'Ride Requests',
-          channelDescription: 'Notifications for incoming ride requests.',
+          'Order Requests',
+          channelDescription: 'Notifications for incoming order requests.',
           icon: '@mipmap/ic_launcher',
           importance: Importance.max,
           priority: Priority.max,
@@ -138,6 +138,17 @@ class NotificationService {
       payload: '{"orderId":"$orderId", "route":"/home"}',
     );
   }
+
+  /// Alias for backward compatibility
+  static void showRideRequestNotification({
+    required String orderId,
+    required String title,
+    required String body,
+  }) => showOrderRequestNotification(
+    orderId: orderId,
+    title: title,
+    body: body,
+  );
 
   /// Fetches the current FCM Token for the device.
   static Future<String?> getDeviceToken() async {
@@ -167,13 +178,18 @@ class NotificationService {
       final title = notification.title ?? '';
       final body = notification.body ?? '';
 
-      // Determine if this is a ride-related notification
+      // Determine if this is an order/ride-related notification
       final isRideNotification =
           message.data['type'] == 'ride_request' ||
+          message.data['type'] == 'order_request' ||
           message.data['click_action'] == '/arriving_client' ||
           title.toLowerCase().contains('ride') ||
+          title.toLowerCase().contains('order') ||
+          title.toLowerCase().contains('delivery') ||
           title.toLowerCase().contains('request') ||
-          body.toLowerCase().contains('ride');
+          body.toLowerCase().contains('ride') ||
+          body.toLowerCase().contains('order') ||
+          body.toLowerCase().contains('delivery');
 
       _localNotificationsPlugin.show(
         id: notification.hashCode,
@@ -288,10 +304,15 @@ class NotificationService {
 
         final isRideNotification =
             message.data['type'] == 'ride_request' ||
+            message.data['type'] == 'order_request' ||
             message.data['click_action'] == '/arriving_client' ||
             title.toLowerCase().contains('ride') ||
+            title.toLowerCase().contains('order') ||
+            title.toLowerCase().contains('delivery') ||
             title.toLowerCase().contains('request') ||
-            body.toLowerCase().contains('ride');
+            body.toLowerCase().contains('ride') ||
+            body.toLowerCase().contains('order') ||
+            body.toLowerCase().contains('delivery');
 
         const AndroidInitializationSettings initializationSettingsAndroid =
             AndroidInitializationSettings('@mipmap/ic_launcher');

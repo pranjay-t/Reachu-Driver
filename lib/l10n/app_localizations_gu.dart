@@ -893,10 +893,10 @@ class AppLocalizationsGu extends AppLocalizations {
   String get onlinePayment => 'ઓનલાઇન ચુકવણી';
 
   @override
-  String get todaysRideStatus => 'આજની રાઇડની સ્થિતિ';
+  String get todaysRideStatus => 'આજની ઓર્ડર સ્થિતિ';
 
   @override
-  String get totalRides => 'કુલ રાઇડ';
+  String get totalRides => 'કુલ ઓર્ડર';
 
   @override
   String get cancelled => 'રદ કરેલ';

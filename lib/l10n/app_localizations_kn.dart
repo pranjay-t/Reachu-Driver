@@ -896,10 +896,10 @@ class AppLocalizationsKn extends AppLocalizations {
   String get onlinePayment => 'ಆನ್‌ಲೈನ್ ಪಾವತಿ';
 
   @override
-  String get todaysRideStatus => 'ಇಂದಿನ ಸವಾರಿ ಸ್ಥಿತಿ';
+  String get todaysRideStatus => 'ಇಂದಿನ ಆರ್ಡರ್ ಸ್ಥಿತಿ';
 
   @override
-  String get totalRides => 'ಒಟ್ಟು ಸವಾರಿಗಳು';
+  String get totalRides => 'ಒಟ್ಟು ಆರ್ಡರ್‌ಗಳು';
 
   @override
   String get cancelled => 'ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ';

@@ -39,13 +39,13 @@ class ReachuDriverApplication : FlutterApplication() {
             }
             manager.createNotificationChannel(statusChannel)
 
-            // 2. Ride request channel — high priority, heads-up notification
+            // 2. Order request channel — high priority, heads-up notification
             val rideChannel = NotificationChannel(
                 SocketForegroundService.RIDE_CHANNEL_ID,
-                "Ride Requests",
+                "Order Requests",
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description = "New ride request alerts"
+                description = "New order request alerts"
                 setShowBadge(true)
                 enableVibration(true)
                 enableLights(true)

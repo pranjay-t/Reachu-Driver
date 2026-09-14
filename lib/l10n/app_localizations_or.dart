@@ -893,10 +893,10 @@ class AppLocalizationsOr extends AppLocalizations {
   String get onlinePayment => 'ଅନଲାଇନ୍ ପେମେଣ୍ଟ';
 
   @override
-  String get todaysRideStatus => 'ଆଜିର ରାଇଡ୍ ସ୍ଥିତି';
+  String get todaysRideStatus => 'ଆଜିର ଅର୍ଡର ସ୍ଥିତି';
 
   @override
-  String get totalRides => 'ମୋଟ ରାଇଡ୍';
+  String get totalRides => 'ମୋଟ ଅର୍ଡର';
 
   @override
   String get cancelled => 'ବାତିଲ୍';

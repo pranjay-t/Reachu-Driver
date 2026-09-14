@@ -902,10 +902,10 @@ class AppLocalizationsTe extends AppLocalizations {
   String get onlinePayment => 'ఆన్‌లైన్ చెల్లింపు';
 
   @override
-  String get todaysRideStatus => 'నేటి రైడ్ స్థితి';
+  String get todaysRideStatus => 'నేటి ఆర్డర్ స్థితి';
 
   @override
-  String get totalRides => 'మొత్తం రైడ్‌లు';
+  String get totalRides => 'మొత్తం ఆర్డర్‌లు';
 
   @override
   String get cancelled => 'రద్దు చేయబడింది';

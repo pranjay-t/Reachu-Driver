@@ -1775,13 +1775,13 @@ abstract class AppLocalizations {
   /// No description provided for @todaysRideStatus.
   ///
   /// In en, this message translates to:
-  /// **'Today\'s Ride Status'**
+  /// **'Today\'s Order Status'**
   String get todaysRideStatus;
 
   /// No description provided for @totalRides.
   ///
   /// In en, this message translates to:
-  /// **'Total Rides'**
+  /// **'Total Orders'**
   String get totalRides;
 
   /// No description provided for @cancelled.

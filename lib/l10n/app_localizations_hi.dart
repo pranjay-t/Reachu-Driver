@@ -892,10 +892,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get onlinePayment => 'ऑनलाइन भुगतान';
 
   @override
-  String get todaysRideStatus => 'आज की सवारी की स्थिति';
+  String get todaysRideStatus => 'आज के ऑर्डर की स्थिति';
 
   @override
-  String get totalRides => 'कुल सवारी';
+  String get totalRides => 'कुल ऑर्डर';
 
   @override
   String get cancelled => 'रद्द की गई';

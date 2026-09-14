@@ -483,8 +483,8 @@ class SocketClient {
 
       _socket!.emit(SocketEvents.joinRoom, {'roomName': 'ride:$_activeRideId'});
       _updateNativeNotification(
-        'Ride in Progress',
-        'Ride #$_activeRideId is active.',
+        'Order in Progress',
+        'Order #$_activeRideId is active.',
       );
     });
 
@@ -499,8 +499,8 @@ class SocketClient {
       _socket!.emit(SocketEvents.joinRoom, {'roomName': 'ride:$_activeRideId'});
       _rideStatusStreamController.add(mapped);
       _updateNativeNotification(
-        'Ride in Progress',
-        'Ride #$_activeRideId is active.',
+        'Order in Progress',
+        'Order #$_activeRideId is active.',
       );
     });
 
@@ -516,7 +516,7 @@ class SocketClient {
       _rideStatusStreamController.add(mapped);
       _updateNativeNotification(
         'Payment Pending',
-        'Collect payment for ride #$_activeRideId.',
+        'Collect payment for order #$_activeRideId.',
       );
     });
 
@@ -998,7 +998,7 @@ class SocketClient {
     _currentRide = null;
     _saveRideState();
     _clearPendingRideRequestPreferences();
-    _updateNativeNotification('You are Online', 'Waiting for rides...');
+    _updateNativeNotification('You are Online', 'Waiting for orders...');
   }
 
   Future<void> _clearPendingRideRequestPreferences() async {

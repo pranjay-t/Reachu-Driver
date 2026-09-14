@@ -89,8 +89,72 @@ class LoggingInterceptor extends Interceptor {
 class ErrorInterceptor extends QueuedInterceptor {
   final Dio dio;
   final Ref ref;
-  
+  static bool _isLoggingOut = false;
+
   ErrorInterceptor(this.dio, this.ref);
+
+  bool _isAuthInvalidationError({
+    int? statusCode,
+    required String message,
+    required String path,
+  }) {
+    // Exclude public auth endpoints so failed logins/wrong OTP don't trigger logout recursion
+    final lowerPath = path.toLowerCase();
+    if (lowerPath.contains(ApiEndpoints.login.toLowerCase()) ||
+        lowerPath.contains(ApiEndpoints.verifyOtp.toLowerCase()) ||
+        lowerPath.contains(ApiEndpoints.refreshToken.toLowerCase()) ||
+        lowerPath.contains('isuserexist')) {
+      return false;
+    }
+
+    final lowerMsg = message.toLowerCase();
+
+    // 1. Account / Driver existence or invalidation error messages
+    if (lowerMsg.contains('driver not found') ||
+        lowerMsg.contains('user not found') ||
+        lowerMsg.contains('account not found') ||
+        lowerMsg.contains('driver does not exist') ||
+        lowerMsg.contains('user does not exist') ||
+        lowerMsg.contains('driver is not registered') ||
+        lowerMsg.contains('driver not registered') ||
+        lowerMsg.contains('driver profile not found') ||
+        lowerMsg.contains('account suspended') ||
+        lowerMsg.contains('account deactivated') ||
+        lowerMsg.contains('account blocked') ||
+        lowerMsg.contains('account deleted') ||
+        lowerMsg.contains('invalid token') ||
+        lowerMsg.contains('token invalid') ||
+        lowerMsg.contains('token expired') ||
+        lowerMsg.contains('jwt expired') ||
+        lowerMsg.contains('jwt malformed') ||
+        lowerMsg.contains('invalid signature') ||
+        lowerMsg.contains('session expired') ||
+        lowerMsg.contains('unauthorized') ||
+        lowerMsg.contains('unauthenticated')) {
+      return true;
+    }
+
+    // 2. Status code 401 or 403 on protected routes
+    if (statusCode == 401 || statusCode == 403) {
+      return true;
+    }
+
+    // 3. 404 on driver-specific profile/state routes with not found
+    if (statusCode == 404 &&
+        (lowerPath.contains('/driver') ||
+            lowerPath.contains('/order') ||
+            lowerPath.contains('/wallet') ||
+            lowerPath.contains('/bank-accounts') ||
+            lowerPath.contains('/profile'))) {
+      if (lowerMsg.contains('not found') ||
+          lowerMsg.contains('driver') ||
+          lowerMsg.contains('user')) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
@@ -104,78 +168,34 @@ class ErrorInterceptor extends QueuedInterceptor {
 
       if (success && message != null && message.trim().isNotEmpty) {
         final method = response.requestOptions.method;
-        final showSuccess = response.requestOptions.extra['showSuccessSnackbar'] ?? (method != 'GET');
+        final showSuccess =
+            response.requestOptions.extra['showSuccessSnackbar'] ??
+            (method != 'GET');
 
         if (showSuccess) {
           AppSnackbar.showSuccess(message: message);
         }
       } else if (!success && message != null && message.trim().isNotEmpty) {
-        AppSnackbar.showError(message: message);
+        if (_isAuthInvalidationError(
+          statusCode: response.statusCode,
+          message: message,
+          path: response.requestOptions.path,
+        )) {
+          _forceLogout(message);
+        } else {
+          AppSnackbar.showError(message: message);
+        }
       }
     }
     return super.onResponse(response, handler);
   }
 
   @override
-  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
-    // Handle Token Expiry (401 Unauthorized)
-    if (err.response?.statusCode == 401 && !err.requestOptions.path.contains(ApiEndpoints.refreshToken)) {
-      AppLogger.w('Token expired. Attempting to refresh...');
-      
-      const secureStorage = FlutterSecureStorage();
-      final refreshToken = await secureStorage.read(key: 'refresh_token');
-
-      if (refreshToken == null || refreshToken.isEmpty) {
-        _forceLogout('Session expired. Please log in again.');
-        return handler.reject(err);
-      }
-
-      try {
-        // Make API call to refresh token using a separate dio instance.
-        final tokenDio = Dio(BaseOptions(baseUrl: ApiEndpoints.baseUrl));
-        final response = await tokenDio.post(
-          ApiEndpoints.refreshToken,
-          data: {'refreshToken': refreshToken},
-        );
-
-        if (response.statusCode == 200 && response.data['success'] == true) {
-          final newAuthToken = response.data['data']['token'];
-          final newRefreshToken = response.data['data']['refreshToken'];
-
-          // Save new tokens
-          await secureStorage.write(key: 'auth_token', value: newAuthToken);
-          await secureStorage.write(key: 'refresh_token', value: newRefreshToken);
-          if (kDebugMode) {
-            AppLogger.d('🔑 Refreshed Auth Token: $newAuthToken');
-          }
-
-          // Retry the original failed request with the new token:
-          final options = err.requestOptions;
-          options.headers['Authorization'] = 'Bearer $newAuthToken';
-          
-          final retryResponse = await dio.fetch(options);
-          return handler.resolve(retryResponse);
-        } else {
-          throw Exception('Refresh token failed');
-        }
-      } catch (e) {
-        _forceLogout('Session expired. Please log in again.');
-        return handler.reject(err);
-      }
-    }
-    
-    // Handle Network / Connection errors specially
-    if (err.type == DioExceptionType.connectionError ||
-        err.type == DioExceptionType.connectionTimeout ||
-        err.type == DioExceptionType.sendTimeout ||
-        err.type == DioExceptionType.receiveTimeout) {
-      AppSnackbar.showError(
-        message: 'Network connection issue. Please check your internet connection and try again.',
-      );
-      return super.onError(err, handler);
-    }
-
-    // Parse backend error messages and show toast
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
+    // 1. Extract backend error message
     final data = err.response?.data;
     String errorMessage = 'Unexpected error';
     if (data is Map) {
@@ -184,16 +204,111 @@ class ErrorInterceptor extends QueuedInterceptor {
         errorMessage = msg.toString();
       }
     }
-    
+
+    final statusCode = err.response?.statusCode;
+    final path = err.requestOptions.path;
+
+    // 2. Immediate check for driver not found / account invalidation errors
+    if (_isAuthInvalidationError(
+      statusCode: statusCode,
+      message: errorMessage,
+      path: path,
+    )) {
+      // If it's a 401 on non-refresh endpoints, attempt refresh token first
+      if (statusCode == 401 && !path.contains(ApiEndpoints.refreshToken)) {
+        final refreshed = await _attemptTokenRefresh(err, handler);
+        if (refreshed) return;
+      }
+
+      _forceLogout(errorMessage);
+      return handler.reject(err);
+    }
+
+    // 3. Handle Token Expiry (401 Unauthorized) if not caught above
+    if (statusCode == 401 && !path.contains(ApiEndpoints.refreshToken)) {
+      final refreshed = await _attemptTokenRefresh(err, handler);
+      if (refreshed) return;
+      _forceLogout('Session expired. Please log in again.');
+      return handler.reject(err);
+    }
+
+    // 4. Handle Network / Connection errors specially
+    if (err.type == DioExceptionType.connectionError ||
+        err.type == DioExceptionType.connectionTimeout ||
+        err.type == DioExceptionType.sendTimeout ||
+        err.type == DioExceptionType.receiveTimeout) {
+      AppSnackbar.showError(
+        message:
+            'Network connection issue. Please check your internet connection and try again.',
+      );
+      return super.onError(err, handler);
+    }
+
+    // 5. Show toast for other errors
     AppSnackbar.showError(message: errorMessage);
-    
+
     return super.onError(err, handler);
   }
 
+  Future<bool> _attemptTokenRefresh(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
+    AppLogger.w('Token expired. Attempting to refresh...');
+
+    const secureStorage = FlutterSecureStorage();
+    final refreshToken = await secureStorage.read(key: 'refresh_token');
+
+    if (refreshToken == null || refreshToken.isEmpty) {
+      return false;
+    }
+
+    try {
+      final tokenDio = Dio(BaseOptions(baseUrl: ApiEndpoints.baseUrl));
+      final response = await tokenDio.post(
+        ApiEndpoints.refreshToken,
+        data: {'refreshToken': refreshToken},
+      );
+
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        final newAuthToken = response.data['data']['token'];
+        final newRefreshToken = response.data['data']['refreshToken'];
+
+        await secureStorage.write(key: 'auth_token', value: newAuthToken);
+        await secureStorage.write(
+          key: 'refresh_token',
+          value: newRefreshToken,
+        );
+        if (kDebugMode) {
+          AppLogger.d('🔑 Refreshed Auth Token: $newAuthToken');
+        }
+
+        final options = err.requestOptions;
+        options.headers['Authorization'] = 'Bearer $newAuthToken';
+
+        final retryResponse = await dio.fetch(options);
+        handler.resolve(retryResponse);
+        return true;
+      }
+    } catch (e) {
+      AppLogger.e('Error during token refresh: $e');
+    }
+    return false;
+  }
+
   void _forceLogout(String message) async {
-    AppSnackbar.showError(message: message);
-    if (ref.mounted) {
-      await ref.read(authProvider.notifier).logout();
+    if (_isLoggingOut) return;
+    _isLoggingOut = true;
+
+    try {
+      AppSnackbar.showError(message: message);
+      if (ref.mounted) {
+        await ref.read(authProvider.notifier).logout();
+      }
+    } finally {
+      Future.delayed(const Duration(seconds: 2), () {
+        _isLoggingOut = false;
+      });
     }
   }
 }

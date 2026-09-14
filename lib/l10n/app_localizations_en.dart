@@ -894,10 +894,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onlinePayment => 'ONLINE PAYMENT';
 
   @override
-  String get todaysRideStatus => 'Today\'s Ride Status';
+  String get todaysRideStatus => 'Today\'s Order Status';
 
   @override
-  String get totalRides => 'Total Rides';
+  String get totalRides => 'Total Orders';
 
   @override
   String get cancelled => 'Cancelled';

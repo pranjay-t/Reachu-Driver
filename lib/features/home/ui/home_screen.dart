@@ -753,7 +753,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     SizedBox(height: 16.h),
 
-                    // ── RIDE STATS GRID ──
+                    // ── ORDER STATS GRID ──
                     Row(
                       children: [
                         Expanded(
@@ -762,7 +762,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             isDark: isDark,
                             title: context.l10n.totalRides,
                             value: '${stats.rides.total}',
-                            icon: Icons.local_taxi_rounded,
+                            icon: Icons.inventory_2_rounded,
                             iconColor: AppColors.primary500,
                           ),
                         ),

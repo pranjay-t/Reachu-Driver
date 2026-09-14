@@ -909,10 +909,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get onlinePayment => 'ஆன்லைன் பணம் செலுத்துதல்';
 
   @override
-  String get todaysRideStatus => 'இன்றைய சவாரி நிலை';
+  String get todaysRideStatus => 'இன்றைய ஆர்டர் நிலை';
 
   @override
-  String get totalRides => 'மொத்தச் சவாரிகள்';
+  String get totalRides => 'மொத்த ஆர்டர்கள்';
 
   @override
   String get cancelled => 'ரத்துசெய்யப்பட்டது';
