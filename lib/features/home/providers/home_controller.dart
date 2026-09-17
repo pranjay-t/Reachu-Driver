@@ -1,6 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../auth/repositories/auth_repository.dart';
 import '../../../core/network/api_endpoints.dart';
 import '../../../core/network/result.dart';
 import '../../../core/socket/socket_stream_manager.dart';
@@ -17,9 +19,67 @@ class HomeController extends _$HomeController {
     return _fetchHomeData();
   }
 
+  Future<String?> _resolveCityId() async {
+    try {
+      // 1. Check SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      var cityId = prefs.getString('city_id');
+      if (cityId != null && cityId.trim().isNotEmpty) {
+        return cityId.trim();
+      }
+
+      // 2. Check FlutterSecureStorage
+      const secureStorage = FlutterSecureStorage();
+      cityId = await secureStorage.read(key: 'driver_city_id');
+      if (cityId != null && cityId.trim().isNotEmpty) {
+        await prefs.setString('city_id', cityId.trim());
+        return cityId.trim();
+      }
+
+      // 3. Check JWT token
+      final token = await secureStorage.read(key: 'auth_token');
+      if (token != null && token.isNotEmpty) {
+        final decoded = JwtDecoder.decode(token);
+        final tokenCityId = decoded['cityId']?.toString() ??
+            decoded['city']?.toString() ??
+            decoded['homeCityId']?.toString();
+        if (tokenCityId != null && tokenCityId.trim().isNotEmpty) {
+          final trimmed = tokenCityId.trim();
+          await prefs.setString('city_id', trimmed);
+          await secureStorage.write(key: 'driver_city_id', value: trimmed);
+          return trimmed;
+        }
+      }
+
+      // 4. Fallback: Fetch registration status
+      final authRepository = ref.read(authRepositoryProvider);
+      final statusResult = await authRepository.getRegistrationStatus();
+      switch (statusResult) {
+        case Success(:final data):
+          if (data.success && data.data != null) {
+            final fetchedCityId = data.data!.personalInfo?.cityId ??
+                data.data!.personalInfo?.homeCityId;
+            if (fetchedCityId != null && fetchedCityId.trim().isNotEmpty) {
+              final trimmed = fetchedCityId.trim();
+              await prefs.setString('city_id', trimmed);
+              await secureStorage.write(key: 'driver_city_id', value: trimmed);
+              return trimmed;
+            }
+          }
+        case Failure():
+          break;
+      }
+    } catch (e) {
+      AppLogger.w('⚠️ Error resolving cityId for Home API: $e');
+    }
+    return null;
+  }
+
   Future<HomeData> _fetchHomeData() async {
+    final cityId = await _resolveCityId();
+    AppLogger.d("🏠 [HomeController._fetchHomeData] Fetching home data with cityId: '$cityId'");
     final repository = ref.read(homeRepositoryProvider);
-    final result = await repository.getHomeData();
+    final result = await repository.getHomeData(cityId: cityId);
 
     switch (result) {
       case Success(:final data):

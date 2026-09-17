@@ -1472,4 +1472,30 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get dismiss => 'खारिज करें';
+
+  @override
+  String get trainingVideos => 'ट्रेनिंग वीडियो';
+
+  @override
+  String get welcomeToReachU => 'नमस्ते, ReachU में आपका स्वागत है!';
+
+  @override
+  String get welcomeTrainingSubtitle =>
+      'आइए अपना सफर शुरू करें! ऐप कैसे काम करता है यह जानने के लिए कृपया यह छोटा ट्रेनिंग वीडियो देखें।';
+
+  @override
+  String get trainingCompletedTitle => 'ट्रेनिंग पूरी हुई!';
+
+  @override
+  String get trainingCompletedSubtitle =>
+      'बहुत बढ़िया! आपने सफलतापूर्वक सभी जरूरी ट्रेनिंग पूरी कर ली है। अब आप ड्राइविंग शुरू करने के लिए तैयार हैं।';
+
+  @override
+  String get startDriving => 'ड्राइविंग शुरू करें';
+
+  @override
+  String get iHaveReadAndConsent => 'मैंने पढ़कर अपनी सहमति प्रदान की है: ';
+
+  @override
+  String get tdsDeclaration => 'TDS Declaration';
 }

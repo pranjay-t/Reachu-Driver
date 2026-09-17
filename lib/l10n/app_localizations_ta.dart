@@ -1500,4 +1500,31 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get dismiss => 'விலக்கு';
+
+  @override
+  String get trainingVideos => 'Training Videos';
+
+  @override
+  String get welcomeToReachU => 'Hi, Welcome to ReachU!';
+
+  @override
+  String get welcomeTrainingSubtitle =>
+      'Let\'s start your journey! Please watch this quick training video to learn how things work.';
+
+  @override
+  String get trainingCompletedTitle => 'Training Completed!';
+
+  @override
+  String get trainingCompletedSubtitle =>
+      'Great job! You have successfully completed all required training. You are now ready to start driving.';
+
+  @override
+  String get startDriving => 'Start Driving';
+
+  @override
+  String get iHaveReadAndConsent =>
+      'I have read and hereby provide my consent on the ';
+
+  @override
+  String get tdsDeclaration => 'TDS Declaration';
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:reachu_driver/features/auth/providers/auth_state_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -19,6 +20,7 @@ class LoginState {
   final String enteredOtp;
   final int resendCountdown;
   final bool termsAccepted;
+  final bool tdsAccepted;
   final String phone;
   final String userId;
   final int otpTriggerCount;
@@ -29,6 +31,7 @@ class LoginState {
     this.enteredOtp = '',
     this.resendCountdown = 0,
     this.termsAccepted = false,
+    this.tdsAccepted = false,
     this.phone = '',
     this.userId = '',
     this.otpTriggerCount = 0,
@@ -40,6 +43,7 @@ class LoginState {
     String? enteredOtp,
     int? resendCountdown,
     bool? termsAccepted,
+    bool? tdsAccepted,
     String? phone,
     String? userId,
     int? otpTriggerCount,
@@ -50,6 +54,7 @@ class LoginState {
       enteredOtp: enteredOtp ?? this.enteredOtp,
       resendCountdown: resendCountdown ?? this.resendCountdown,
       termsAccepted: termsAccepted ?? this.termsAccepted,
+      tdsAccepted: tdsAccepted ?? this.tdsAccepted,
       phone: phone ?? this.phone,
       userId: userId ?? this.userId,
       otpTriggerCount: otpTriggerCount ?? this.otpTriggerCount,
@@ -81,6 +86,10 @@ class LoginController extends _$LoginController {
 
   void setTermsAccepted(bool accepted) {
     state = state.copyWith(termsAccepted: accepted);
+  }
+
+  void setTdsAccepted(bool accepted) {
+    state = state.copyWith(tdsAccepted: accepted);
   }
 
   void setOtp(String otp) {
@@ -174,6 +183,16 @@ class LoginController extends _$LoginController {
               case Success(data: final sData):
                 if (sData.success && sData.data != null) {
                   overallStatus = sData.data!.overallStatus;
+                  final cityId = sData.data!.personalInfo?.cityId ??
+                      sData.data!.personalInfo?.homeCityId;
+                  if (cityId != null && cityId.trim().isNotEmpty) {
+                    await secureStorage.write(
+                      key: 'driver_city_id',
+                      value: cityId.trim(),
+                    );
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setString('city_id', cityId.trim());
+                  }
                 }
               case Failure():
                 break;

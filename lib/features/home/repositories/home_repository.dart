@@ -18,9 +18,13 @@ class HomeRepository {
 
   HomeRepository(this._apiService);
 
-  Future<ApiResult<HomeResponse>> getHomeData() async {
+  Future<ApiResult<HomeResponse>> getHomeData({String? cityId}) async {
+    final Map<String, dynamic>? queryParams =
+        (cityId != null && cityId.isNotEmpty) ? {'cityId': cityId} : null;
+
     return _apiService.get(
       ApiEndpoints.driverHome,
+      queryParameters: queryParams,
       converter: (data) => HomeResponse.fromJson(data as Map<String, dynamic>),
     );
   }

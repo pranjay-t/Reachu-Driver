@@ -65,6 +65,11 @@ class ApiEndpoints {
   static const String getAllCategories = '/getAllCategories';
   static String getByCategory(String category) =>
       '/getByCategory/${Uri.encodeComponent(category)}';
+
+  // TUTORIALS
+  static const String tutorialsPending = '/driver/tutorials/pending';
+  static const String driverTutorials = '/driver/tutorials';
+  static String watchTutorial(String id) => '/driver/tutorials/$id/watch';
 }
 
 class ApiPath {

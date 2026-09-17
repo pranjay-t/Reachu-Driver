@@ -745,5 +745,37 @@
   "dismiss": "Dismiss",
   "@dismiss": {
     "description": "Button label to dismiss popup"
+  },
+  "trainingVideos": "Training Videos",
+  "@trainingVideos": {
+    "description": "Menu title for training and tutorial videos"
+  },
+  "welcomeToReachU": "Hi, Welcome to ReachU!",
+  "@welcomeToReachU": {
+    "description": "Welcoming greeting for driver tutorials"
+  },
+  "welcomeTrainingSubtitle": "Let's start your journey! Please watch this quick training video to learn how things work.",
+  "@welcomeTrainingSubtitle": {
+    "description": "Subtitle explaining why mandatory training is required"
+  },
+  "trainingCompletedTitle": "Training Completed!",
+  "@trainingCompletedTitle": {
+    "description": "Title shown when driver finishes all mandatory training"
+  },
+  "trainingCompletedSubtitle": "Great job! You have successfully completed all required training. You are now ready to start driving.",
+  "@trainingCompletedSubtitle": {
+    "description": "Subtitle encouraging driver after completing training"
+  },
+  "startDriving": "Start Driving",
+  "@startDriving": {
+    "description": "Button to finish training and go to home screen"
+  },
+  "iHaveReadAndConsent": "I have read and hereby provide my consent on the ",
+  "@iHaveReadAndConsent": {
+    "description": "Prefix text for TDS consent checkbox"
+  },
+  "tdsDeclaration": "TDS Declaration",
+  "@tdsDeclaration": {
+    "description": "Link label for TDS Declaration"
   }
 }

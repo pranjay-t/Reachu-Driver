@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../auth/providers/auth_state_provider.dart';
 import '../../account/providers/company_controller.dart';
+import '../../tutorials/providers/tutorial_controller.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -34,7 +35,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     });
   }
 
-  void _attemptNavigation() {
+  Future<void> _attemptNavigation() async {
     if (!mounted || _navigated) return;
 
     final authStatus = ref.read(authProvider);
@@ -43,7 +44,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       _navigated = true;
       switch (authStatus) {
         case AuthStatus.authenticated:
-          context.go('/home');
+          try {
+            final isPending = await ref
+                .read(pendingTutorialsProvider.notifier)
+                .checkPendingStatus();
+            if (!mounted) return;
+            if (isPending) {
+              context.go('/mandatory_tutorials');
+              return;
+            }
+          } catch (_) {}
+          if (mounted) {
+            context.go('/home');
+          }
           break;
         case AuthStatus.unauthenticated:
           context.go('/login');

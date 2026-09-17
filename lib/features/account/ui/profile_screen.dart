@@ -405,6 +405,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       _buildDivider(isDark),
                       _buildMenuRow(
                         context: context,
+                        icon: Icons.ondemand_video_rounded,
+                        title: context.l10n.trainingVideos,
+                        onTap: () => context.push('/profile/tutorials'),
+                        isDark: isDark,
+                      ),
+                      _buildDivider(isDark),
+                      _buildMenuRow(
+                        context: context,
                         icon: Icons.star_outline_rounded,
                         title: context.l10n.reviewAndRating,
                         onTap: () => context.push('/profile/rating'),

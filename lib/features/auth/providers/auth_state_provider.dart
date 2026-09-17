@@ -55,6 +55,13 @@ class AuthNotifier extends _$AuthNotifier {
               final overallStatus = data.data!.overallStatus;
               await secureStorage.write(key: 'verification_status', value: overallStatus);
 
+              final cityId = data.data!.personalInfo?.cityId ?? data.data!.personalInfo?.homeCityId;
+              if (cityId != null && cityId.trim().isNotEmpty) {
+                await secureStorage.write(key: 'driver_city_id', value: cityId.trim());
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.setString('city_id', cityId.trim());
+              }
+
               if (overallStatus == OverallStatus.approved || overallStatus == 'verified') {
                 await secureStorage.write(key: 'profile_complete', value: 'true');
                 state = AuthStatus.authenticated;

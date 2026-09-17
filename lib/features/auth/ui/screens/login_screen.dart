@@ -13,6 +13,9 @@ import '../../../../app/theme/app_dimensions.dart';
 import '../../providers/login_controller.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:logger/logger.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../../../core/network/company_bucket_url.dart';
+import '../../../account/providers/company_controller.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -58,11 +61,43 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   // ACTIONS
   // ══════════════════════════════════════════
 
+  Future<void> _openTdsDeclaration() async {
+    try {
+      final company = await ref.read(companyControllerProvider.future);
+      final rawPath = company.tdsDeclaration;
+      if (rawPath != null && rawPath.isNotEmpty) {
+        final fullUrl = CompanyBucketUrl.getImageUrl(rawPath);
+        final uri = Uri.parse(fullUrl);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        } else {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        }
+      } else {
+        if (mounted) {
+          AppSnackBar.show(
+            context,
+            message: 'TDS Declaration document is not available',
+            type: SnackBarType.warning,
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        AppSnackBar.show(
+          context,
+          message: 'Error opening TDS Declaration: $e',
+          type: SnackBarType.error,
+        );
+      }
+    }
+  }
+
   void _handleSendOtp(LoginState state) async {
     if (!_phoneFormKey.currentState!.validate()) return;
 
     final isPhoneValid = _validatePhone(_phoneController.text) == null;
-    if (!state.termsAccepted || !isPhoneValid) {
+    if (!state.termsAccepted || !state.tdsAccepted || !isPhoneValid) {
       return;
     }
 
@@ -161,7 +196,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   Widget _buildPhoneView(ThemeData theme, bool isDark, LoginState state) {
     final isPhoneValid = _validatePhone(_phoneController.text) == null;
-    final isSendActive = state.termsAccepted && isPhoneValid;
+    final isSendActive =
+        state.termsAccepted && state.tdsAccepted && isPhoneValid;
 
     return Column(
       key: const ValueKey('phone_view'),
@@ -205,11 +241,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
         // ── Terms Checkbox ──
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: 24,
-              width: 24,
+              height: 20,
+              width: 20,
               child: Checkbox(
                 value: state.termsAccepted,
                 onChanged: (val) {
@@ -217,6 +253,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       .read(loginControllerProvider.notifier)
                       .setTermsAccepted(val ?? false);
                 },
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4),
                 ),
@@ -225,44 +263,96 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
             const SizedBox(width: AppDimensions.space12),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: () {
-                  final l10n = context.l10n;
-                  final linkStyle = TextStyle(
-                    color: AppColors.primary500,
-                    fontWeight: FontWeight.w600,
-                    decoration: TextDecoration.underline,
-                  );
-                  final normalStyle = theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                  );
+              child: () {
+                final l10n = context.l10n;
+                final linkStyle = TextStyle(
+                  color: AppColors.primary500,
+                  fontWeight: FontWeight.w600,
+                  decoration: TextDecoration.underline,
+                );
+                final normalStyle = theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                );
 
-                  return Text.rich(
-                    TextSpan(
-                      style: normalStyle,
-                      children: [
-                        if (l10n.iAgreeTo.isNotEmpty) TextSpan(text: l10n.iAgreeTo),
-                        TextSpan(
-                          text: l10n.termsOfService,
-                          style: linkStyle,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () => context.push('/terms_conditions'),
-                        ),
-                        if (l10n.and.isNotEmpty) TextSpan(text: l10n.and),
-                        TextSpan(
-                          text: l10n.privacyPolicy,
-                          style: linkStyle,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () => context.push('/privacy_policy'),
-                        ),
-                        if (l10n.agreeSuffix.isNotEmpty)
-                          TextSpan(text: l10n.agreeSuffix),
-                      ],
-                    ),
-                  );
-                }(),
+                return Text.rich(
+                  TextSpan(
+                    style: normalStyle,
+                    children: [
+                      if (l10n.iAgreeTo.isNotEmpty) TextSpan(text: l10n.iAgreeTo),
+                      TextSpan(
+                        text: l10n.termsOfService,
+                        style: linkStyle,
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => context.push('/terms_conditions'),
+                      ),
+                      if (l10n.and.isNotEmpty) TextSpan(text: l10n.and),
+                      TextSpan(
+                        text: l10n.privacyPolicy,
+                        style: linkStyle,
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => context.push('/privacy_policy'),
+                      ),
+                      if (l10n.agreeSuffix.isNotEmpty)
+                        TextSpan(text: l10n.agreeSuffix),
+                    ],
+                  ),
+                );
+              }(),
+            ),
+          ],
+        ),
+        const SizedBox(height: AppDimensions.space12),
+
+        // ── TDS Declaration Checkbox ──
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 20,
+              width: 20,
+              child: Checkbox(
+                value: state.tdsAccepted,
+                onChanged: (val) {
+                  ref
+                      .read(loginControllerProvider.notifier)
+                      .setTdsAccepted(val ?? false);
+                },
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                activeColor: AppColors.primary500,
               ),
+            ),
+            const SizedBox(width: AppDimensions.space12),
+            Expanded(
+              child: () {
+                final l10n = context.l10n;
+                final linkStyle = TextStyle(
+                  color: AppColors.primary500,
+                  fontWeight: FontWeight.w600,
+                  decoration: TextDecoration.underline,
+                );
+                final normalStyle = theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                );
+
+                return Text.rich(
+                  TextSpan(
+                    style: normalStyle,
+                    children: [
+                      TextSpan(text: l10n.iHaveReadAndConsent),
+                      TextSpan(
+                        text: l10n.tdsDeclaration,
+                        style: linkStyle,
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = _openTdsDeclaration,
+                      ),
+                    ],
+                  ),
+                );
+              }(),
             ),
           ],
         ),

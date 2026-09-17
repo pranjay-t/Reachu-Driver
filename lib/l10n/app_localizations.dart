@@ -2833,6 +2833,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dismiss'**
   String get dismiss;
+
+  /// Menu title for training and tutorial videos
+  ///
+  /// In en, this message translates to:
+  /// **'Training Videos'**
+  String get trainingVideos;
+
+  /// Welcoming greeting for driver tutorials
+  ///
+  /// In en, this message translates to:
+  /// **'Hi, Welcome to ReachU!'**
+  String get welcomeToReachU;
+
+  /// Subtitle explaining why mandatory training is required
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s start your journey! Please watch this quick training video to learn how things work.'**
+  String get welcomeTrainingSubtitle;
+
+  /// Title shown when driver finishes all mandatory training
+  ///
+  /// In en, this message translates to:
+  /// **'Training Completed!'**
+  String get trainingCompletedTitle;
+
+  /// Subtitle encouraging driver after completing training
+  ///
+  /// In en, this message translates to:
+  /// **'Great job! You have successfully completed all required training. You are now ready to start driving.'**
+  String get trainingCompletedSubtitle;
+
+  /// Button to finish training and go to home screen
+  ///
+  /// In en, this message translates to:
+  /// **'Start Driving'**
+  String get startDriving;
+
+  /// Prefix text for TDS consent checkbox
+  ///
+  /// In en, this message translates to:
+  /// **'I have read and hereby provide my consent on the '**
+  String get iHaveReadAndConsent;
+
+  /// Link label for TDS Declaration
+  ///
+  /// In en, this message translates to:
+  /// **'TDS Declaration'**
+  String get tdsDeclaration;
 }
 
 class _AppLocalizationsDelegate

@@ -28,6 +28,7 @@ import 'package:reachu_driver/core/socket/socket_stream_manager.dart';
 import 'package:reachu_driver/core/socket/socket_manager_provider.dart';
 import 'package:reachu_driver/features/account/providers/profile_controller.dart';
 import 'package:reachu_driver/features/booking/providers/ride_queue_provider.dart';
+import 'package:reachu_driver/features/tutorials/providers/tutorial_controller.dart';
 import 'package:reachu_driver/core/utils/app_logger.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -78,6 +79,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       // 1. Refresh home data (which gets driver.isOnline from backend)
       await ref.read(homeControllerProvider.notifier).refreshHome();
       if (!mounted) return;
+
+      // 2. Check if mandatory tutorials are pending
+      try {
+        final isPending = await ref
+            .read(pendingTutorialsProvider.notifier)
+            .checkPendingStatus();
+        if (!mounted) return;
+        if (isPending) {
+          context.go('/mandatory_tutorials');
+          return;
+        }
+      } catch (_) {}
 
       final socketClient = ref.read(socketClientProvider);
 

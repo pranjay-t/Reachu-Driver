@@ -29,6 +29,8 @@ import 'package:reachu_driver/features/account/ui/camera_preview_screen.dart';
 import 'package:reachu_driver/features/account/ui/company_info_screen.dart';
 import 'package:reachu_driver/features/account/ui/rating_screen.dart';
 import 'package:reachu_driver/features/account/ui/language_selection_screen.dart';
+import 'package:reachu_driver/features/tutorials/ui/mandatory_tutorials_screen.dart';
+import 'package:reachu_driver/features/tutorials/ui/tutorials_library_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/material.dart';
@@ -234,6 +236,16 @@ GoRouter appRouter(Ref ref) {
         name: 'money_transfer',
         builder: (context, state) => const MoneyTransferScreen(),
       ),
+      GoRoute(
+        path: '/mandatory_tutorials',
+        name: 'mandatory_tutorials',
+        builder: (context, state) => const MandatoryTutorialsScreen(),
+      ),
+      GoRoute(
+        path: '/tutorials',
+        name: 'tutorials',
+        builder: (context, state) => const TutorialsLibraryScreen(),
+      ),
 
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -329,6 +341,12 @@ GoRouter appRouter(Ref ref) {
                     name: 'language',
                     parentNavigatorKey: rootNavigatorKey,
                     builder: (context, state) => const LanguageSelectionScreen(),
+                  ),
+                  GoRoute(
+                    path: 'tutorials',
+                    name: 'profile_tutorials',
+                    parentNavigatorKey: rootNavigatorKey,
+                    builder: (context, state) => const TutorialsLibraryScreen(),
                   ),
                   GoRoute(
                     path: 'camera_preview',
