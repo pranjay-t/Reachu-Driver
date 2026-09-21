@@ -34,6 +34,7 @@ class SocketClient {
   double _currentLatitude = 0.0;
   double _currentLongitude = 0.0;
   DateTime? _lastLocationUpdate;
+  DateTime? _lastProfileSyncTime;
 
   StreamSubscription<Position>? _positionStreamSubscription;
   Timer? _locationUpdateTimer;
@@ -637,109 +638,9 @@ class SocketClient {
       const secureStorage = FlutterSecureStorage();
       final token = await secureStorage.read(key: 'auth_token');
 
+      // Asynchronously fetch latest profile to keep vehicle data in prefs up-to-date without delaying socket online emission
       if (token != null && token.isNotEmpty) {
-        // Fetch latest profile to ensure vehicle data is synchronized in prefs
-        try {
-          final dio = Dio(BaseOptions(baseUrl: ApiEndpoints.baseUrl));
-          dio.options.headers['Authorization'] = 'Bearer $token';
-          final decodedToken = JwtDecoder.decode(token);
-          final userId = decodedToken['id'] ?? decodedToken['_id'];
-          if (userId != null) {
-            final path = ApiEndpoints.getDriverById.replaceAll(
-              '<driverId>',
-              userId,
-            );
-            AppLogger.d(
-              '📡 [SocketClient] Fetching driver profile from: $path',
-            );
-            final response = await dio.get(path);
-            if (response.statusCode == 200 && response.data != null) {
-              final rawMap = response.data as Map<String, dynamic>;
-
-              final vehicleMapImage =
-                  rawMap['vehicleMapImage']?.toString() ??
-                  (rawMap['driver'] is Map
-                      ? (rawMap['driver'] as Map)['vehicleMapImage']?.toString()
-                      : null) ??
-                  (rawMap['data'] is Map
-                      ? (rawMap['data'] as Map)['vehicleMapImage']?.toString()
-                      : null) ??
-                  "";
-
-              if (vehicleMapImage.isNotEmpty) {
-                final prefsInstance = await SharedPreferences.getInstance();
-                await prefsInstance.setString(
-                  "vehicle_map_image",
-                  vehicleMapImage,
-                );
-                AppLogger.d(
-                  "🚗 [SocketClient] Saved vehicle_map_image: $vehicleMapImage",
-                );
-              }
-
-              if (rawMap.containsKey('driver')) {
-                final driverData = rawMap['driver'] as Map<String, dynamic>?;
-                if (driverData != null && driverData.containsKey('vehicle')) {
-                  final vehicle = driverData['vehicle'];
-                  if (vehicle is Map) {
-                    final vehicleId =
-                        vehicle['_id']?.toString() ??
-                        vehicle['id']?.toString() ??
-                        "";
-                    final vehicleType =
-                        vehicle['vehicleType']?.toString() ?? "";
-                    final vehicleSubType =
-                        vehicle['vehicleSubType']?.toString() ?? "";
-                    final vehicleName =
-                        vehicle['vehicleName']?.toString() ?? "";
-                    final vehicleNumber =
-                        vehicle['vehicleNumber']?.toString() ?? "";
-
-                    final prefsInstance = await SharedPreferences.getInstance();
-                    if (vehicleId.isNotEmpty) {
-                      await prefsInstance.setString("vehicle_id", vehicleId);
-                      AppLogger.d(
-                        "🚗 [SocketClient] Saved vehicle_id: $vehicleId",
-                      );
-                    }
-                    if (vehicleType.isNotEmpty) {
-                      await prefsInstance.setString(
-                        "vehicle_type_id",
-                        vehicleType,
-                      );
-                      AppLogger.d(
-                        "🚗 [SocketClient] Saved vehicle_type_id: $vehicleType",
-                      );
-                    }
-                    if (vehicleSubType.isNotEmpty) {
-                      await prefsInstance.setString(
-                        "vehicle_SubType",
-                        vehicleSubType,
-                      );
-                      AppLogger.d(
-                        "🚗 [SocketClient] Saved vehicle_SubType: $vehicleSubType",
-                      );
-                    }
-                    if (vehicleName.isNotEmpty) {
-                      await prefsInstance.setString(
-                        "vehicle_name",
-                        vehicleName,
-                      );
-                    }
-                    if (vehicleNumber.isNotEmpty) {
-                      await prefsInstance.setString(
-                        "vehicle_number",
-                        vehicleNumber,
-                      );
-                    }
-                  }
-                }
-              }
-            }
-          }
-        } catch (e) {
-          AppLogger.e('⚠️ Error fetching driver profile in SocketClient: $e');
-        }
+        unawaited(_syncDriverProfileAsync(token));
       }
 
       final prefs = await SharedPreferences.getInstance();
@@ -772,6 +673,105 @@ class SocketClient {
       _setProcessingOnline(false);
       _isOnDuty = false;
       _dutyStreamController.add(false);
+    }
+  }
+
+  Future<void> _syncDriverProfileAsync(String token) async {
+    // Throttle profile API sync to at most once every 10 minutes to avoid redundant backend calls
+    if (_lastProfileSyncTime != null &&
+        DateTime.now().difference(_lastProfileSyncTime!).inMinutes < 10) {
+      return;
+    }
+    _lastProfileSyncTime = DateTime.now();
+
+    try {
+      final dio = Dio(BaseOptions(
+        baseUrl: ApiEndpoints.baseUrl,
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 5),
+      ));
+      dio.options.headers['Authorization'] = 'Bearer $token';
+      final decodedToken = JwtDecoder.decode(token);
+      final userId = decodedToken['id'] ?? decodedToken['_id'];
+      if (userId != null) {
+        final path = ApiEndpoints.getDriverById.replaceAll(
+          '<driverId>',
+          userId,
+        );
+        final response = await dio.get(path);
+        if (response.statusCode == 200 && response.data != null) {
+          final rawMap = response.data as Map<String, dynamic>;
+
+          final vehicleMapImage =
+              rawMap['vehicleMapImage']?.toString() ??
+              (rawMap['driver'] is Map
+                  ? (rawMap['driver'] as Map)['vehicleMapImage']?.toString()
+                  : null) ??
+              (rawMap['data'] is Map
+                  ? (rawMap['data'] as Map)['vehicleMapImage']?.toString()
+                  : null) ??
+              "";
+
+          final prefsInstance = await SharedPreferences.getInstance();
+          if (vehicleMapImage.isNotEmpty) {
+            await prefsInstance.setString(
+              "vehicle_map_image",
+              vehicleMapImage,
+            );
+          }
+
+          if (rawMap.containsKey('driver')) {
+            final driverData = rawMap['driver'] as Map<String, dynamic>?;
+            if (driverData != null && driverData.containsKey('vehicle')) {
+              final vehicle = driverData['vehicle'];
+              if (vehicle is Map) {
+                final vehicleId =
+                    vehicle['_id']?.toString() ??
+                    vehicle['id']?.toString() ??
+                    "";
+                final vehicleType =
+                    vehicle['vehicleType']?.toString() ?? "";
+                final vehicleSubType =
+                    vehicle['vehicleSubType']?.toString() ?? "";
+                final vehicleName =
+                    vehicle['vehicleName']?.toString() ?? "";
+                final vehicleNumber =
+                    vehicle['vehicleNumber']?.toString() ?? "";
+
+                if (vehicleId.isNotEmpty) {
+                  await prefsInstance.setString("vehicle_id", vehicleId);
+                }
+                if (vehicleType.isNotEmpty) {
+                  await prefsInstance.setString(
+                    "vehicle_type_id",
+                    vehicleType,
+                  );
+                }
+                if (vehicleSubType.isNotEmpty) {
+                  await prefsInstance.setString(
+                    "vehicle_SubType",
+                    vehicleSubType,
+                  );
+                }
+                if (vehicleName.isNotEmpty) {
+                  await prefsInstance.setString(
+                    "vehicle_name",
+                    vehicleName,
+                  );
+                }
+                if (vehicleNumber.isNotEmpty) {
+                  await prefsInstance.setString(
+                    "vehicle_number",
+                    vehicleNumber,
+                  );
+                }
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      AppLogger.w('⚠️ Background profile sync in SocketClient: $e');
     }
   }
 
@@ -1116,10 +1116,15 @@ class SocketClient {
     _lastLocationUpdate = DateTime.now();
   }
 
-  void _scheduleReconnect() {
+  void _scheduleReconnect({bool force = false}) {
     _cancelReconnect();
     _reconnectTimer = Timer(const Duration(seconds: 5), () async {
-      if (!_isOnDuty || _isConnected) return;
+      if (!_isOnDuty) return;
+      if (_isConnected && !force) return;
+      if (force) {
+        AppLogger.w('🔄 [SocketClient] Forcing clean socket teardown and reconnection...');
+        _cleanupSocket();
+      }
       final connected = await connectSocket();
       if (connected && _isOnDuty) {
         await goOnline(force: true);
@@ -1137,15 +1142,15 @@ class SocketClient {
   void _startHealthCheck() {
     _cancelHealthCheck();
     _healthCheckTimer = Timer.periodic(const Duration(seconds: 30), (_) {
-      if (_socket != null && _isOnDuty && _isConnected) {
+      if (_isOnDuty) {
         final lastUpdate = _lastLocationUpdate;
         if (lastUpdate != null) {
           final diff = DateTime.now().difference(lastUpdate).inMilliseconds;
-          if (diff > 120000) {
+          if (diff > 90000) { // 90 seconds
             AppLogger.w(
-              '⚠️ Socket health check failed (Location stale). Reconnecting...',
+              '⚠️ Socket health check failed (Location stale: ${diff}ms). Forcing reconnection...',
             );
-            _scheduleReconnect();
+            _scheduleReconnect(force: true);
           }
         }
       }
@@ -1188,6 +1193,21 @@ class SocketClient {
   Future<void> setNativeAppState(String state) async {
     try {
       await _platform.invokeMethod('setAppState', {'state': state});
+      if (state == 'Background') {
+        // Pause Flutter's timer in background; native Kotlin service takes over GPS emissions
+        _stopLocationUpdates();
+      } else if (state == 'Foreground' && _isOnDuty) {
+        AppLogger.i('🔄 [SocketClient] Resumed to Foreground: ensuring Flutter socket & streams');
+        if (!_isConnected || _socket == null) {
+          connectSocket().then((connected) {
+            if (connected && _isOnDuty) goOnline(force: true);
+          });
+        } else {
+          _startLocationUpdates();
+          startLocationWatch();
+        }
+        _processPendingNativeNotificationActions();
+      }
     } catch (e) {
       AppLogger.e('Failed updating app state: $e');
     }

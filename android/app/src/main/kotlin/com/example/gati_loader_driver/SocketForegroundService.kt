@@ -321,7 +321,6 @@ class SocketForegroundService : Service() {
                 Exception("SocketForegroundService timeout reached for fgsType: $fgsType")
             )
         } catch (ignored: Exception) {}
-        stopSelf(startId)
     }
 
     private fun cancelAllTimers() {
@@ -373,13 +372,41 @@ class SocketForegroundService : Service() {
         Log.i(TAG, "[STATE] App state changed: $appState -> $state")
         val oldState = appState
         appState = state
-        if (isOnDuty) {
+
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val driverOnline = prefs.getBoolean("flutter.driver_is_online", false)
+
+        if (isOnDuty || driverOnline) {
             val body = buildNotificationBody()
             updateStatusNotification("You are Online", body)
         }
 
-        if (oldState == "Killed" && (state == "Foreground" || state == "Background")) {
-            Log.i(TAG, "🔄 Flutter is back — disconnecting Kotlin socket")
+        if (state == "Background") {
+            Log.i(TAG, "📱 App in Background — Native Kotlin taking over socket & location")
+            if (isOnDuty || driverOnline) {
+                Thread {
+                    try {
+                        if (socket == null || !isSocketConnected) {
+                            connectSocket()
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error connecting socket in background: ${e.message}", e)
+                    }
+
+                    onlineTimer?.cancel()
+                    onlineTimer = Timer("OnlineEmit", true).also {
+                        it.scheduleAtFixedRate(object : TimerTask() {
+                            override fun run() {
+                                try { emitOnline() } catch (e: Exception) {
+                                    Log.e(TAG, "Error in emitOnline: ${e.message}")
+                                }
+                            }
+                        }, 2000, 30000)
+                    }
+                }.start()
+            }
+        } else if (state == "Foreground") {
+            Log.i(TAG, "🔄 Flutter is in Foreground — yielding socket to Flutter")
             Thread {
                 disconnectSocket()
                 onlineTimer?.cancel()
