@@ -264,33 +264,13 @@ class _OnboardingStepperScreenState extends ConsumerState<OnboardingStepperScree
           ),
           const SizedBox(height: 20),
 
-          // Full Name (Read-only / Non-editable just like mobile number)
+          // Full Name
           AppTextField(
             controller: _nameController,
             label: 'Full Name',
             hint: 'Enter your full name',
             prefixIcon: Icons.person_outline_rounded,
-            readOnly: true,
-            fillColor: isDark
-                ? AppColors.darkSurface02
-                : AppColors.lightSurface02,
-            style: TextStyle(
-              color: isDark ? AppColors.neutral400 : AppColors.neutral600,
-            ),
-            labelStyle: TextStyle(
-              fontSize: 14,
-              color: isDark ? AppColors.neutral400 : AppColors.neutral500,
-            ),
-            floatingLabelStyle: TextStyle(
-              fontSize: 16,
-              color: isDark ? AppColors.neutral400 : AppColors.neutral500,
-            ),
-            suffix: Icon(
-              Icons.lock_outline_rounded,
-              size: 18,
-              color: isDark ? AppColors.neutral500 : AppColors.neutral400,
-            ),
-            validator: (v) => v == null || v.isEmpty ? 'Full name is required' : null,
+            validator: (v) => v == null || v.trim().isEmpty ? 'Full name is required' : null,
           ),
           const SizedBox(height: 16),
 
