@@ -1484,29 +1484,29 @@ class AppLocalizationsKn extends AppLocalizations {
   String get dismiss => 'ವಜಾಗೊಳಿಸಿ';
 
   @override
-  String get trainingVideos => 'Training Videos';
+  String get trainingVideos => 'ತರಬೇತಿ ವೀಡಿಯೊಗಳು';
 
   @override
-  String get welcomeToReachU => 'Hi, Welcome to ReachU!';
+  String get welcomeToReachU => 'ನಮಸ್ಕಾರ, ReachU ಗೆ ಸುಸ್ವಾಗತ!';
 
   @override
   String get welcomeTrainingSubtitle =>
-      'Let\'s start your journey! Please watch this quick training video to learn how things work.';
+      'ನಿಮ್ಮ ಪ್ರಯಾಣವನ್ನು ಪ್ರಾರಂಭಿಸೋಣ! ಆ್ಯಪ್ ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ ಎಂದು ತಿಳಿಯಲು ದಯವಿಟ್ಟು ಈ ತ್ವರಿತ ತರಬೇತಿ ವೀಡಿಯೊವನ್ನು ವೀಕ್ಷಿಸಿ.';
 
   @override
-  String get trainingCompletedTitle => 'Training Completed!';
+  String get trainingCompletedTitle => 'ತರಬೇತಿ ಪೂರ್ಣಗೊಂಡಿದೆ!';
 
   @override
   String get trainingCompletedSubtitle =>
-      'Great job! You have successfully completed all required training. You are now ready to start driving.';
+      'ಅದ್ಭುತ! ನೀವು ಅಗತ್ಯವಿರುವ ಎಲ್ಲಾ ತರಬೇತಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪೂರ್ಣಗೊಳಿಸಿದ್ದೀರಿ. ನೀವು ಈಗ ಚಾಲನೆ ಮಾಡಲು ಸಿದ್ಧರಿದ್ದೀರಿ.';
 
   @override
-  String get startDriving => 'Start Driving';
+  String get startDriving => 'ಚಾಲನೆ ಪ್ರಾರಂಭಿಸಿ';
 
   @override
   String get iHaveReadAndConsent =>
-      'I have read and hereby provide my consent on the ';
+      'ನಾನು ಓದಿದ್ದೇನೆ ಮತ್ತು ಇದರ ಮೇಲೆ ನನ್ನ ಒಪ್ಪಿಗೆಯನ್ನು ನೀಡುತ್ತಿದ್ದೇನೆ: ';
 
   @override
-  String get tdsDeclaration => 'TDS Declaration';
+  String get tdsDeclaration => 'TDS ಘೋಷಣೆ';
 }

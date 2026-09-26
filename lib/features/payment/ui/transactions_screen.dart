@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:intl/intl.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_text_styles.dart';
 import '../../../core/localization/locale_provider.dart';
@@ -33,6 +34,17 @@ class _TransactionsScreenState extends ConsumerState<TransactionsScreen> {
   void _onScroll() {
     if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
       ref.read(transactionsControllerProvider.notifier).fetchNextPage();
+    }
+  }
+
+  String _formatDateTime(BuildContext context, String? dateStr) {
+    if (dateStr == null || dateStr.trim().isEmpty) return '';
+    try {
+      final parsedDate = DateTime.parse(dateStr).toLocal();
+      final locale = Localizations.localeOf(context).languageCode;
+      return DateFormat('dd MMM yyyy • hh:mm a', locale).format(parsedDate);
+    } catch (_) {
+      return dateStr;
     }
   }
 
@@ -122,6 +134,7 @@ class _TransactionsScreenState extends ConsumerState<TransactionsScreen> {
 
                   final txn = state.transactions[index];
                   final isCredit = txn.type.toLowerCase() == 'credit';
+                  final formattedDate = _formatDateTime(context, txn.createdAt);
 
                   return Container(
                     decoration: BoxDecoration(
@@ -132,6 +145,7 @@ class _TransactionsScreenState extends ConsumerState<TransactionsScreen> {
                       ),
                     ),
                     child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                       leading: CircleAvatar(
                         backgroundColor: isCredit
                             ? Colors.green.withValues(alpha: 0.1)
@@ -142,24 +156,67 @@ class _TransactionsScreenState extends ConsumerState<TransactionsScreen> {
                               : Icons.local_shipping_outlined,
                           color: isCredit ? Colors.green : AppColors.primary500,
                           size: 20.sp,
-                            ),
-                      ),
-                      title: Text(
-                        txn.title,
-                        style: AppTextStyles.bodyMedium.copyWith(
-                          color: primaryTextColor,
-                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      subtitle: Text(
-                        txn.description,
-                        style: AppTextStyles.bodySmall.copyWith(color: mutedTextColor),
+                      title: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              txn.title,
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                color: primaryTextColor,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          SizedBox(width: 8.w),
+                          Text(
+                            '${isCredit ? "+" : "-"} ₹ ${txn.amount.toStringAsFixed(2)}',
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              color: isCredit ? Colors.green : primaryTextColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      trailing: Text(
-                        '${isCredit ? "+" : "-"} ₹ ${txn.amount.toStringAsFixed(2)}',
-                        style: AppTextStyles.bodyMedium.copyWith(
-                          color: isCredit ? Colors.green : primaryTextColor,
-                          fontWeight: FontWeight.bold,
+                      subtitle: Padding(
+                        padding: EdgeInsets.only(top: 4.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (txn.description.isNotEmpty)
+                              Text(
+                                txn.description,
+                                style: AppTextStyles.bodySmall.copyWith(
+                                  color: mutedTextColor,
+                                  height: 1.3,
+                                ),
+                              ),
+                            if (formattedDate.isNotEmpty) ...[
+                              SizedBox(height: txn.description.isNotEmpty ? 4.h : 0),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.access_time_rounded,
+                                    size: 12.sp,
+                                    color: mutedTextColor.withValues(alpha: 0.8),
+                                  ),
+                                  SizedBox(width: 4.w),
+                                  Text(
+                                    formattedDate,
+                                    style: AppTextStyles.labelSmall.copyWith(
+                                      color: mutedTextColor.withValues(alpha: 0.85),
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ],
                         ),
                       ),
                     ),

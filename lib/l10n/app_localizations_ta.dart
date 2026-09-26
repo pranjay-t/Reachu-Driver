@@ -1502,29 +1502,29 @@ class AppLocalizationsTa extends AppLocalizations {
   String get dismiss => 'விலக்கு';
 
   @override
-  String get trainingVideos => 'Training Videos';
+  String get trainingVideos => 'பயிற்சி வீடியோக்கள்';
 
   @override
-  String get welcomeToReachU => 'Hi, Welcome to ReachU!';
+  String get welcomeToReachU => 'வணக்கம், ReachU-க்கு வரவேற்கிறோம்!';
 
   @override
   String get welcomeTrainingSubtitle =>
-      'Let\'s start your journey! Please watch this quick training video to learn how things work.';
+      'உங்கள் பயணத்தைத் தொடங்குவோம்! ஆப் எவ்வாறு செயல்படுகிறது என்பதை அறிய இந்த விரைவான பயிற்சி வீடியோவைப் பார்க்கவும்.';
 
   @override
-  String get trainingCompletedTitle => 'Training Completed!';
+  String get trainingCompletedTitle => 'பயிற்சி முடிந்தது!';
 
   @override
   String get trainingCompletedSubtitle =>
-      'Great job! You have successfully completed all required training. You are now ready to start driving.';
+      'சிறப்பு! தேவையான அனைத்து பயிற்சிகளையும் வெற்றிகரமாக முடித்துவிட்டீர்கள். இப்போது நீங்கள் ஓட்டத் தொடங்கலாம்.';
 
   @override
-  String get startDriving => 'Start Driving';
+  String get startDriving => 'ஓட்டத் தொடங்குங்கள்';
 
   @override
   String get iHaveReadAndConsent =>
-      'I have read and hereby provide my consent on the ';
+      'நான் படித்து இதன் மூலம் எனது ஒப்புதலை வழங்குகிறேன்: ';
 
   @override
-  String get tdsDeclaration => 'TDS Declaration';
+  String get tdsDeclaration => 'TDS பிரகடனம்';
 }

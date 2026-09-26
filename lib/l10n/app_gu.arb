@@ -438,5 +438,13 @@
   "eShramDescription": "ગિગ વર્કર્સ માટે અકસ્માત વીમો અને સામાજિક સુરક્ષા લાભો મેળવવા માટે સત્તાવાર સરકારી ઈ-શ્રમ પોર્ટલ પર નોંધણી કરો.",
   "registerOnEShramPortal": "ઈ-શ્રમ પોર્ટલ પર નોંધણી કરો",
   "eShramGovtBenefitsMenu": "ઈ-શ્રમ સરકારી લાભો",
-  "dismiss": "બંધ કરો"
+  "dismiss": "બંધ કરો",
+  "trainingVideos": "તાલીમ વિડિઓઝ",
+  "welcomeToReachU": "નમસ્તે, ReachU માં તમારું સ્વાગત છે!",
+  "welcomeTrainingSubtitle": "ચાલો તમારી સફર શરૂ કરીએ! એપ કેવી રીતે કાર્ય કરે છે તે જાણવા માટે કૃપા કરીને આ ઝડપી તાલીમ વિડિઓ જુઓ.",
+  "trainingCompletedTitle": "તાલીમ પૂર્ણ થઈ!",
+  "trainingCompletedSubtitle": "ખૂબ સરસ! તમે બધી જરૂરી તાલીમ સફળતાપૂર્વક પૂર્ણ કરી છે. હવે તમે ડ્રાઇવિંગ શરૂ કરવા માટે તૈયાર છો.",
+  "startDriving": "ડ્રાઇવિંગ શરૂ કરો",
+  "iHaveReadAndConsent": "મેં વાંચ્યું છે અને આથી મારી સંમતિ આપું છું: ",
+  "tdsDeclaration": "TDS ઘોષણા"
 }

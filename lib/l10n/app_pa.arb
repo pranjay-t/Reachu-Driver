@@ -438,5 +438,13 @@
   "eShramDescription": "ਗਿਗ ਵਰਕਰਾਂ ਲਈ ਹਾਦਸਾ ਬੀਮਾ ਅਤੇ ਸਮਾਜਿਕ ਸੁਰੱਖਿਆ ਲਾਭ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਅਧਿਕਾਰਤ ਸਰਕਾਰੀ ਈ-ਸ਼੍ਰਮ ਪੋਰਟਲ 'ਤੇ ਰਜਿਸਟਰ ਕਰੋ।",
   "registerOnEShramPortal": "ਈ-ਸ਼੍ਰਮ ਪੋਰਟਲ 'ਤੇ ਰਜਿਸਟਰ ਕਰੋ",
   "eShramGovtBenefitsMenu": "ਈ-ਸ਼੍ਰਮ ਸਰਕਾਰੀ ਲਾਭ",
-  "dismiss": "ਰੱਦ ਕਰੋ"
+  "dismiss": "ਰੱਦ ਕਰੋ",
+  "trainingVideos": "ਸਿਖਲਾਈ ਵੀਡੀਓ",
+  "welcomeToReachU": "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ, ReachU ਵਿੱਚ ਤੁਹਾਡਾ ਸੁਆਗਤ ਹੈ!",
+  "welcomeTrainingSubtitle": "ਆਓ ਆਪਣਾ ਸਫ਼ਰ ਸ਼ੁਰੂ ਕਰੀਏ! ਐਪ ਕਿਵੇਂ ਕੰਮ ਕਰਦੀ ਹੈ ਇਹ ਜਾਣਨ ਲਈ ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਛੋਟੀ ਸਿਖਲਾਈ ਵੀਡੀਓ ਦੇਖੋ।",
+  "trainingCompletedTitle": "ਸਿਖਲਾਈ ਪੂਰੀ ਹੋਈ!",
+  "trainingCompletedSubtitle": "ਬਹੁਤ ਵਧੀਆ! ਤੁਸੀਂ ਸਾਰੀ ਲੋੜੀਂਦੀ ਸਿਖਲਾਈ ਸਫਲਤਾਪੂਰਵਕ ਪੂਰੀ ਕਰ ਲਈ ਹੈ। ਹੁਣ ਤੁਸੀਂ ਡਰਾਈਵਿੰਗ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਤਿਆਰ ਹੋ।",
+  "startDriving": "ਡਰਾਈਵਿੰਗ ਸ਼ੁਰੂ ਕਰੋ",
+  "iHaveReadAndConsent": "ਮੈਂ ਪੜ੍ਹ ਲਿਆ ਹੈ ਅਤੇ ਇਸ ਦੁਆਰਾ ਆਪਣੀ ਸਹਿਮਤੀ ਦਿੰਦਾ ਹਾਂ: ",
+  "tdsDeclaration": "TDS ਘੋਸ਼ਣਾ"
 }

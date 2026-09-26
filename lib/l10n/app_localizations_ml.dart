@@ -1493,29 +1493,29 @@ class AppLocalizationsMl extends AppLocalizations {
   String get dismiss => 'ഒഴിവാക്കുക';
 
   @override
-  String get trainingVideos => 'Training Videos';
+  String get trainingVideos => 'പരിശീലന വീഡിയോകൾ';
 
   @override
-  String get welcomeToReachU => 'Hi, Welcome to ReachU!';
+  String get welcomeToReachU => 'നമസ്കാരം, ReachU-ലേക്ക് സ്വാഗതം!';
 
   @override
   String get welcomeTrainingSubtitle =>
-      'Let\'s start your journey! Please watch this quick training video to learn how things work.';
+      'നമുക്ക് യാത്ര ആരംഭിക്കാം! ആപ്പ് എങ്ങനെ പ്രവർത്തിക്കുന്നു എന്ന് മനസിലാക്കാൻ ഈ ചെറിയ പരിശീലന വീഡിയോ കാണുക.';
 
   @override
-  String get trainingCompletedTitle => 'Training Completed!';
+  String get trainingCompletedTitle => 'പരിശീലനം പൂർത്തിയായി!';
 
   @override
   String get trainingCompletedSubtitle =>
-      'Great job! You have successfully completed all required training. You are now ready to start driving.';
+      'വളരെ നന്ന്! ആവശ്യമായ എല്ലാ പരിശീലനങ്ങളും നിങ്ങൾ വിജയകരമായി പൂർത്തിയാക്കി. ഇനി നിങ്ങൾക്ക് ഡ്രൈവിംഗ് ആരംഭിക്കാം.';
 
   @override
-  String get startDriving => 'Start Driving';
+  String get startDriving => 'ഡ്രൈവിംഗ് ആരംഭിക്കുക';
 
   @override
   String get iHaveReadAndConsent =>
-      'I have read and hereby provide my consent on the ';
+      'ഞാൻ വായിച്ച് ഇതിന് എൻ്റെ സമ്മതം നൽകുന്നു: ';
 
   @override
-  String get tdsDeclaration => 'TDS Declaration';
+  String get tdsDeclaration => 'TDS ഡിക്ലറേഷൻ';
 }

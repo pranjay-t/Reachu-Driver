@@ -1488,29 +1488,29 @@ class AppLocalizationsTe extends AppLocalizations {
   String get dismiss => 'రద్దు చేయి';
 
   @override
-  String get trainingVideos => 'Training Videos';
+  String get trainingVideos => 'శిక్షణ వీడియోలు';
 
   @override
-  String get welcomeToReachU => 'Hi, Welcome to ReachU!';
+  String get welcomeToReachU => 'నమస్కారం, ReachU కి స్వాగతం!';
 
   @override
   String get welcomeTrainingSubtitle =>
-      'Let\'s start your journey! Please watch this quick training video to learn how things work.';
+      'మీ ప్రయాణాన్ని ప్రారంభిద్దాం! యాప్ ఎలా పనిచేస్తుందో తెలుసుకోవడానికి దయచేసి ఈ చిన్న శిక్షణ వీడియోను చూడండి.';
 
   @override
-  String get trainingCompletedTitle => 'Training Completed!';
+  String get trainingCompletedTitle => 'శిక్షణ పూర్తయింది!';
 
   @override
   String get trainingCompletedSubtitle =>
-      'Great job! You have successfully completed all required training. You are now ready to start driving.';
+      'చాలా బాగుంది! మీరు అవసరమైన అన్ని శిక్షణలను విజయవంతంగా పూర్తి చేశారు. ఇప్పుడు మీరు డ్రైవింగ్ ప్రారంభించడానికి సిద్ధంగా ఉన్నారు.';
 
   @override
-  String get startDriving => 'Start Driving';
+  String get startDriving => 'డ్రైవింగ్ ప్రారంభించండి';
 
   @override
   String get iHaveReadAndConsent =>
-      'I have read and hereby provide my consent on the ';
+      'నేను చదివాను మరియు దీనిపై నా సమ్మతిని తెలియజేస్తున్నాను: ';
 
   @override
-  String get tdsDeclaration => 'TDS Declaration';
+  String get tdsDeclaration => 'TDS డిక్లరేషన్';
 }
