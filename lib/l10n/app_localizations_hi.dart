@@ -425,7 +425,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get deviceContacts => 'डिवाइस संपर्क';
 
   @override
-  String get rideHistory => 'राइड का इतिहास';
+  String get rideHistory => 'ऑर्डर का इतिहास';
 
   @override
   String get transactions => 'लेन-देन';
@@ -904,7 +904,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get dutyRating => 'ड्यूटी रेटिंग';
 
   @override
-  String get noRidesFound => 'कोई राइड नहीं मिली';
+  String get orderHistory => 'ऑर्डर का इतिहास';
+
+  @override
+  String get noRidesFound => 'कोई ऑर्डर नहीं मिला';
 
   @override
   String get failedToLoadHistory => 'इतिहास लोड करने में विफल';

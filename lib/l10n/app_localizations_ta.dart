@@ -432,7 +432,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get deviceContacts => 'சாதனத் தொடர்புகள்';
 
   @override
-  String get rideHistory => 'ரைடு வரலாறு';
+  String get rideHistory => 'ஆர்டர் வரலாறு';
 
   @override
   String get transactions => 'பரிவர்த்தனைகள்';
@@ -921,7 +921,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get dutyRating => 'பணி மதிப்பீடு';
 
   @override
-  String get noRidesFound => 'ரைடுகள் எதுவும் கிடைக்கவில்லை';
+  String get orderHistory => 'ஆர்டர் வரலாறு';
+
+  @override
+  String get noRidesFound => 'ஆர்டர்கள் எதுவும் கிடைக்கவில்லை';
 
   @override
   String get failedToLoadHistory => 'வரலாற்றை ஏற்ற முடியவில்லை';

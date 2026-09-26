@@ -256,7 +256,7 @@
     }
   },
   "deviceContacts": "Device Contacts",
-  "rideHistory": "Ride History",
+  "rideHistory": "Order History",
   "transactions": "Transactions",
   "noTransactionsFound": "No transactions found",
   "failedToLoadTransactions": "Failed to load transactions",
@@ -422,8 +422,12 @@
   "totalRides": "Total Orders",
   "cancelled": "Cancelled",
   "dutyRating": "Duty Rating",
-  "rideHistory": "Ride History",
-  "noRidesFound": "No rides found",
+  "rideHistory": "Order History",
+  "orderHistory": "Order History",
+  "@orderHistory": {
+    "description": "Title for the order history screen"
+  },
+  "noRidesFound": "No orders found",
   "failedToLoadHistory": "Failed to load history",
   "retry": "Retry",
   "all": "All",

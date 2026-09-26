@@ -54,7 +54,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          context.l10n.rideHistory,
+          context.l10n.orderHistory,
           style: AppTextStyles.titleMedium.copyWith(
             color: primaryTextColor,
             fontWeight: FontWeight.w600,

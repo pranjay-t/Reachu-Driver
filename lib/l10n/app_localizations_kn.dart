@@ -427,7 +427,7 @@ class AppLocalizationsKn extends AppLocalizations {
   String get deviceContacts => 'ಸಾಧನ ಸಂಪರ್ಕಗಳು';
 
   @override
-  String get rideHistory => 'ರೈಡ್ ಇತಿಹಾಸ';
+  String get rideHistory => 'ಆರ್ಡರ್ ಇತಿಹಾಸ';
 
   @override
   String get transactions => 'ವಹಿವಾಟುಗಳು';
@@ -908,7 +908,10 @@ class AppLocalizationsKn extends AppLocalizations {
   String get dutyRating => 'ಡ್ಯೂಟಿ ರೇಟಿಂಗ್';
 
   @override
-  String get noRidesFound => 'ಯಾವುದೇ ರೈಡ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ';
+  String get orderHistory => 'ಆರ್ಡರ್ ಇತಿಹಾಸ';
+
+  @override
+  String get noRidesFound => 'ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ';
 
   @override
   String get failedToLoadHistory => 'ಇತಿಹಾಸ ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಯಿತು';

@@ -425,7 +425,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deviceContacts => 'Device Contacts';
 
   @override
-  String get rideHistory => 'Ride History';
+  String get rideHistory => 'Order History';
 
   @override
   String get transactions => 'Transactions';
@@ -906,7 +906,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dutyRating => 'Duty Rating';
 
   @override
-  String get noRidesFound => 'No rides found';
+  String get orderHistory => 'Order History';
+
+  @override
+  String get noRidesFound => 'No orders found';
 
   @override
   String get failedToLoadHistory => 'Failed to load history';

@@ -426,7 +426,7 @@ class AppLocalizationsMl extends AppLocalizations {
   String get deviceContacts => 'ഉപകരണ കോൺടാക്റ്റുകൾ';
 
   @override
-  String get rideHistory => 'റൈഡ് ചരിത്രം';
+  String get rideHistory => 'ഓർഡർ ചരിത്രം';
 
   @override
   String get transactions => 'ഇടപാടുകൾ';
@@ -912,7 +912,10 @@ class AppLocalizationsMl extends AppLocalizations {
   String get dutyRating => 'ഡ്യൂട്ടി റേറ്റിംഗ്';
 
   @override
-  String get noRidesFound => 'റൈഡുകളൊന്നും കണ്ടെത്തിയില്ല';
+  String get orderHistory => 'ഓർഡർ ചരിത്രം';
+
+  @override
+  String get noRidesFound => 'ഓർഡറുകളൊന്നും കണ്ടെത്തിയില്ല';
 
   @override
   String get failedToLoadHistory => 'ചരിത്രം ലോഡ് ചെയ്യാനായില്ല';

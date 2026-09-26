@@ -899,7 +899,7 @@ abstract class AppLocalizations {
   /// No description provided for @rideHistory.
   ///
   /// In en, this message translates to:
-  /// **'Ride History'**
+  /// **'Order History'**
   String get rideHistory;
 
   /// No description provided for @transactions.
@@ -1796,10 +1796,16 @@ abstract class AppLocalizations {
   /// **'Duty Rating'**
   String get dutyRating;
 
+  /// Title for the order history screen
+  ///
+  /// In en, this message translates to:
+  /// **'Order History'**
+  String get orderHistory;
+
   /// No description provided for @noRidesFound.
   ///
   /// In en, this message translates to:
-  /// **'No rides found'**
+  /// **'No orders found'**
   String get noRidesFound;
 
   /// No description provided for @failedToLoadHistory.

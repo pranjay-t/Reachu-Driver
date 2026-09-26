@@ -430,7 +430,7 @@ class AppLocalizationsTe extends AppLocalizations {
   String get deviceContacts => 'పరికర పరిచయాలు';
 
   @override
-  String get rideHistory => 'రైడ్ చరిత్ర';
+  String get rideHistory => 'ఆర్డర్ చరిత్ర';
 
   @override
   String get transactions => 'లావాదేవీలు';
@@ -914,7 +914,10 @@ class AppLocalizationsTe extends AppLocalizations {
   String get dutyRating => 'డ్యూటీ రేటింగ్';
 
   @override
-  String get noRidesFound => 'రైడ్‌లు కనుగొనబడలేదు';
+  String get orderHistory => 'ఆర్డర్ చరిత్ర';
+
+  @override
+  String get noRidesFound => 'ఆర్డర్‌లు కనుగొనబడలేదు';
 
   @override
   String get failedToLoadHistory => 'చరిత్ర లోడ్ చేయడం విఫలమైంది';
