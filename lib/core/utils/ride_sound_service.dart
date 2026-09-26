@@ -82,8 +82,11 @@ class RideSoundService {
       final playerToDispose = _player;
       _player = null;
       if (playerToDispose != null) {
-        await playerToDispose.stop().catchError((_) {});
-        await playerToDispose.dispose().catchError((_) {});
+        try {
+          await playerToDispose.setReleaseMode(ReleaseMode.release).catchError((_) {});
+          await playerToDispose.stop().catchError((_) {});
+          await playerToDispose.dispose().catchError((_) {});
+        } catch (_) {}
       }
       AppLogger.i('🔇 [RideSoundService] Ride alert stopped');
     } catch (e) {

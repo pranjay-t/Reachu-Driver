@@ -110,7 +110,7 @@ class RideRequestCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Text(
-                  'NEW RIDE OFFER',
+                  'NEW ORDER',
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: AppColors.primary500,
                     fontWeight: FontWeight.bold,

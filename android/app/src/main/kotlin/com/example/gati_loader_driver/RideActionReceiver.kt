@@ -26,6 +26,10 @@ class RideActionReceiver : BroadcastReceiver() {
                     editor
                         .putString("flutter.pending_decline_order_id", orderId)
                         .remove("flutter.pending_accept_order_id")
+                        .remove("flutter.last_ride_request")
+                        .remove("flutter.last_ride_request_ts")
+                        .remove("flutter.pending_open_requests")
+                        .putBoolean("flutter.pending_ride_from_killed", false)
                 }
             }
             editor.apply()

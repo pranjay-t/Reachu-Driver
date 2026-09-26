@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'socket_stream_manager.dart';
 import 'overlay_service.dart';
+import '../../features/home/providers/home_controller.dart';
 
 final appLifecycleProvider = Provider((ref) {
   final observer = AppLifecycleObserver(ref);
@@ -22,6 +23,9 @@ class AppLifecycleObserver extends WidgetsBindingObserver {
     if (state == AppLifecycleState.resumed) {
       client.setNativeAppState('Foreground');
       OverlayService.instance.hideOverlay();
+      try {
+        _ref.read(homeControllerProvider.notifier).refreshHome(silent: true);
+      } catch (_) {}
     } else if (state == AppLifecycleState.paused) {
       client.setNativeAppState('Background');
       if (client.isOnDuty) {

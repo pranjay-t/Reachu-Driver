@@ -121,8 +121,7 @@ class SocketClient {
   Future<void> _processPendingNativeNotificationActions() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs
-          .reload(); // Force reload to fetch changes written by MainActivity on startup
+      await prefs.reload(); // Force reload to fetch changes written by MainActivity on startup
 
       final keys = prefs.getKeys();
       AppLogger.d('🔑 [SocketClient] SharedPreferences Keys: $keys');
@@ -164,6 +163,33 @@ class SocketClient {
           '🚕 [SocketClient] Processing pending native OPEN REQUESTS navigation',
         );
         await prefs.remove('pending_open_requests');
+
+        // Check if there is a fresh background ride and emit it to newRideStream
+        final lastRideJson = prefs.getString('last_ride_request');
+        if (lastRideJson != null && lastRideJson.isNotEmpty) {
+          final rawTs = prefs.get('last_ride_request_ts');
+          final pendingTs = (rawTs is num)
+              ? rawTs.toInt()
+              : (int.tryParse(rawTs?.toString() ?? '') ?? 0);
+          final now = DateTime.now().millisecondsSinceEpoch;
+          try {
+            final parsed = jsonDecode(lastRideJson) as Map<String, dynamic>;
+            final mapped = _mapRideData(parsed);
+            final timeoutSec = (mapped['timeout'] is num)
+                ? (mapped['timeout'] as num).toInt()
+                : 50;
+
+            if (pendingTs == 0 || (now - pendingTs) < (timeoutSec * 1000)) {
+              _newRideStreamController.add(mapped);
+            } else {
+              AppLogger.w('⏱️ Stale ride detected during pending open requests check. Cleared.');
+              await _clearPendingRideRequestPreferences();
+            }
+          } catch (e) {
+            AppLogger.e('Error decoding last_ride_request on open: $e');
+          }
+        }
+
         _navigationStreamController.add('/ride_request_queue');
       }
     } catch (e) {
@@ -275,7 +301,7 @@ class SocketClient {
   // ==================== SOCKET CONNECTION ====================
   Future<bool> connectSocket() async {
     try {
-      if (_socket != null && _isConnected) return true;
+      if (_socket != null && (_socket?.connected ?? false)) return true;
       _cleanupSocket();
 
       const secureStorage = FlutterSecureStorage();
@@ -483,6 +509,7 @@ class SocketClient {
       _saveRideState();
 
       _socket!.emit(SocketEvents.joinRoom, {'roomName': 'ride:$_activeRideId'});
+      _rideStatusStreamController.add(mapped);
       _updateNativeNotification(
         'Order in Progress',
         'Order #$_activeRideId is active.',
@@ -600,7 +627,8 @@ class SocketClient {
   Future<void> goOnline({bool force = false}) async {
     if (_isProcessingOnline && !force) return;
 
-    if (!force && _isOnDuty && _socket != null && _isConnected) {
+    final isSocketConnected = _socket != null && (_socket?.connected ?? false);
+    if (!force && _isOnDuty && isSocketConnected) {
       AppLogger.d('Already online and connected. Skipping goOnline.');
       _setProcessingOnline(false);
       _dutyStreamController.add(true);
@@ -622,7 +650,7 @@ class SocketClient {
     });
 
     try {
-      if (_socket == null || !_isConnected) {
+      if (_socket == null || !(_socket?.connected ?? false)) {
         final reconnected = await connectSocket();
         if (!reconnected) {
           _isOnDuty = false;
@@ -843,17 +871,36 @@ class SocketClient {
   Future<void> acceptRideFromNotification(String orderId) async {
     try {
       final prefs = await SharedPreferences.getInstance();
+      await prefs.reload();
       final lastRideJson = prefs.getString('last_ride_request');
       AppLogger.d(
         '🚕 [SocketClient] acceptRideFromNotification: orderId = "$orderId", lastRideJson = "$lastRideJson"',
       );
-      if (lastRideJson != null) {
+      if (lastRideJson != null && lastRideJson.isNotEmpty) {
         final parsed = jsonDecode(lastRideJson);
         final mapped = _mapRideData(parsed);
         AppLogger.d(
           '🚕 [SocketClient] acceptRideFromNotification: mapped orderId = "${mapped['orderId']}"',
         );
         if (mapped['orderId'] == orderId) {
+          // Check expiration
+          final rawTs = prefs.get('last_ride_request_ts');
+          final pendingTs = (rawTs is num)
+              ? rawTs.toInt()
+              : (int.tryParse(rawTs?.toString() ?? '') ?? 0);
+          final timeout = (mapped['timeout'] is num)
+              ? (mapped['timeout'] as num).toInt()
+              : 50;
+          final now = DateTime.now().millisecondsSinceEpoch;
+
+          if (pendingTs > 0 && (now - pendingTs) >= (timeout * 1000)) {
+            AppLogger.w(
+              '⏱️ [SocketClient] Cannot accept expired ride request ($orderId). Discarding.',
+            );
+            await _clearPendingRideRequestPreferences();
+            return;
+          }
+
           // Call REST API to transition status to 'Accepted' in DB
           const secureStorage = FlutterSecureStorage();
           final token = await secureStorage.read(key: 'auth_token');
@@ -861,19 +908,29 @@ class SocketClient {
 
           if (token != null && token.isNotEmpty) {
             try {
-              final dio = Dio(BaseOptions(baseUrl: ApiEndpoints.baseUrl));
-              dio.options.headers['Authorization'] = 'Bearer $token';
+              final dio = Dio(BaseOptions(
+                baseUrl: ApiEndpoints.baseUrl,
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                  'Authorization': 'Bearer $token',
+                },
+              ));
               final path = '/order/update/$orderId';
+              final Map<String, dynamic> updatePayload = {
+                "orderId": orderId,
+                "orderStatus": "Accepted",
+              };
+              if (vehicleId.isNotEmpty) {
+                updatePayload["vehicleId"] = vehicleId;
+              }
+
               AppLogger.d(
-                '📡 [SocketClient] Updating ride status via REST API: $path',
+                '📡 [SocketClient] Updating ride status via REST API: $path, payload: $updatePayload',
               );
               final response = await dio.patch(
                 path,
-                data: {
-                  "orderId": orderId,
-                  "vehicleId": vehicleId,
-                  "orderStatus": "Accepted",
-                },
+                data: updatePayload,
               );
               AppLogger.d(
                 '📡 [SocketClient] REST API Response: ${response.data}',
@@ -891,6 +948,11 @@ class SocketClient {
 
           final accepted = acceptRide(mapped);
           AppLogger.d('🚕 [SocketClient] acceptRide result = $accepted');
+
+          if (accepted) {
+            final acceptedRide = _currentRide ?? mapped;
+            _rideStatusStreamController.add(acceptedRide);
+          }
           return;
         } else {
           AppLogger.w(
@@ -899,7 +961,7 @@ class SocketClient {
         }
       } else {
         AppLogger.w(
-          '🚕 [SocketClient] acceptRideFromNotification: lastRideJson is null!',
+          '🚕 [SocketClient] acceptRideFromNotification: lastRideJson is null or empty!',
         );
       }
     } catch (e) {
@@ -925,6 +987,9 @@ class SocketClient {
 
     _currentRide = updatedRide;
     _saveRideState();
+
+    // Notify listeners so HomeScreen or active views immediately react
+    _rideStatusStreamController.add(updatedRide);
 
     const secureStorage = FlutterSecureStorage();
     secureStorage.read(key: 'auth_token').then((token) {
@@ -1007,6 +1072,15 @@ class SocketClient {
       await prefs.remove('last_ride_request');
       await prefs.remove('last_ride_request_ts');
       await prefs.remove('pending_ride_from_killed');
+      await prefs.remove('pending_open_requests');
+      await prefs.remove('pending_accept_order_id');
+      await prefs.remove('pending_decline_order_id');
+      await prefs.remove('flutter.last_ride_request');
+      await prefs.remove('flutter.last_ride_request_ts');
+      await prefs.remove('flutter.pending_ride_from_killed');
+      await prefs.remove('flutter.pending_open_requests');
+      await prefs.remove('flutter.pending_accept_order_id');
+      await prefs.remove('flutter.pending_decline_order_id');
       AppLogger.d(
         '🧹 [SocketClient] Cleared pending ride request SharedPreferences keys',
       );
@@ -1196,17 +1270,25 @@ class SocketClient {
       if (state == 'Background') {
         // Pause Flutter's timer in background; native Kotlin service takes over GPS emissions
         _stopLocationUpdates();
-      } else if (state == 'Foreground' && _isOnDuty) {
-        AppLogger.i('🔄 [SocketClient] Resumed to Foreground: ensuring Flutter socket & streams');
-        if (!_isConnected || _socket == null) {
-          connectSocket().then((connected) {
-            if (connected && _isOnDuty) goOnline(force: true);
-          });
-        } else {
-          _startLocationUpdates();
-          startLocationWatch();
+      } else if (state == 'Foreground') {
+        final prefs = await SharedPreferences.getInstance();
+        final wasOnline = prefs.getBool("driver_is_online") ?? _isOnDuty;
+        if (wasOnline) {
+          _isOnDuty = true;
+          AppLogger.i('🔄 [SocketClient] Resumed to Foreground: ensuring Flutter socket & online state');
+          final isSocketLive = _socket != null && (_socket?.connected ?? false);
+          if (!isSocketLive) {
+            final connected = await connectSocket();
+            if (connected) {
+              await goOnline(force: true);
+            }
+          } else {
+            _startLocationUpdates();
+            startLocationWatch();
+            await goOnline(force: true);
+          }
         }
-        _processPendingNativeNotificationActions();
+        await _processPendingNativeNotificationActions();
       }
     } catch (e) {
       AppLogger.e('Failed updating app state: $e');

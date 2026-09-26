@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/socket/socket_stream_manager.dart';
@@ -51,31 +50,8 @@ class RideQueue extends _$RideQueue {
     // Listen to socket incoming streams
     _subscribeToSocketStreams();
 
-    // Check if there is a pending ride request in SharedPreferences (e.g. from killed state)
-    // and load it into the queue immediately so the screen is not empty.
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.reload().then((_) {
-        final hasPending = prefs.getBool('pending_ride_from_killed') ?? false;
-        if (!hasPending) return;
-
-        final lastRideJson = prefs.getString('last_ride_request');
-        if (lastRideJson != null && lastRideJson.isNotEmpty) {
-          final pendingTs = prefs.getInt('last_ride_request_ts') ?? 0;
-          final ageMs = DateTime.now().millisecondsSinceEpoch - pendingTs;
-          // Restrict to requests received within the last 2 minutes
-          if (pendingTs > 0 && ageMs < 120000) {
-            try {
-              final parsed = jsonDecode(lastRideJson) as Map<String, dynamic>;
-              addOrUpdateRide(parsed);
-              // Clear flag immediately so this block cannot fire twice
-              prefs.setBool('pending_ride_from_killed', false);
-            } catch (e) {
-              AppLogger.e('Error loading initial pending ride request: $e');
-            }
-          }
-        }
-      });
-    });
+    // Check and load pending ride request from SharedPreferences on provider creation
+    loadPendingRideFromPrefs();
 
     ref.onDispose(() {
       _timer?.cancel();
@@ -87,6 +63,63 @@ class RideQueue extends _$RideQueue {
     return [];
   }
 
+  /// Reloads SharedPreferences to check if a pending ride request arrived in background/killed state.
+  /// Automatically discards stale or expired orders.
+  Future<void> loadPendingRideFromPrefs() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.reload();
+
+      final lastRideJson = prefs.getString('last_ride_request');
+      if (lastRideJson == null || lastRideJson.isEmpty) return;
+
+      final rawTs = prefs.get('last_ride_request_ts');
+      final pendingTs = (rawTs is num)
+          ? rawTs.toInt()
+          : (int.tryParse(rawTs?.toString() ?? '') ?? 0);
+      final now = DateTime.now().millisecondsSinceEpoch;
+      final ageMs = pendingTs > 0 ? (now - pendingTs) : 0;
+
+      final parsed = jsonDecode(lastRideJson) as Map<String, dynamic>;
+      final rideModel = RideRequestModel.fromJson(parsed);
+      final timeoutSec = rideModel.timeout > 0 ? rideModel.timeout : 50;
+
+      if (pendingTs > 0 && ageMs >= (timeoutSec * 1000)) {
+        AppLogger.w(
+          '⏱️ [RideQueue] Stored ride request ${rideModel.rideId} is expired ($ageMs ms old). Discarding.',
+        );
+        await _clearStoredRidePrefs(prefs);
+        return;
+      }
+
+      final remainingSeconds = timeoutSec - (ageMs ~/ 1000);
+      if (remainingSeconds <= 0) {
+        AppLogger.w('⏱️ [RideQueue] Remaining seconds <= 0. Discarding.');
+        await _clearStoredRidePrefs(prefs);
+        return;
+      }
+
+      AppLogger.i(
+        '🧾 [RideQueue] Loading pending background ride: orderId=${rideModel.rideId}, remaining=$remainingSeconds/$timeoutSec s',
+      );
+      addOrUpdateRide(parsed, remainingSeconds: remainingSeconds);
+
+      // Clear the killed state flag so this order isn't reprocessed
+      await prefs.setBool('pending_ride_from_killed', false);
+    } catch (e, stack) {
+      AppLogger.e('Error loading pending ride from prefs: $e', error: e, stackTrace: stack);
+    }
+  }
+
+  Future<void> _clearStoredRidePrefs(SharedPreferences prefs) async {
+    await prefs.remove('last_ride_request');
+    await prefs.remove('last_ride_request_ts');
+    await prefs.setBool('pending_ride_from_killed', false);
+    await prefs.remove('pending_open_requests');
+    await prefs.remove('pending_accept_order_id');
+    await prefs.remove('pending_decline_order_id');
+  }
+
   void _subscribeToSocketStreams() {
     final client = ref.read(socketClientProvider);
 
@@ -95,18 +128,26 @@ class RideQueue extends _$RideQueue {
     });
 
     _cancelRideSub = client.cancelRideStream.listen((mappedData) {
-      final orderId = (mappedData['orderId'] ?? '').toString();
+      final orderId = (mappedData['orderId'] ??
+              mappedData['rideId'] ??
+              mappedData['id'] ??
+              mappedData['_id'] ??
+              '')
+          .toString();
       if (orderId.isNotEmpty) {
         removeRide(orderId, reason: 'cancelled_by_server');
       }
     });
   }
 
-  void addOrUpdateRide(Map<String, dynamic> rideData) {
+  void addOrUpdateRide(Map<String, dynamic> rideData, {int? remainingSeconds}) {
     try {
       final rideModel = RideRequestModel.fromJson(rideData);
       final orderId = rideModel.rideId;
-      final timeout = rideModel.timeout;
+      final timeout = rideModel.timeout > 0 ? rideModel.timeout : 50;
+      final actualRemaining = remainingSeconds ?? timeout;
+
+      if (actualRemaining <= 0) return;
 
       // Check if it already exists
       final idx = state.indexWhere((e) => e.orderId == orderId);
@@ -117,20 +158,22 @@ class RideQueue extends _$RideQueue {
           orderId: orderId,
           rideModel: rideModel,
           totalSeconds: timeout,
-          remainingSeconds: timeout,
-          progress: 1.0,
+          remainingSeconds: actualRemaining,
+          progress: actualRemaining / timeout,
         );
         state = list;
         return;
       }
 
-      AppLogger.i('🧾 [RideQueue] Inserting new ride request card: $orderId');
+      AppLogger.i(
+        '🧾 [RideQueue] Inserting new ride request card: $orderId (remaining: $actualRemaining s)',
+      );
       final newItem = RideRequestItem(
         orderId: orderId,
         rideModel: rideModel,
         totalSeconds: timeout,
-        remainingSeconds: timeout,
-        progress: 1.0,
+        remainingSeconds: actualRemaining,
+        progress: actualRemaining / timeout,
       );
 
       // Newest comes first

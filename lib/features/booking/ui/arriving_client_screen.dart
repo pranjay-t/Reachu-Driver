@@ -81,6 +81,16 @@ class _ArrivingClientScreenState extends ConsumerState<ArrivingClientScreen>
   String? _fetchedUserImage;
   String? _fetchedRiderName;
 
+  Map<String, dynamic>? _asMap(dynamic val) {
+    if (val == null) return null;
+    if (val is Map) return Map<String, dynamic>.from(val);
+    try {
+      return (val as dynamic).toJson() as Map<String, dynamic>?;
+    } catch (_) {
+      return null;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -191,7 +201,7 @@ class _ArrivingClientScreenState extends ConsumerState<ArrivingClientScreen>
             final messageText = messageData['message']?.toString() ?? '';
 
             if (userRole == 'user' && mounted) {
-              final sender = widget.rideData?['senderDetails'] as Map?;
+              final sender = _asMap(widget.rideData?['senderDetails']);
               final sName =
                   widget.rideData?['riderName']?.toString() ??
                   sender?['name']?.toString() ??
@@ -383,7 +393,7 @@ class _ArrivingClientScreenState extends ConsumerState<ArrivingClientScreen>
   int get _nextUnverifiedStopIndex {
     final stops = widget.rideData?['stops'] as List? ?? [];
     for (int i = 0; i < stops.length; i++) {
-      final stop = stops[i] as Map;
+      final stop = _asMap(stops[i]) ?? {};
       final isVerified = stop['otpVerified'] == true;
       if (!isVerified) {
         return i;
@@ -405,8 +415,8 @@ class _ArrivingClientScreenState extends ConsumerState<ArrivingClientScreen>
 
   Map<String, String> get _activeLegContact {
     final ride = widget.rideData ?? {};
-    final sender = ride['senderDetails'] as Map?;
-    final receiver = ride['receiverDetails'] as Map?;
+    final sender = _asMap(ride['senderDetails']);
+    final receiver = _asMap(ride['receiverDetails']);
     final senderName =
         ride['riderName']?.toString() ??
         sender?['name']?.toString() ??
@@ -425,7 +435,7 @@ class _ArrivingClientScreenState extends ConsumerState<ArrivingClientScreen>
     final stopIdx = _nextUnverifiedStopIndex;
     final stops = ride['stops'] as List? ?? [];
     if (stopIdx != -1 && stopIdx < stops.length) {
-      final stop = stops[stopIdx] as Map;
+      final stop = _asMap(stops[stopIdx]) ?? {};
       return {
         'name': stop['receiverName']?.toString() ?? 'Recipient',
         'phone': stop['receiverPhone']?.toString() ?? 'N/A',
@@ -1383,9 +1393,9 @@ class _ArrivingClientScreenState extends ConsumerState<ArrivingClientScreen>
     final ride = widget.rideData ?? {};
 
     // Parse nested structure or flat fallback safely
-    final sender = ride['senderDetails'] as Map?;
-    final receiver = ride['receiverDetails'] as Map?;
-    final goods = ride['goodsDetails'] as Map?;
+    final sender = _asMap(ride['senderDetails']);
+    final receiver = _asMap(ride['receiverDetails']);
+    final goods = _asMap(ride['goodsDetails']);
     final stops = ride['stops'] as List? ?? [];
 
     final name =
@@ -1719,7 +1729,7 @@ class _ArrivingClientScreenState extends ConsumerState<ArrivingClientScreen>
                           ),
                           ...stops.asMap().entries.map((entry) {
                             final idx = entry.key;
-                            final stop = entry.value as Map;
+                            final stop = _asMap(entry.value) ?? {};
                             final stopAddress =
                                 stop['address']?.toString() ??
                                 'Intermediate Drop Point';
@@ -2062,7 +2072,7 @@ class _ArrivingClientScreenState extends ConsumerState<ArrivingClientScreen>
   void _showCallSelectionBottomSheet(BuildContext context, bool isDark) {
     final activeContact = _activeLegContact;
     final ride = widget.rideData ?? {};
-    final sender = ride['senderDetails'] as Map?;
+    final sender = _asMap(ride['senderDetails']);
     final senderName =
         ride['riderName']?.toString() ??
         sender?['name']?.toString() ??
@@ -2171,7 +2181,7 @@ class _ArrivingClientScreenState extends ConsumerState<ArrivingClientScreen>
   void _showChatSelectionBottomSheet(BuildContext context, bool isDark) {
     final activeContact = _activeLegContact;
     final ride = widget.rideData ?? {};
-    final sender = ride['senderDetails'] as Map?;
+    final sender = _asMap(ride['senderDetails']);
     final senderName =
         ride['riderName']?.toString() ??
         sender?['name']?.toString() ??

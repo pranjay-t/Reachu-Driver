@@ -13,7 +13,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/localization/locale_provider.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_dimensions.dart';
-import '../../../../core/network/api_endpoints.dart';
 import '../../../../shared/widgets/app_cached_image.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/permission_gate_popup.dart';
@@ -161,10 +160,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       // Listen for native notification body clicks and handle redirection to correct routes
       _navigationSubscription = socketClient.navigationStream.listen((route) {
         if (mounted) {
-          AppLogger.d(
-            '🚕 [HomeScreen] Redirecting to native notification request route: $route',
-          );
-          context.push(route);
+          final currentLocation = GoRouterState.of(context).matchedLocation;
+          if (currentLocation != route) {
+            AppLogger.d(
+              '🚕 [HomeScreen] Redirecting to native notification request route: $route',
+            );
+            context.push(route);
+          }
         }
       });
 
@@ -350,10 +352,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     ref.listen<List<RideRequestItem>>(rideQueueProvider, (previous, next) {
       if (next.isNotEmpty && (previous == null || previous.isEmpty)) {
-        AppLogger.i(
-          '🧾 [HomeScreen] Rides found in queue! Navigating to RideRequestQueueScreen...',
-        );
-        context.push('/ride_request_queue');
+        final currentLocation = GoRouterState.of(context).matchedLocation;
+        if (currentLocation != '/ride_request_queue') {
+          AppLogger.i(
+            '🧾 [HomeScreen] Rides found in queue! Navigating to RideRequestQueueScreen...',
+          );
+          context.push('/ride_request_queue');
+        }
       }
     });
 

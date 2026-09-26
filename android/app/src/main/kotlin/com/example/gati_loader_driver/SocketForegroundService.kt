@@ -408,6 +408,10 @@ class SocketForegroundService : Service() {
         } else if (state == "Foreground") {
             Log.i(TAG, "🔄 Flutter is in Foreground — yielding socket to Flutter")
             Thread {
+                try {
+                    // Delay disconnect by 2.5 seconds to give Flutter socket time to connect & emit user:online seamlessly
+                    Thread.sleep(2500)
+                } catch (ignored: Exception) {}
                 disconnectSocket()
                 onlineTimer?.cancel()
                 onlineTimer = null
@@ -523,6 +527,8 @@ class SocketForegroundService : Service() {
                         .remove(PREF_LAST_RIDE_REQUEST)
                         .remove(PREF_PENDING_ACCEPT_ORDER_ID)
                         .remove(PREF_PENDING_DECLINE_ORDER_ID)
+                        .remove("flutter.pending_open_requests")
+                        .remove("pending_open_requests")
                         .apply()
                 } catch (e: Exception) {
                     Log.e(TAG, "Error clearing ride state: ${e.message}")
@@ -878,6 +884,12 @@ class SocketForegroundService : Service() {
             prefs.edit()
                 .putString(PREF_PENDING_DECLINE_ORDER_ID, orderId)
                 .remove(PREF_PENDING_ACCEPT_ORDER_ID)
+                .remove(PREF_LAST_RIDE_REQUEST)
+                .remove("flutter.last_ride_request")
+                .remove("flutter.last_ride_request_ts")
+                .remove("flutter.pending_open_requests")
+                .remove("pending_open_requests")
+                .putBoolean("flutter.pending_ride_from_killed", false)
                 .apply()
         } catch (e: Exception) {
             Log.e(TAG, "Error persisting pending decline: ${e.message}")

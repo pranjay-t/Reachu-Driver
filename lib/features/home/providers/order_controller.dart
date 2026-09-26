@@ -13,12 +13,47 @@ class OrderController extends _$OrderController {
   @override
   void build() {}
 
+  Map<String, dynamic>? _asMap(dynamic val) {
+    if (val == null) return null;
+    if (val is Map) return Map<String, dynamic>.from(val);
+    try {
+      return (val as dynamic).toJson() as Map<String, dynamic>?;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Map<String, dynamic> normalizeOrderData(Map<String, dynamic> rawOrder) {
     final Map<String, dynamic> order = Map<String, dynamic>.from(rawOrder);
 
+    // Normalize nested models if passed as model instances
+    if (order['senderDetails'] != null && order['senderDetails'] is! Map) {
+      order['senderDetails'] = _asMap(order['senderDetails']);
+    }
+    if (order['receiverDetails'] != null && order['receiverDetails'] is! Map) {
+      order['receiverDetails'] = _asMap(order['receiverDetails']);
+    }
+    if (order['goodsDetails'] != null && order['goodsDetails'] is! Map) {
+      order['goodsDetails'] = _asMap(order['goodsDetails']);
+    }
+    if (order['fareBreakdown'] != null && order['fareBreakdown'] is! Map) {
+      order['fareBreakdown'] = _asMap(order['fareBreakdown']);
+    }
+    if (order['startLocation'] != null && order['startLocation'] is! Map) {
+      order['startLocation'] = _asMap(order['startLocation']);
+    }
+    if (order['endLocation'] != null && order['endLocation'] is! Map) {
+      order['endLocation'] = _asMap(order['endLocation']);
+    }
+    if (order['stops'] is List) {
+      order['stops'] = (order['stops'] as List)
+          .map((s) => s is Map ? s : (_asMap(s) ?? s))
+          .toList();
+    }
+
     // Map startLocation to pickup
-    final startLocation = order['startLocation'];
-    if (startLocation is Map) {
+    final startLocation = _asMap(order['startLocation']);
+    if (startLocation != null) {
       final coords = startLocation['coordinates'];
       if (coords is List && coords.length >= 2) {
         order['pickup'] = {
@@ -30,8 +65,8 @@ class OrderController extends _$OrderController {
     }
 
     // Map endLocation to dropoff / destination
-    final endLocation = order['endLocation'];
-    if (endLocation is Map) {
+    final endLocation = _asMap(order['endLocation']);
+    if (endLocation != null) {
       final coords = endLocation['coordinates'];
       if (coords is List && coords.length >= 2) {
         final destinationMap = {
@@ -66,7 +101,7 @@ class OrderController extends _$OrderController {
     }
 
     // Map orderId
-    order['orderId'] ??= order['_id'] ?? order['id'];
+    order['orderId'] ??= order['_id'] ?? order['id'] ?? order['rideId'];
 
     // Map rider information
     final riderInfo = order['riderId'] ?? order['rider'] ?? order['userId'] ?? order['user'];
